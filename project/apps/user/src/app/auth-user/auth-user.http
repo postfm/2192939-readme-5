@@ -1,0 +1,26 @@
+#Создание нового пользователя
+
+POST http://localhost:3000/api/user/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "email":"user@gmail.com",
+  "name":"John",
+  "password":"12345678"
+}
+
+###
+
+#Получение информации о пользователе по ID
+GET http://localhost:3000/api/user/7c03e3d1-c80b-4ca0-a9c9-802b659b3ac6 HTTP/1.1
+
+###
+
+#Авторизация пользователя по email и password
+POST http://localhost:3000/api/user/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email":"user@gmail.com",
+  "password":"12345678"
+}
