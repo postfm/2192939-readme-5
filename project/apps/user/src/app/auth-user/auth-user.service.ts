@@ -18,6 +18,10 @@ import { LoginUserDto } from './dto/login-user.dto';
 export class AuthUserService {
   constructor(private readonly publicUserRepository: PublicUserRepository) {}
 
+  /**
+   * Пункт ТЗ:
+   * 1.1. Регистрация новых пользователей
+   */
   public async register(dto: CreateUserDto) {
     const { email, name, password } = dto;
 
