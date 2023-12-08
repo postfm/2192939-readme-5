@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { Entity, EntityIdType } from './entity.interface';
 
 export abstract class BaseMemoryRepository<T extends Entity<EntityIdType>> {
-  private entities: Map<T['id'], T> = new Map();
+  protected readonly entities: Map<T['id'], T> = new Map();
 
   public async save(entity: T): Promise<T> {
     if (!entity.id) {
