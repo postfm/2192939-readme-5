@@ -49,7 +49,7 @@ export class AuthUserService {
     }
 
     const publicUserEntity = new PublicUserEntity(existUser);
-    if (!(await publicUserEntity.comparePassword)) {
+    if (!(await publicUserEntity.comparePassword(password))) {
       throw new UnauthorizedException(AUTH_USER_PASSWORD_WRONG);
     }
 
