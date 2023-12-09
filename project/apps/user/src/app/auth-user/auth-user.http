@@ -28,7 +28,7 @@ Content-Type: application/json
 ###
 
 #Смена пароля пользователя
-PUT http://localhost:3000/api/user/3af26e33-4be8-4bc5-abc5-00bab521bf12/change HTTP/1.1
+PUT http://localhost:3000/api/user/45237841-8a91-4069-922b-c37ab3b5a296 HTTP/1.1
 Content-Type: application/json
 
 {

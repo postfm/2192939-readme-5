@@ -58,7 +58,7 @@ export class AuthUserController {
     return fillDto(UserRdo, existUser.toPOJO());
   }
 
-  @Put(':id/change')
+  @Put(':id')
   public async newPassword(
     @Param('id') id: string,
     @Body() dto: ChangePasswordDto
