@@ -10,6 +10,7 @@ import {
   AUTH_USER_EXISTS,
   AUTH_USER_NOT_FOUND,
   AUTH_USER_PASSWORD_WRONG,
+  CHANGE_USER_PASSWORD_WRONG,
 } from './auth-user.constant';
 import { PublicUserEntity } from '../public-user/public-user.entity';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -56,7 +57,7 @@ export class AuthUserService {
 
     const publicUserEntity = new PublicUserEntity(existUser);
     if (!(await publicUserEntity.comparePassword(password))) {
-      throw new UnauthorizedException(AUTH_USER_PASSWORD_WRONG);
+      throw new UnauthorizedException(CHANGE_USER_PASSWORD_WRONG);
     }
 
     return publicUserEntity.toPOJO();
@@ -70,7 +71,7 @@ export class AuthUserService {
   }
 
   /**
-   * Возвращает сущность "User" с новым паролем пользователя
+   * Возвращает сущность "User" при успешной смене пароля пользователя
    */
   public async changePassword(id: string, dto: ChangePasswordDto) {
     const { oldPassword, newPassword } = dto;

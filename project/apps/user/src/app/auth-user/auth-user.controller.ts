@@ -58,6 +58,15 @@ export class AuthUserController {
     return fillDto(UserRdo, existUser.toPOJO());
   }
 
+  @ApiResponse({
+    status: HttpStatus.CONFLICT,
+    description: 'Current password is wrong',
+  })
+  @ApiResponse({
+    type: UserRdo,
+    status: HttpStatus.OK,
+    description: 'Password has changed',
+  })
   @Put(':id')
   public async newPassword(
     @Param('id') id: string,
