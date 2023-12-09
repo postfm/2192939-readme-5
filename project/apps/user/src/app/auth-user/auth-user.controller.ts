@@ -9,12 +9,12 @@ import {
 } from '@nestjs/common';
 import { AuthUserService } from './auth-user.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { fillDto } from '@project/shared/helpers';
 import { UserRdo } from './rdo/user.rdo';
 import { LoggedUserRdo } from './rdo/logged-user.rdo';
 import { LoginUserDto } from './dto/login-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ChangePasswordDto } from './dto/change-password.dto';
+import { fillDto } from '@project/helpers';
 
 @ApiTags('auth-user')
 @Controller('user')
