@@ -24,6 +24,7 @@ export class PublicUserEntity implements AuthUser, Entity<string> {
   public populate(data: AuthUser): void {
     this.email = data.email;
     this.name = data.name;
+    this.passwordHash = data.passwordHash;
   }
 
   public async setPassword(password: string): Promise<PublicUserEntity> {

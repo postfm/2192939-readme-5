@@ -1,10 +1,10 @@
+import { PublicUserRepository } from './../public-user/public-user.repository';
 import {
   Injectable,
   ConflictException,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { PublicUserRepository } from '../public-user/public-user.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import {
   AUTH_USER_EXISTS,
@@ -13,14 +13,15 @@ import {
 } from './auth-user.constant';
 import { PublicUserEntity } from '../public-user/public-user.entity';
 import { LoginUserDto } from './dto/login-user.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @Injectable()
 export class AuthUserService {
   constructor(private readonly publicUserRepository: PublicUserRepository) {}
 
   /**
-   * Пункт ТЗ:
-   * 1.1. Регистрация новых пользователей
+   * Проверяет, существует ли пользователь перед его регистрацией
+   * В случае успеха возвращает сущность "Пользователь"
    */
   public async register(dto: CreateUserDto) {
     const { email, name, password } = dto;
@@ -40,8 +41,13 @@ export class AuthUserService {
     return this.publicUserRepository.save(userEntity);
   }
 
+  /**
+   * Проверяет существование пользователя по логину и паролю
+   * В случае успеха возвращает информацию о пользователе
+   */
   public async verifyUser(dto: LoginUserDto) {
     const { email, password } = dto;
+
     const existUser = await this.publicUserRepository.findByEmail(email);
 
     if (!existUser) {
@@ -56,7 +62,27 @@ export class AuthUserService {
     return publicUserEntity.toPOJO();
   }
 
+  /**
+   * Возвращает информацию о пользователю по ID
+   */
   public async getUser(id: string) {
     return this.publicUserRepository.findById(id);
+  }
+
+  /**
+   * Возвращает сущность "User" с новым паролем пользователя
+   */
+  public async changePassword(id: string, dto: ChangePasswordDto) {
+    const { oldPassword, newPassword } = dto;
+    const existUser = await this.publicUserRepository.findById(id);
+    if (!existUser.comparePassword(oldPassword)) {
+      throw new ConflictException(AUTH_USER_PASSWORD_WRONG);
+    }
+
+    const userEntity = await new PublicUserEntity(existUser).setPassword(
+      newPassword
+    );
+
+    return this.publicUserRepository.update(id, userEntity);
   }
 }
