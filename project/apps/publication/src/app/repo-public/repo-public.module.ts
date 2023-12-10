@@ -1,4 +1,8 @@
 import { Module } from '@nestjs/common';
+import { RepoPublicRepository } from './repo-public.repository';
 
-@Module({})
+@Module({
+  providers: [RepoPublicRepository],
+  exports: [RepoPublicRepository],
+})
 export class RepoPublicModule {}
