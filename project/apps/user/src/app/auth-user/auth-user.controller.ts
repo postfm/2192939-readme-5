@@ -14,7 +14,7 @@ import { LoggedUserRdo } from './rdo/logged-user.rdo';
 import { LoginUserDto } from './dto/login-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ChangePasswordDto } from './dto/change-password.dto';
-import { fillDto } from '@project/helpers';
+import { fillDto } from '@project/shared/helpers';
 
 @ApiTags('auth-user')
 @Controller('user')

@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'helpers',
+  displayName: 'shared-helpers',
   preset: '../../../jest.preset.js',
   testEnvironment: 'node',
   transform: {

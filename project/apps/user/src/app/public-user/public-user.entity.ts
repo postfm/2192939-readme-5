@@ -1,7 +1,7 @@
-import { AuthUser } from '@project/libs/shared/app/types';
+import { AuthUser } from '@project/shared/app/types';
 import { SALT_ROUNDS } from './public-user.constant';
 import { hash, genSalt, compare } from 'bcrypt';
-import { Entity } from '@project/core';
+import { Entity } from '@project/shared/core';
 
 export class PublicUserEntity implements AuthUser, Entity<string> {
   public id?: string;

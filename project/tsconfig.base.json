@@ -15,14 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@project/core": ["libs/shared/core/src/index.ts"],
-      "@project/helpers": ["libs/shared/helpers/src/index.ts"],
-      "@project/helpers.ts": ["libs/shared/helpers/src/index.ts"],
-      "@project/libs/shared/app/types": ["libs/shared/app/types/src/index.ts"],
-      "@project/shared-app-types.ts": ["libs/shared/app/types/src/index.ts"],
-      "@project/shared/app/types": ["shared/app/types/src/index.ts"],
-      "@project/shared/core": ["shared/core/src/index.ts"],
-      "@project/shared/helpers": ["shared/helpers/src/index.ts"]
+      "@project/shared/app/types": ["libs/shared/app/types/src/index.ts"],
+      "@project/shared/core": ["libs/shared/core/src/index.ts"],
+      "@project/shared/helpers": ["libs/shared/helpers/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
