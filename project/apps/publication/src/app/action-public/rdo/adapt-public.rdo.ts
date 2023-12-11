@@ -1,4 +1,4 @@
-import { CommonTypePublic, PublicType } from '@project/shared/app/types';
+import { PublicType } from '@project/shared/app/types';
 import { fillDto } from '@project/shared/helpers';
 import { LinkPublicRdo } from './link-public.rdo';
 import { CommonPublicEntity } from '../../repo-public/entity/common-public.entity';

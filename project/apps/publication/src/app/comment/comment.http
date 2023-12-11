@@ -1,0 +1,18 @@
+#Создание нового комментария
+
+POST http://localhost:3000/api/comment/create HTTP/1.1
+Content-Type: application/json
+
+{
+  "publicId":"123",
+  "text":"Comment text"
+}
+
+###
+
+#Удаление комментария по ID
+
+DELETE http://localhost:3000/api/comment/delete/123 HTTP/1.1
+Content-Type: application/json
+
+###
