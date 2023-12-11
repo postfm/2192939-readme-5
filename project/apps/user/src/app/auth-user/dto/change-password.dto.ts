@@ -5,11 +5,11 @@ export class ChangePasswordDto {
     description: 'Old User Password',
     example: '123456',
   })
-  public oldPassword: string;
+  public oldPassword!: string;
 
   @ApiProperty({
     description: 'New User Password',
     example: '654321',
   })
-  public newPassword: string;
+  public newPassword!: string;
 }

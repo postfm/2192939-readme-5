@@ -7,19 +7,19 @@ export class LoggedUserRdo {
     description: 'The uniq user ID',
     example: '13',
   })
-  public id: string;
+  public id!: string;
 
   @Expose()
   @ApiProperty({
     description: 'User email',
     example: 'user@host.local',
   })
-  public email: string;
+  public email!: string;
 
   @Expose()
   @ApiProperty({
     description: 'Access Token',
     example: 'askdjflk-akwjfk',
   })
-  public accessToken: string;
+  public accessToken!: string;
 }

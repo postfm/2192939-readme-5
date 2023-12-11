@@ -5,9 +5,9 @@ import { Entity } from '@project/shared/core';
 
 export class PublicUserEntity implements AuthUser, Entity<string> {
   public id?: string;
-  public email: string;
-  public name: string;
-  public passwordHash: string;
+  public email!: string;
+  public name!: string;
+  public passwordHash!: string;
 
   constructor(user: AuthUser) {
     this.populate(user);

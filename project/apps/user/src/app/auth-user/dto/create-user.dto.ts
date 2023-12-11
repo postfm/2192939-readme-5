@@ -5,17 +5,17 @@ export class CreateUserDto {
     description: 'User email',
     example: 'user@host.local',
   })
-  public email: string;
+  public email!: string;
 
   @ApiProperty({
     description: 'User name',
     example: 'Keks',
   })
-  public name: string;
+  public name!: string;
 
   @ApiProperty({
     description: 'User password',
     example: '12345678',
   })
-  public password: string;
+  public password!: string;
 }
