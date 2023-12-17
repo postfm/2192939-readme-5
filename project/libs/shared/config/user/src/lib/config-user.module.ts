@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import applicationConfig from './app.config';
+import mongoConfig from './mongo.config';
 
 const ENV_USER_FILE_PATH = 'apps/user/.env';
 
@@ -16,7 +17,7 @@ const ENV_USER_FILE_PATH = 'apps/user/.env';
        * The load option specifies the list of configurations to load.
        * In this case, it loads the applicationConfig file.
        */
-      load: [applicationConfig],
+      load: [applicationConfig, mongoConfig],
       /**
        * The envFilePath option specifies the file path for the environment variables.
        * It is set to ENV_USER_FILE_PATH.
