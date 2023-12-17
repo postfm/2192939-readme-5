@@ -4,13 +4,23 @@ import applicationConfig from './app.config';
 
 const ENV_USER_FILE_PATH = 'apps/user/.env';
 
+/**
+ * ConfigUserModule is a NestJS module responsible for configuring the application using the ConfigModule.
+ */
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       cache: true,
-      // TODO: Передать список конфигураций для загрузки
+      /**
+       * The load option specifies the list of configurations to load.
+       * In this case, it loads the applicationConfig file.
+       */
       load: [applicationConfig],
+      /**
+       * The envFilePath option specifies the file path for the environment variables.
+       * It is set to ENV_USER_FILE_PATH.
+       */
       envFilePath: ENV_USER_FILE_PATH,
     }),
   ],
