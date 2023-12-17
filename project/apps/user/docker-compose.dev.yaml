@@ -10,17 +10,19 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: test
       MONGO_INITDB_DATABASE: readme-user
 
-      ports: -27017:27017
+    ports:
+      - 27017:27017
 
-      volumes: -readme.mongo.user:/data/db
+    volumes:
+      - readme.mongo.user:/data/db
 
-      healthcheck:
+    healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/readme-user --quiet
       interval: 10s
       timeout: 10s
       retries: 5
 
-  readme.user.mongo.ui:
+  typeoteka.user.mongo.ui:
     image: mongo-express
     restart: always
     container_name: readme.user.mongo.ui
