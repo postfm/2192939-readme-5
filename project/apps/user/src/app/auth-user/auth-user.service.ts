@@ -55,12 +55,11 @@ export class AuthUserService {
       throw new NotFoundException(AUTH_USER_NOT_FOUND);
     }
 
-    const publicUserEntity = new PublicUserEntity(existUser);
-    if (!(await publicUserEntity.comparePassword(password))) {
+    if (!(await existUser.comparePassword(password))) {
       throw new UnauthorizedException(CHANGE_USER_PASSWORD_WRONG);
     }
 
-    return publicUserEntity.toPOJO();
+    return existUser.toPOJO();
   }
 
   /**
