@@ -18,6 +18,7 @@ export class PublicUserEntity implements AuthUser, Entity<string> {
       id: this.id,
       email: this.email,
       name: this.name,
+      passwordHash: this.passwordHash,
     };
   }
 
