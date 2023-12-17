@@ -24,6 +24,7 @@ export class PublicUserEntity implements AuthUser, Entity<string> {
   public populate(data: AuthUser): void {
     this.email = data.email;
     this.name = data.name;
+    this.passwordHash = data.passwordHash;
   }
 
   public async setPassword(password: string): Promise<PublicUserEntity> {
@@ -34,5 +35,9 @@ export class PublicUserEntity implements AuthUser, Entity<string> {
 
   public async comparePassword(password: string): Promise<boolean> {
     return compare(password, this.passwordHash);
+  }
+
+  static fromObject(data: AuthUser): PublicUserEntity {
+    return new PublicUserEntity(data);
   }
 }
