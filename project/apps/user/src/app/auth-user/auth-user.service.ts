@@ -11,6 +11,7 @@ import {
   AUTH_USER_NOT_FOUND,
   AUTH_USER_PASSWORD_WRONG,
   CHANGE_USER_PASSWORD_WRONG,
+  SIGN_IN_USER_ERROR,
 } from './auth-user.constant';
 import { PublicUserEntity } from '../public-user/public-user.entity';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -51,12 +52,8 @@ export class AuthUserService {
 
     const existUser = await this.publicUserRepository.findByEmail(email);
 
-    if (!existUser) {
-      throw new NotFoundException(AUTH_USER_NOT_FOUND);
-    }
-
-    if (!(await existUser.comparePassword(password))) {
-      throw new UnauthorizedException(CHANGE_USER_PASSWORD_WRONG);
+    if (!existUser || !(await existUser.comparePassword(password))) {
+      throw new UnauthorizedException(SIGN_IN_USER_ERROR);
     }
 
     return existUser.toPOJO();
