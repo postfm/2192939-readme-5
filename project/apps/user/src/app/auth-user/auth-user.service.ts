@@ -66,7 +66,13 @@ export class AuthUserService {
    * Возвращает информацию о пользователю по ID
    */
   public async getUser(id: string) {
-    return this.publicUserRepository.findById(id);
+    const existUser = await this.publicUserRepository.findById(id);
+
+    if (!existUser) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
+
+    return existUser;
   }
 
   /**
