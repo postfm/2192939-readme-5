@@ -81,7 +81,8 @@ export class AuthUserService {
   public async changePassword(id: string, dto: ChangePasswordDto) {
     const { oldPassword, newPassword } = dto;
     const existUser = await this.publicUserRepository.findById(id);
-    if (!existUser.comparePassword(oldPassword)) {
+
+    if (!(await existUser.comparePassword(oldPassword))) {
       throw new ConflictException(AUTH_USER_PASSWORD_WRONG);
     }
 
