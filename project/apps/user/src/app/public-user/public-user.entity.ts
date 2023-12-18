@@ -18,6 +18,7 @@ export class PublicUserEntity implements AuthUser, Entity<string> {
       id: this.id,
       email: this.email,
       name: this.name,
+      passwordHash: this.passwordHash,
     };
   }
 
@@ -35,5 +36,9 @@ export class PublicUserEntity implements AuthUser, Entity<string> {
 
   public async comparePassword(password: string): Promise<boolean> {
     return compare(password, this.passwordHash);
+  }
+
+  static fromObject(data: AuthUser): PublicUserEntity {
+    return new PublicUserEntity(data);
   }
 }

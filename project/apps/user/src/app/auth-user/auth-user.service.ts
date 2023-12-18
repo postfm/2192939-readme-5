@@ -1,24 +1,28 @@
-import { PublicUserRepository } from './../public-user/public-user.repository';
 import {
   Injectable,
   ConflictException,
   NotFoundException,
   UnauthorizedException,
+  Inject,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import {
   AUTH_USER_EXISTS,
-  AUTH_USER_NOT_FOUND,
   AUTH_USER_PASSWORD_WRONG,
-  CHANGE_USER_PASSWORD_WRONG,
+  SIGN_IN_USER_ERROR,
 } from './auth-user.constant';
 import { PublicUserEntity } from '../public-user/public-user.entity';
 import { LoginUserDto } from './dto/login-user.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
+import { AddonRepositoryInterface } from '@project/shared/core';
+import { PublicUserRepositoryToken } from '../public-user/public-user.token';
 
 @Injectable()
 export class AuthUserService {
-  constructor(private readonly publicUserRepository: PublicUserRepository) {}
+  constructor(
+    @Inject(PublicUserRepositoryToken)
+    private readonly publicUserRepository: AddonRepositoryInterface<PublicUserEntity>
+  ) {}
 
   /**
    * Проверяет, существует ли пользователь перед его регистрацией
@@ -51,23 +55,24 @@ export class AuthUserService {
 
     const existUser = await this.publicUserRepository.findByEmail(email);
 
-    if (!existUser) {
-      throw new NotFoundException(AUTH_USER_NOT_FOUND);
+    if (!existUser || !(await existUser.comparePassword(password))) {
+      throw new UnauthorizedException(SIGN_IN_USER_ERROR);
     }
 
-    const publicUserEntity = new PublicUserEntity(existUser);
-    if (!(await publicUserEntity.comparePassword(password))) {
-      throw new UnauthorizedException(CHANGE_USER_PASSWORD_WRONG);
-    }
-
-    return publicUserEntity.toPOJO();
+    return existUser.toPOJO();
   }
 
   /**
    * Возвращает информацию о пользователю по ID
    */
   public async getUser(id: string) {
-    return this.publicUserRepository.findById(id);
+    const existUser = await this.publicUserRepository.findById(id);
+
+    if (!existUser) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
+
+    return existUser;
   }
 
   /**
@@ -76,7 +81,8 @@ export class AuthUserService {
   public async changePassword(id: string, dto: ChangePasswordDto) {
     const { oldPassword, newPassword } = dto;
     const existUser = await this.publicUserRepository.findById(id);
-    if (!existUser.comparePassword(oldPassword)) {
+
+    if (!(await existUser.comparePassword(oldPassword))) {
       throw new ConflictException(AUTH_USER_PASSWORD_WRONG);
     }
 
