@@ -1,25 +1,28 @@
-import { PublicUserRepository } from './../public-user/public-user.repository';
 import {
   Injectable,
   ConflictException,
   NotFoundException,
   UnauthorizedException,
+  Inject,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import {
   AUTH_USER_EXISTS,
-  AUTH_USER_NOT_FOUND,
   AUTH_USER_PASSWORD_WRONG,
-  CHANGE_USER_PASSWORD_WRONG,
   SIGN_IN_USER_ERROR,
 } from './auth-user.constant';
 import { PublicUserEntity } from '../public-user/public-user.entity';
 import { LoginUserDto } from './dto/login-user.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
+import { AddonRepositoryInterface } from '@project/shared/core';
+import { PublicUserRepositoryToken } from '../public-user/public-user.token';
 
 @Injectable()
 export class AuthUserService {
-  constructor(private readonly publicUserRepository: PublicUserRepository) {}
+  constructor(
+    @Inject(PublicUserRepositoryToken)
+    private readonly publicUserRepository: AddonRepositoryInterface<PublicUserEntity>
+  ) {}
 
   /**
    * Проверяет, существует ли пользователь перед его регистрацией

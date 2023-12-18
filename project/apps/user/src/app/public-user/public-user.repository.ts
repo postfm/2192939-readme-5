@@ -1,15 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { PublicUserEntity } from './public-user.entity';
-import { BaseMongoRepository } from '@project/shared/core';
+import {
+  AddonRepositoryInterface,
+  BaseMongoRepository,
+} from '@project/shared/core';
 import { PublicUserModel } from './public-user.model';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 @Injectable()
-export class PublicUserRepository extends BaseMongoRepository<
-  PublicUserEntity,
-  PublicUserModel
-> {
+export class PublicUserRepository
+  extends BaseMongoRepository<PublicUserEntity, PublicUserModel>
+  implements AddonRepositoryInterface<PublicUserEntity>
+{
   constructor(
     @InjectModel(PublicUserModel.name) publicUserModel: Model<PublicUserModel>
   ) {
