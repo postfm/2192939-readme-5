@@ -18,7 +18,10 @@
       "@project/shared/app/types": ["libs/shared/app/types/src/index.ts"],
       "@project/shared/config/user": ["libs/shared/config/user/src/index.ts"],
       "@project/shared/core": ["libs/shared/core/src/index.ts"],
-      "@project/shared/helpers": ["libs/shared/helpers/src/index.ts"]
+      "@project/shared/helpers": ["libs/shared/helpers/src/index.ts"],
+      "@project/shared/publication/models": [
+        "libs/shared/publication/models/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]
