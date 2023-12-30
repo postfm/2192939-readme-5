@@ -11,64 +11,69 @@ datasource db {
 }
 
 model VideoPublic {
-  id       String   @id @default(uuid()) @map("id")
+  id       String    @id @default(uuid()) @map("id")
   title    String
   link     String
   tags     Tag[]
-  createAt DateTime @default(now()) @map("create_at")
-  updateAt DateTime @updatedAt @map("update_at")
-  userId   String   @map("user_id")
+  comments Comment[]
+  createAt DateTime  @default(now()) @map("create_at")
+  updateAt DateTime  @updatedAt @map("update_at")
+  userId   String    @map("user_id")
 
   @@index([title])
   @@map("video_publics")
 }
 
 model TextPublic {
-  id       String   @id @default(uuid()) @map("id")
+  id       String    @id @default(uuid()) @map("id")
   title    String
   notice   String
   text     String
   tags     Tag[]
-  createAt DateTime @default(now()) @map("create_at")
-  updateAt DateTime @updatedAt @map("update_at")
-  userId   String   @map("user_id")
+  comments Comment[]
+  createAt DateTime  @default(now()) @map("create_at")
+  updateAt DateTime  @updatedAt @map("update_at")
+  userId   String    @map("user_id")
 
   @@index([title])
   @@map("text_publics")
 }
 
 model QuotePublic {
-  id       String   @id @default(uuid()) @map("id")
+  id       String    @id @default(uuid()) @map("id")
   text     String
   author   String
   tags     Tag[]
-  createAt DateTime @default(now()) @map("create_at")
-  updateAt DateTime @updatedAt @map("update_at")
-  userId   String   @map("user_id")
+  comments Comment[]
+  createAt DateTime  @default(now()) @map("create_at")
+  updateAt DateTime  @updatedAt @map("update_at")
+  userId   String    @map("user_id")
 
   @@index([text])
   @@map("quote_publics")
 }
 
 model PhotoPublic {
-  id       String   @id @default(uuid()) @map("id")
+  id       String    @id @default(uuid()) @map("id")
   photo    String
   tags     Tag[]
-  createAt DateTime @default(now()) @map("create_at")
-  updateAt DateTime @updatedAt @map("update_at")
-  userId   String   @map("user_id")
+  comments Comment[]
+  createAt DateTime  @default(now()) @map("create_at")
+  updateAt DateTime  @updatedAt @map("update_at")
+  userId   String    @map("user_id")
 
   @@map("photo_publics")
 }
 
 model LinkPublic {
-  id          String   @id @default(uuid()) @map("id")
+  id          String    @id @default(uuid()) @map("id")
   link        String
   description String
   tags        Tag[]
-  createAt    DateTime @default(now()) @map("create_at")
-  updateAt    DateTime @updatedAt @map("update_at")
-  userId      String   @map("user_id")
+  comments    Comment[]
+  createAt    DateTime  @default(now()) @map("create_at")
+  updateAt    DateTime  @updatedAt @map("update_at")
+  userId      String    @map("user_id")
 
   @@map("link_publics")
 }
@@ -86,4 +91,24 @@ model Tag {
 
   @@index([title])
   @@map("tags")
+}
+
+model Comment {
+  id            String      @id @default(uuid()) @map("id")
+  text          String
+  createAt      DateTime    @default(now()) @map("create_at")
+  updateAt      DateTime    @updatedAt @map("update_at")
+  videoPublic   VideoPublic @relation(fields: [videoPublicId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  videoPublicId String      @map("video_public_id")
+  TextPublic    TextPublic  @relation(fields: [textPublicId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  textPublicId  String      @map("text_public_id")
+  QuotePublic   QuotePublic @relation(fields: [quotePublicId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  quotePublicId String      @map("quote_public_id")
+  PhotoPublic   PhotoPublic @relation(fields: [photoPublicId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  photoPublicId String      @map("photo_public_id")
+  LinkPublic    LinkPublic  @relation(fields: [linkPublicId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  linkPublicId  String      @map("link_public_id")
+
+  @@index([videoPublicId, textPublicId, quotePublicId])
+  @@map("comments")
 }
