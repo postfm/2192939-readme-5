@@ -15,7 +15,8 @@ function getVideoPublics() {
       id: FIRST_PUBLIC_UUID,
       title: 'Видео публикация № 1',
       link: 'https://www.youtube.com/watch?v=2BcYD_F3QrA&list=RD2BcYD_F3QrA&start_radio=1',
-      tags: [{ title: 'People' }],
+      userId: SECOND_USER_ID,
+      tags: [{ title: 'Animals' }],
       comments: [
         {
           text: 'В своём стремлении улучшить пользовательский опыт мы упускаем, что независимые государства формируют глобальную экономическую сеть и при этом — описаны максимально подробно.',
@@ -26,134 +27,16 @@ function getVideoPublics() {
           userId: SECOND_USER_ID,
         },
       ],
-      userId: SECOND_USER_ID,
     },
     {
       id: SECOND_PUBLIC_UUID,
       title: 'Видео публикация № 2',
       link: 'https://www.youtube.com/watch?v=2BcYD_F3QrA&list=RD2BcYD_F3QrA&start_radio=2',
-      tags: [{ title: 'Animals' }],
-      userId: SECOND_USER_ID,
+      userId: FIRST_USER_ID,
+      tags: [{ title: 'People' }],
     },
   ];
 }
-
-// function getTextPublic() {
-//   return [
-//     {
-//       id: FIRST_PUBLIC_UUID,
-//       title: 'Текстовая публикация № 1',
-//       notice: 'Публикация о публикации',
-//       text: 'Также как граница обучения кадров играет важную роль в формировании модели развития. Безусловно, курс на социально-ориентированный национальный проект предопределяет высокую востребованность как самодостаточных, так и внешне зависимых концептуальных решений.',
-//       tags: {
-//         connect: [{ id: FIRST_TAG_UUID }],
-//       },
-//       comments: {
-//         connect: [{ id: FIRST_COMMENT_UUID }, { id: FIRST_COMMENT_UUID }],
-//       },
-//       likes: [],
-//       userId: FIRST_USER_ID,
-//     },
-//     {
-//       id: SECOND_PUBLIC_UUID,
-//       title: 'Текстовая публикация № 2',
-//       notice: 'Описание публикации',
-//       text: 'Значимость этих проблем настолько очевидна, что разбавленное изрядной долей эмпатии, рациональное мышление, а также свежий взгляд на привычные вещи — безусловно открывает новые горизонты для переосмысления внешнеэкономических политик. Господа, социально-экономическое развитие является качественно новой ступенью инновационных методов управления процессами.',
-//       tags: {
-//         connect: [{ id: FIRST_TAG_UUID }, { id: SECOND_TAG_UUID }],
-//       },
-//       comments: { connect: [{ id: FIRST_COMMENT_UUID }] },
-//       likes: [],
-//       userId: FIRST_USER_ID,
-//     },
-//   ];
-// }
-
-// function getQuotePublic() {
-//   return [
-//     {
-//       id: FIRST_PUBLIC_UUID,
-//       text: 'В своём стремлении улучшить пользовательский опыт мы упускаем, что явные признаки победы институционализации, вне зависимости от их уровня, должны быть своевременно верифицированы.',
-//       author: 'Ильф',
-//       tags: {
-//         connect: [{ id: FIRST_TAG_UUID }],
-//       },
-//       comments: {
-//         connect: [{ id: FIRST_COMMENT_UUID }, { id: FIRST_COMMENT_UUID }],
-//       },
-//       likes: [],
-//       userId: FIRST_USER_ID,
-//     },
-//     {
-//       id: SECOND_PUBLIC_UUID,
-//       text: 'Картельные сговоры не допускают ситуации, при которой базовые сценарии поведения пользователей, превозмогая сложившуюся непростую экономическую ситуацию, превращены в посмешище, хотя само их существование приносит несомненную пользу обществу.',
-//       author: 'Петров',
-//       tags: {
-//         connect: [{ id: FIRST_TAG_UUID }, { id: SECOND_TAG_UUID }],
-//       },
-//       comments: { connect: [{ id: FIRST_COMMENT_UUID }] },
-//       likes: [],
-//       userId: FIRST_USER_ID,
-//     },
-//   ];
-// }
-
-// function getPhotoPublic() {
-//   return [
-//     {
-//       id: FIRST_PUBLIC_UUID,
-//       photo:
-//         'https://cdn.food.ru/unsigned/fit/640/480/ce/0/czM6Ly9tZWRpYS9waWN0dXJlcy9yZWNpcGVzLzMyMjM4L2NvdmVycy9DVnRoQkcuanBn.webp',
-//       tags: {
-//         connect: [{ id: FIRST_TAG_UUID }],
-//       },
-//       comments: {
-//         connect: [{ id: FIRST_COMMENT_UUID }, { id: FIRST_COMMENT_UUID }],
-//       },
-//       likes: [],
-//       userId: FIRST_USER_ID,
-//     },
-//     {
-//       id: SECOND_PUBLIC_UUID,
-//       photo:
-//         'https://cdn.food.ru/unsigned/fit/640/480/ce/0/czM6Ly9tZWRpYS9waWN0dXJlcy9yZWNpcGVzLzMyMjM4L3N0ZXBzL1JuRE5MdS5qcGc.webp',
-//       tags: {
-//         connect: [{ id: FIRST_TAG_UUID }, { id: SECOND_TAG_UUID }],
-//       },
-//       comments: { connect: [{ id: FIRST_COMMENT_UUID }] },
-//       likes: [],
-//       userId: FIRST_USER_ID,
-//     },
-//   ];
-// }
-
-// function getLinkPublic() {
-//   return [
-//     {
-//       id: FIRST_PUBLIC_UUID,
-//       link: 'https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID',
-//       description: 'Ссылка на страницу разработчиков',
-//       tags: {
-//         connect: [{ id: FIRST_TAG_UUID }],
-//       },
-//       comments: [{ id: FIRST_COMMENT_UUID }, { id: SECOND_COMMENT_UUID }],
-
-//       likes: [],
-//       userId: FIRST_USER_ID,
-//     },
-//     {
-//       id: SECOND_PUBLIC_UUID,
-//       link: 'https://fish-text.ru/?ysclid=lqxp5s82845283518567',
-//       description: 'Ссылка на генератор рыбьего текста',
-//       tags: {
-//         connect: [{ id: FIRST_TAG_UUID }, { id: SECOND_TAG_UUID }],
-//       },
-//       comments: { connect: [{ id: FIRST_COMMENT_UUID }] },
-//       likes: [],
-//       userId: FIRST_USER_ID,
-//     },
-//   ];
-// }
 
 async function seedDb(prismaClient: PrismaClient) {
   const mockVideoPublics = getVideoPublics();
@@ -163,8 +46,8 @@ async function seedDb(prismaClient: PrismaClient) {
         id: videoPublic.id,
         title: videoPublic.title,
         link: videoPublic.link,
-        tags: videoPublic.tags ? { create: videoPublic.tags } : undefined,
         userId: videoPublic.userId,
+        tags: videoPublic.tags ? { create: videoPublic.tags } : undefined,
         comments: videoPublic.comments
           ? { create: videoPublic.comments }
           : undefined,
