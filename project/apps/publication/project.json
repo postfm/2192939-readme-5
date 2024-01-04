@@ -62,7 +62,7 @@
     "db:migrate": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx prisma migrate dev --name 'sync change' --schema ./schema.prisma --skip-generate",
+        "command": "npx prisma migrate dev --name 'sync-change' --schema ./schema.prisma --skip-generate",
         "cwd": "libs/shared/publication/models/prisma"
       }
     },
@@ -77,6 +77,13 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "npx prisma generate --schema ./schema.prisma",
+        "cwd": "libs/shared/publication/models/prisma"
+      }
+    },
+    "db:seed": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx ts-node seed.ts",
         "cwd": "libs/shared/publication/models/prisma"
       }
     }
