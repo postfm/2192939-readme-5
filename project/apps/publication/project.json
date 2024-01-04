@@ -62,7 +62,7 @@
     "db:migrate": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx prisma migrate dev --schema ./schema.prisma --skip-generate",
+        "command": "npx prisma migrate dev --name 'sync change' --schema ./schema.prisma --skip-generate",
         "cwd": "libs/shared/publication/models/prisma"
       }
     },

@@ -12,7 +12,7 @@ datasource db {
 }
 
 model VideoPublic {
-  id       String    @id @default(uuid()) @map("id")
+  id       String    @id @default(uuid())
   title    String
   link     String
   tags     Tag[]
@@ -21,13 +21,14 @@ model VideoPublic {
   createAt DateTime  @default(now()) @map("create_at")
   updateAt DateTime  @updatedAt @map("update_at")
   userId   String    @map("user_id")
+  tagId    String?
 
   @@index([title])
   @@map("video_publics")
 }
 
 model TextPublic {
-  id       String    @id @default(uuid()) @map("id")
+  id       String    @id @default(uuid())
   title    String
   notice   String
   text     String
@@ -43,7 +44,7 @@ model TextPublic {
 }
 
 model QuotePublic {
-  id       String    @id @default(uuid()) @map("id")
+  id       String    @id @default(uuid())
   text     String
   author   String
   tags     Tag[]
@@ -53,12 +54,12 @@ model QuotePublic {
   updateAt DateTime  @updatedAt @map("update_at")
   userId   String    @map("user_id")
 
-  @@index([text])
+  @@index([author])
   @@map("quote_publics")
 }
 
 model PhotoPublic {
-  id       String    @id @default(uuid()) @map("id")
+  id       String    @id @default(uuid())
   photo    String
   tags     Tag[]
   comments Comment[]
@@ -71,7 +72,7 @@ model PhotoPublic {
 }
 
 model LinkPublic {
-  id          String    @id @default(uuid()) @map("id")
+  id          String    @id @default(uuid())
   link        String
   description String
   tags        Tag[]
@@ -85,7 +86,7 @@ model LinkPublic {
 }
 
 model Tag {
-  id           String        @id @default(uuid()) @map("id")
+  id           String        @id @default(uuid())
   title        String
   videoPublics VideoPublic[]
   textPublics  TextPublic[]
@@ -100,7 +101,7 @@ model Tag {
 }
 
 model Comment {
-  id            String      @id @default(uuid()) @map("id")
+  id            String      @id @default(uuid())
   text          String
   videoPublic   VideoPublic @relation(fields: [videoPublicId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   videoPublicId String      @map("video_public_id")
@@ -112,6 +113,7 @@ model Comment {
   photoPublicId String      @map("photo_public_id")
   linkPublic    LinkPublic  @relation(fields: [linkPublicId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   linkPublicId  String      @map("link_public_id")
+  userId        String      @map("user_id")
 
   createAt DateTime @default(now()) @map("create_at")
   updateAt DateTime @updatedAt @map("update_at")
@@ -121,7 +123,7 @@ model Comment {
 }
 
 model Like {
-  id     String @id @default(uuid()) @map("id")
+  id     String @id @default(uuid())
   userId String @map("user_id")
 
   createAt      DateTime    @default(now()) @map("create_at")
