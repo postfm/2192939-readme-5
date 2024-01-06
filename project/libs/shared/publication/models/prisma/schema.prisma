@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../../../../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Public {
+  publicId String @id @default(uuid()) @map("public_id")
+  userId   String @map("user_id")
+
+  // Repost
+  isRepost         Boolean @map("is_repost")
+  originalUserId   String  @map("original_user_id")
+  originalPublicId String  @map("original_public_id")
+
+  // VideoPublic
+  title String?
+  video String?
+
+  // TextPublic
+  header String?
+  notice String?
+  text   String?
+
+  // QuotePublic
+  quote  String?
+  author String?
+
+  // PhotoPublic
+  photo String?
+
+  // LinkPublic
+  link        String?
+  description String?
+
+  // Common
+  tags     String[]
+  comments Comment[]
+  likes    Like[]
+
+  // Service
+  createAt DateTime @default(now()) @map("create_at")
+  updateAt DateTime @updatedAt @map("update_at")
+
+  publicType   String @map("public_type")
+  publicStatus String @map("public_status")
+
+  @@map("publics")
+}
+
+model Comment {
+  commentId String   @id @default(uuid()) @map("comment_id")
+  text      String
+  userId    String   @map("user_id")
+  public    Public   @relation(fields: [publicId], references: [publicId], onDelete: Cascade, onUpdate: Cascade)
+  publicId  String   @map("public_id")
+  createAt  DateTime @default(now()) @map("create_at")
+  updateAt  DateTime @updatedAt @map("update_at")
+
+  @@map("comments")
+}
+
+model Like {
+  likeId   String @id @default(uuid()) @map("like_id")
+  userId   String @map("user_id")
+  public   Public @relation(fields: [publicId], references: [publicId], onDelete: Cascade)
+  publicId String @map("public_id")
+
+  @@map("likes")
+}
