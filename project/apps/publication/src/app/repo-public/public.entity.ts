@@ -43,42 +43,51 @@ export class PublicEntity implements Public, Entity<string, Public> {
   public populate(data: Public): PublicEntity {
     this.publicId = data.publicId ?? undefined;
     this.userId = data.userId;
-
-    // Repost
     this.isRepost = data.isRepost;
     this.originalUserId = data.originalUserId;
     this.originalPublicId = data.originalPublicId;
-
-    // VideoPublic
     this.title = data.title ?? undefined;
     this.video = data.video ?? undefined;
-
-    // TextPublic
     this.header = data.header ?? undefined;
     this.notice = data.notice ?? undefined;
     this.text = data.text ?? undefined;
-
-    // QuotePublic
     this.quote = data.quote ?? undefined;
     this.author = data.author ?? undefined;
-
-    // PhotoPublic
     this.photo = data.photo ?? undefined;
-
-    // LinkPublic
     this.link = data.link ?? undefined;
     this.description = data.description ?? undefined;
-
-    // Common
     this.tags = data.tags ?? undefined;
     this.comments = [];
-
     this.createAt = data.createAt ?? undefined;
     this.updateAt = data.updateAt ?? undefined;
-
     this.publicType = data.publicType;
     this.publicStatus = data.publicStatus;
 
     return this;
+  }
+
+  public toPOJO(): Public {
+    return {
+      publicId: this.publicId,
+      userId: this.userId,
+      isRepost: this.isRepost,
+      originalUserId: this.originalUserId,
+      originalPublicId: this.originalPublicId,
+      title: this.title,
+      video: this.video,
+      header: this.header,
+      notice: this.notice,
+      text: this.text,
+      quote: this.quote,
+      author: this.author,
+      photo: this.photo,
+      link: this.link,
+      description: this.description,
+      tags: this.tags,
+      comments: this.comments,
+      updateAt: this.updateAt,
+      publicType: this.publicType,
+      publicStatus: this.publicStatus,
+    };
   }
 }

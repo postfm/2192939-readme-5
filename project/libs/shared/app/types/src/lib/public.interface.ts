@@ -9,24 +9,24 @@ export interface Public {
   originalPublicId: string;
 
   // VideoPublic
-  title: string;
-  video: string;
+  title?: string;
+  video?: string;
 
   // TextPublic
-  header: string;
-  notice: string;
-  text: string;
+  header?: string;
+  notice?: string;
+  text?: string;
 
   // QuotePublic
-  quote: string;
-  author: string;
+  quote?: string;
+  author?: string;
 
   // PhotoPublic
-  photo: string;
+  photo?: string;
 
   // LinkPublic
-  link: string;
-  description: string;
+  link?: string;
+  description?: string;
 
   // Common
   tags?: string[];
