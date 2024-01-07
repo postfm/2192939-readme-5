@@ -31,7 +31,6 @@ export interface Public {
   // Common
   tags?: string[];
   comments: Comment[];
-  likes?: number;
 
   // Service
   createAt?: Date;
