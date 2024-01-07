@@ -7,7 +7,7 @@ import { Prisma } from '@prisma/client';
 import { PublicQuery } from './query/public.query';
 
 @Injectable()
-export class PublicRepository extends BasePostgresRepository<
+export class RepoPublicRepository extends BasePostgresRepository<
   PublicEntity,
   Public
 > {
