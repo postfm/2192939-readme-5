@@ -52,4 +52,36 @@ export class PublicRepository extends BasePostgresRepository<
 
     return this.createEntityFromDocument(document);
   }
+
+  public async update(
+    publicId: string,
+    entity: PublicEntity
+  ): Promise<PublicEntity> {
+    const pojoEntity = entity.toPOJO();
+    const updatePost = await this.client.public.update({
+      where: { publicId },
+      data: {
+        userId: pojoEntity.userId,
+        isRepost: pojoEntity.isRepost,
+        title: pojoEntity.title,
+        video: pojoEntity.video,
+        header: pojoEntity.header,
+        notice: pojoEntity.notice,
+        text: pojoEntity.text,
+        quote: pojoEntity.quote,
+        author: pojoEntity.author,
+        photo: pojoEntity.photo,
+        link: pojoEntity.link,
+        description: pojoEntity.description,
+        tags: pojoEntity.tags,
+        publicType: pojoEntity.publicType,
+        publicStatus: pojoEntity.publicStatus,
+      },
+      include: {
+        comments: true,
+      },
+    });
+
+    return this.createEntityFromDocument(updatePost);
+  }
 }

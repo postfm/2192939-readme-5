@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCommonPublicDto } from './dto/create-dto/create-common-public.dto';
-import { RepoPublicRepository } from '../repo-public/repo-public.repository';
+import { RepoPublicRepository } from '../repo-public/public.repository';
 import { TypeEntityAdapter } from '../repo-public/entity/entity-adapter';
 import { UpdateCommonPublicDto } from './dto/update-dto/update-common-public.dto';
 
