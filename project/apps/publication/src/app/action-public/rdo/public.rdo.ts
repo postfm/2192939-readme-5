@@ -9,7 +9,7 @@ export class PublicRdo {
 
   // Repost
   @Expose()
-  public isRepost: string;
+  public isRepost: boolean;
 
   @Expose()
   public originalUserId: string;
