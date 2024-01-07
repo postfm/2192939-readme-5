@@ -1,5 +1,6 @@
 import { Public } from '@project/shared/app/types';
 import { Entity } from '@project/shared/core';
+import { CreatePublicDto } from '../action-public/dto/create-dto/create-public.dto';
 
 export class PublicEntity implements Public, Entity<string, Public> {
   public publicId?: string;
@@ -89,5 +90,32 @@ export class PublicEntity implements Public, Entity<string, Public> {
       publicType: this.publicType,
       publicStatus: this.publicStatus,
     };
+  }
+
+  static fromObject(data: Public): PublicEntity {
+    return new PublicEntity().populate(data);
+  }
+
+  static fromDto(dto: CreatePublicDto): PublicEntity {
+    const entity = new PublicEntity();
+    entity.userId = dto.userId;
+    entity.isRepost = dto.isRepost;
+    entity.originalUserId = dto.originalUserId;
+    entity.title = dto.title ?? undefined;
+    entity.video = dto.video ?? undefined;
+    entity.header = dto.header ?? undefined;
+    entity.notice = dto.notice ?? undefined;
+    entity.text = dto.text ?? undefined;
+    entity.quote = dto.quote ?? undefined;
+    entity.author = dto.author ?? undefined;
+    entity.photo = dto.photo ?? undefined;
+    entity.link = dto.link ?? undefined;
+    entity.description = dto.description ?? undefined;
+    entity.tags = dto.tags ?? undefined;
+    entity.comments = [];
+    entity.publicType = dto.publicType;
+    entity.publicStatus = dto.publicStatus;
+
+    return entity;
   }
 }
