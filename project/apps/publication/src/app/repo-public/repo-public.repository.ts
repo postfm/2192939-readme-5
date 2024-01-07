@@ -1,8 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { BasePostgresRepository } from '@project/shared/core';
-import { PublicEntity } from './public.entity';
-import { Public } from '@project/shared/app/types';
+import { PublicEntity } from './repo-public.entity';
+import { PaginationResult, Public } from '@project/shared/app/types';
 import { PrismaClientService } from 'libs/shared/publication/models/src/lib/prisma-client.service';
+import { Prisma } from '@prisma/client';
+import { PublicQuery } from './query/public.query';
 
 @Injectable()
 export class PublicRepository extends BasePostgresRepository<
@@ -11,6 +13,16 @@ export class PublicRepository extends BasePostgresRepository<
 > {
   constructor(protected readonly client: PrismaClientService) {
     super(client, PublicEntity.fromObject);
+  }
+
+  private async getPublicCount(
+    where: Prisma.PublicWhereInput
+  ): Promise<number> {
+    return this.client.public.count({ where });
+  }
+
+  private calculatePublicPages(totalCount: number, limit: number): number {
+    return Math.ceil(totalCount / limit);
   }
 
   public async save(entity: PublicEntity): Promise<PublicEntity> {
@@ -83,5 +95,38 @@ export class PublicRepository extends BasePostgresRepository<
     });
 
     return this.createEntityFromDocument(updatePost);
+  }
+
+  public async find(
+    query?: PublicQuery
+  ): Promise<PaginationResult<PublicEntity>> {
+    const skip =
+      query?.page && query?.limit ? (query.page - 1) * query.limit : undefined;
+    const take = query?.limit;
+    const where: Prisma.PublicWhereInput = {};
+    const orderBy: Prisma.PublicOrderByWithAggregationInput = {};
+
+    if (query?.SortDirection) {
+      orderBy.createAt = query.SortDirection;
+    }
+
+    const [records, postCount] = await Promise.all([
+      this.client.public.findMany({
+        where,
+        orderBy,
+        skip,
+        take,
+        include: { comments: true },
+      }),
+      this.getPublicCount(where),
+    ]);
+
+    return {
+      entities: records.map((record) => this.createEntityFromDocument(record)),
+      currentPage: query?.page,
+      totalPages: this.calculatePublicPages(postCount, take),
+      itemsPerPage: take,
+      totalItems: postCount,
+    };
   }
 }
