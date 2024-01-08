@@ -16,7 +16,17 @@ export class CommentRdo {
   })
   public text: string;
 
+  @Expose()
+  @ApiProperty({
+    description: 'User ID',
+    example: '1234',
+  })
   public userId: string;
 
+  @Expose()
+  @ApiProperty({
+    description: 'Create Date',
+    example: '2024-01-01',
+  })
   public createAt: Date;
 }
