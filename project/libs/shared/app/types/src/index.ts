@@ -4,3 +4,5 @@ export * from './lib/comment.interface';
 export * from './lib/pagination.interface';
 export * from './lib/sort-direction.enum';
 export * from './lib/public.interface';
+export * from './lib/token.interface';
+export * from './lib/token-payload.interface';
