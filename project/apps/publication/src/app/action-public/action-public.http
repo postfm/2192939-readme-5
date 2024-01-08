@@ -35,3 +35,11 @@ DELETE http://localhost:3000/api/publication/link/4cb20495-aea9-42cf-9574-3d29ce
 Content-Type: application/json
 
 ###
+
+#Получение всех публикаций
+GET http://localhost:3000/api/publics HTTP/1.1
+
+###
+
+#Получение публикаций с фильтром
+GET http://localhost:3000/api/posts?limit=2&sortDirection=desc&categories[]=589ea436-67b3-4c6b-b7a9-d79fa9e3fa9d&page=3 HTTP/1.1

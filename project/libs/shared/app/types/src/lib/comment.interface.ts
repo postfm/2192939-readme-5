@@ -1,6 +1,4 @@
-import { Entity } from '@project/shared/core';
-
-export interface Comment extends Entity<string> {
+export interface Comment {
   commentId?: string;
   text: string;
   userId: string;

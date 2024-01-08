@@ -1,26 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { CommentInterface } from '@project/shared/app/types';
 import { Expose } from 'class-transformer';
 
-export class CreateCommentDto implements CommentInterface {
-  @Expose()
-  @ApiProperty({
-    description: 'Comment ID',
-    example: '123',
-  })
-  public id?: string;
-
-  @Expose()
-  @ApiProperty({
-    description: 'Publication ID',
-    example: '123',
-  })
-  public publicId: string;
-
+export class CreateCommentDto {
   @Expose()
   @ApiProperty({
     description: 'Comment Content',
     example: 'Text text text',
   })
   public text: string;
+
+  @Expose()
+  @ApiProperty({
+    description: 'User ID',
+    example: '123',
+  })
+  public userId: string;
 }

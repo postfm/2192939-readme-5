@@ -6,5 +6,5 @@ export * from './lib/publication/photo-public.interface';
 export * from './lib/publication/video-public.interface';
 export * from './lib/comment.interface';
 export * from './lib/pagination.interface';
-export * from './lib/sort-direction.interface';
+export * from './lib/sort-direction.enum';
 export * from './lib/public.interface';

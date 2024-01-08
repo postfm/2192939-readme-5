@@ -1,15 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { CommentInterface } from '@project/shared/app/types';
 import { Expose } from 'class-transformer';
 
-export class CommentRdo implements CommentInterface {
-  @Expose()
-  @ApiProperty({
-    description: 'Comment ID',
-    example: '123',
-  })
-  public id: string;
-
+export class CommentRdo {
   @Expose()
   @ApiProperty({
     description: 'Publication ID',
@@ -23,4 +15,8 @@ export class CommentRdo implements CommentInterface {
     example: 'Text text text',
   })
   public text: string;
+
+  public userId: string;
+
+  public createAt: Date;
 }

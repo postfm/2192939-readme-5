@@ -1,6 +1,7 @@
 import { Public } from '@project/shared/app/types';
 import { Entity } from '@project/shared/core';
 import { CreatePublicDto } from '../action-public/dto/create-dto/create-public.dto';
+import { CommentEntity } from '../comment/comment.entity';
 
 export class PublicEntity implements Public, Entity<string, Public> {
   public publicId?: string;
