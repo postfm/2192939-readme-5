@@ -9,8 +9,8 @@ export class PublicEntity implements Public, Entity<string, Public> {
 
   // Repost
   public isRepost: boolean;
-  public originalUserId: string;
-  public originalPublicId: string;
+  public originalUserId?: string;
+  public originalPublicId?: string;
 
   // VideoPublic
   public title?: string;
@@ -46,8 +46,8 @@ export class PublicEntity implements Public, Entity<string, Public> {
     this.publicId = data.publicId ?? undefined;
     this.userId = data.userId;
     this.isRepost = data.isRepost;
-    this.originalUserId = data.originalUserId;
-    this.originalPublicId = data.originalPublicId;
+    this.originalUserId = data.originalUserId ?? undefined;
+    this.originalPublicId = data.originalPublicId ?? undefined;
     this.title = data.title ?? undefined;
     this.video = data.video ?? undefined;
     this.header = data.header ?? undefined;

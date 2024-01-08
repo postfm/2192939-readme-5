@@ -5,8 +5,8 @@ export interface Public {
 
   // Repost
   isRepost: boolean;
-  originalUserId: string;
-  originalPublicId: string;
+  originalUserId?: string;
+  originalPublicId?: string;
 
   // VideoPublic
   title?: string;

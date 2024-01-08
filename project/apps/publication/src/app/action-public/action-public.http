@@ -1,37 +1,51 @@
 #Создание новой публикации
 
-POST http://localhost:3000/api/publication/link HTTP/1.1
+POST http://localhost:3000/api/publics HTTP/1.1
 Content-Type: application/json
 
 {
-  "link":"https://link.com",
-  "description":"Hello, World"
+  "userId": "658170cbb954e9f5b905ccf4",
+  "isRepost": false,
+  "header": "Выбранный нами инновационный путь не стал ограничивающим фактором",
+  "notice": "Новый закон накладывает вето на детский заливистый смех",
+  "text": "Безусловно, сплочённость команды профессионалов способствует повышению качества экспериментов, поражающих по своей масштабности и грандиозности.",
+  "tags": [],
+  "comments": [],
+  "publicType": "text",
+  "publicStatus": "posted"
 }
 
 ###
 
 #Получение публикации по ID
 
-GET http://localhost:3000/api/publication/link/4cb20495-aea9-42cf-9574-3d29ced222b7 HTTP/1.1
+GET http://localhost:3000/api/publics/598b72f1-5500-44c4-8159-c0e827923312 HTTP/1.1
 Content-Type: application/json
 
 ###
 
 #Изменение публикации по ID
 
-PUT http://localhost:3000/api/publication/link/c7fc1add-b154-4846-9397-9b54a01dd5ab HTTP/1.1
+PATCH http://localhost:3000/api/publics/222ffb54-7f04-4416-9030-35857116905b HTTP/1.1
 Content-Type: application/json
 
 {
-  "link":"https://link.com",
-  "description":"Buy, World"
+  "userId": "658170cbb954e9f5b905ccf4",
+  "isRepost": true,
+  "header": "Выбранный нами инновационный путь не стал ограничивающим фактором",
+  "notice": "Новый закон накладывает вето на детский заливистый смех",
+  "text": "Безусловно, сплочённость команды профессионалов способствует повышению качества экспериментов, поражающих по своей масштабности и грандиозности.",
+  "tags": [],
+  "comments": [],
+  "publicType": "text",
+  "publicStatus": "posted"
 }
 
 ###
 
 #Удаление публикации по ID
 
-DELETE http://localhost:3000/api/publication/link/4cb20495-aea9-42cf-9574-3d29ced222b7 HTTP/1.1
+DELETE http://localhost:3000/api/publics/a348d306-ee77-4cd9-8df7-aa1ec901b00e HTTP/1.1
 Content-Type: application/json
 
 ###
@@ -42,4 +56,4 @@ GET http://localhost:3000/api/publics HTTP/1.1
 ###
 
 #Получение публикаций с фильтром
-GET http://localhost:3000/api/posts?limit=2&sortDirection=desc&categories[]=589ea436-67b3-4c6b-b7a9-d79fa9e3fa9d&page=3 HTTP/1.1
+GET http://localhost:3000/api/publics?limit=2&sortDirection=desc HTTP/1.1

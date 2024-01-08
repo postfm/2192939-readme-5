@@ -18,7 +18,7 @@ import { PublicQuery } from '../repo-public/query/public.query';
 import { PublicWithPaginationRdo } from './rdo/public-with-pagination.rdo';
 import { UpdatePublicDto } from './dto/update-dto/update-public.dto';
 
-@Controller('publication')
+@Controller('publics')
 export class ActionPublicController {
   constructor(private readonly actionPublicService: ActionPublicService) {}
 

@@ -9,7 +9,7 @@ import {
 
 export class CreatePublicDto {
   @IsString()
-  @IsMongoId()
+  // @IsMongoId()
   public userId: string;
 
   // Repost
@@ -18,9 +18,15 @@ export class CreatePublicDto {
   public isRepost: boolean;
 
   @IsString()
-  @IsMongoId()
+  // @IsMongoId()
   @IsNotEmpty()
+  @IsOptional()
   public originalUserId: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  public originalPublicId: string;
 
   // VideoPublic
   @IsString()
