@@ -1,6 +1,6 @@
 #Создание нового комментария
 
-POST http://localhost:3000/api/comment/create HTTP/1.1
+POST http://localhost:3000/api/publics/12/comments HTTP/1.1
 Content-Type: application/json
 
 {
@@ -10,9 +10,16 @@ Content-Type: application/json
 
 ###
 
+#Получение комментариев публикации
+
+GET http://localhost:3000/api/publics/75a10f99-92b1-4617-adc2-59d1316a999f/comments HTTP/1.1
+Content-Type: application/json
+
+###
+
 #Удаление комментария по ID
 
-DELETE http://localhost:3000/api/comment/delete/123 HTTP/1.1
+DELETE http://localhost:3000/api/publication/12/123 HTTP/1.1
 Content-Type: application/json
 
 ###
