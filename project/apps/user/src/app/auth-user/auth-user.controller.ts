@@ -15,6 +15,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { fillDto } from '@project/shared/helpers';
+import { MongoIdValidationPipe } from '@project/shared/core';
 
 @ApiTags('auth-user')
 @Controller('user')
@@ -53,7 +54,7 @@ export class AuthUserController {
     description: 'User found',
   })
   @Get(':id')
-  public async show(@Param('id') id: string) {
+  public async show(@Param('id', MongoIdValidationPipe) id: string) {
     const existUser = await this.authUserService.getUser(id);
     return fillDto(UserRdo, existUser.toPOJO());
   }

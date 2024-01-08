@@ -1,6 +1,6 @@
 #Создание нового пользователя
 
-POST http://localhost:3000/api/user/register HTTP/1.1
+POST http://localhost:3333/api/user/register HTTP/1.1
 Content-Type: application/json
 
 {
@@ -12,26 +12,26 @@ Content-Type: application/json
 ###
 
 #Получение информации о пользователе по ID
-GET http://localhost:3000/api/user/657ef7a38e5bcf7bee89b579 HTTP/1.1
+GET http://localhost:3333/api/user/69c4ab42bd0ca1c7838e85d HTTP/1.1
 
 ###
 
 #Авторизация пользователя по email и password
-POST http://localhost:3000/api/user/login HTTP/1.1
+POST http://localhost:3333/api/user/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email":"user@gmail.com",
-  "password":"123456"
+  "email":"user1@gmail.com",
+  "password":"12345678"
 }
 
 ###
 
 #Смена пароля пользователя
-PUT http://localhost:3000/api/user/657f361b558093093db79aef HTTP/1.1
+PUT http://localhost:3333/api/user/659c4ab42bd0ca1c7838e85d HTTP/1.1
 Content-Type: application/json
 
 {
-  "oldPassword": "1234568",
+  "oldPassword": "12345678",
   "newPassword":"1234568"
 }
