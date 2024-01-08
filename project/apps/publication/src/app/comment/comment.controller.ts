@@ -19,8 +19,8 @@ export class CommentController {
   }
 
   @Get('/')
-  public async show(@Param('postId') postId: string) {
-    const comments = await this.commentService.get(postId);
+  public async show(@Param('publicId') publicId: string) {
+    const comments = await this.commentService.get(publicId);
 
     return fillDto(
       CommentRdo,
@@ -28,8 +28,8 @@ export class CommentController {
     );
   }
 
-  @Delete('/')
-  public async remove(@Param('publicId') publicId: string) {
-    await this.commentService.remove(publicId);
+  @Delete('/:commentId')
+  public async remove(@Param('commentId') commentId: string) {
+    await this.commentService.remove(commentId);
   }
 }
