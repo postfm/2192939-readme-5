@@ -4,7 +4,7 @@ POST http://localhost:3333/api/user/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email":"user1@gmail.com",
+  "email":"user@gmail.com",
   "name":"John",
   "password":"12345678"
 }
@@ -12,7 +12,8 @@ Content-Type: application/json
 ###
 
 #Получение информации о пользователе по ID
-GET http://localhost:3333/api/user/69c4ab42bd0ca1c7838e85d HTTP/1.1
+GET http://localhost:3333/api/user/659dafba814b1ad50e4f75b6 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZ21haWwuY29tIiwibmFtZSI6IkpvaG4iLCJpYXQiOjE3MDQ4MzI5OTMsImV4cCI6MTcwNDkzMjk5M30.nvW4aXUqRL_187CZ-75H0N8BHAVZJAO6kPbXvJKsMfI
 
 ###
 
@@ -21,7 +22,7 @@ POST http://localhost:3333/api/user/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email":"user1@gmail.com",
+  "email":"user@gmail.com",
   "password":"12345678"
 }
 
