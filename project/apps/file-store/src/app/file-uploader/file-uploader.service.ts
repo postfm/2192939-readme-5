@@ -25,6 +25,8 @@ export class FileUploaderService {
   }
 
   public async saveFile(file: Express.Multer.File): Promise<string> {
+    console.log(file);
+
     try {
       const uploadDirectoryPath = this.getUploadDirectoryPath();
       const destinationFile = this.getDestinationFilePath(file.originalname);

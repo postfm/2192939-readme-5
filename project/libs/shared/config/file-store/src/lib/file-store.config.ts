@@ -1,4 +1,3 @@
-import { error } from 'console';
 import { registerAs } from '@nestjs/config';
 import * as Joi from 'joi';
 
@@ -31,7 +30,7 @@ function validateConfig(config: FileStoreConfig): void {
 function getConfig(): FileStoreConfig {
   const config: FileStoreConfig = {
     environment: process.env.NODE_ENV as Environment,
-    port: parseInt(process.env.PORT || `&{DEFAULT_PORT}`, 10),
+    port: parseInt(process.env.PORT || `${DEFAULT_PORT}`, 10),
     uploadDirectory: process.env.UPLOAD_DIRECTORY_PATH,
   };
 
