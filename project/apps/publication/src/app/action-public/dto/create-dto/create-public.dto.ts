@@ -5,6 +5,9 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
+  IsUrl,
+  MaxLength,
+  MinLength,
 } from 'class-validator';
 
 export class CreatePublicDto {
@@ -46,6 +49,8 @@ export class CreatePublicDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
+  @MinLength(20)
+  @MaxLength(50)
   @ApiProperty({
     description: 'Video Title',
     example: 'Title',
@@ -55,6 +60,7 @@ export class CreatePublicDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
+  @IsUrl()
   @ApiProperty({
     description: 'Video Link',
     example:
@@ -66,6 +72,8 @@ export class CreatePublicDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
+  @MinLength(20)
+  @MaxLength(50)
   @ApiProperty({
     description: 'Title Text',
     example:
@@ -76,6 +84,8 @@ export class CreatePublicDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
+  @MinLength(50)
+  @MaxLength(255)
   @ApiProperty({
     description: 'Text Description',
     example: 'Новый закон накладывает вето на детский заливистый смех',
@@ -85,6 +95,8 @@ export class CreatePublicDto {
   @IsString()
   @IsOptional()
   @IsNotEmpty()
+  @MinLength(100)
+  @MaxLength(1024)
   @ApiProperty({
     description: 'Main Text',
     example:
@@ -96,6 +108,8 @@ export class CreatePublicDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
+  @MinLength(20)
+  @MaxLength(300)
   @ApiProperty({
     description: 'Quote Text',
     example:
@@ -106,6 +120,8 @@ export class CreatePublicDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
+  @MinLength(3)
+  @MaxLength(50)
   @ApiProperty({
     description: 'Author Name',
     example:
@@ -116,7 +132,6 @@ export class CreatePublicDto {
   // PhotoPublic
   @IsString()
   @IsNotEmpty()
-  @IsOptional()
   @ApiProperty({
     description: 'Photo Link',
     example:
@@ -127,7 +142,7 @@ export class CreatePublicDto {
   // LinkPublic
   @IsString()
   @IsNotEmpty()
-  @IsOptional()
+  @IsUrl()
   @ApiProperty({
     description: 'Link Body',
     example: 'https://htmlacademy.ru/study',
@@ -137,6 +152,7 @@ export class CreatePublicDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
+  @MaxLength(300)
   @ApiProperty({
     description: 'Link Description',
     example: 'HTMLAcademy',
@@ -145,6 +161,9 @@ export class CreatePublicDto {
 
   // Common
   @ArrayMaxSize(8)
+  @MinLength(3, { each: true })
+  @MaxLength(10, { each: true })
+  @IsString({ each: true })
   @IsOptional()
   @ApiProperty({
     description: 'Tags',

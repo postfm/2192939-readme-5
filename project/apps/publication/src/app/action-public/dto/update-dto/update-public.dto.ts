@@ -2,15 +2,16 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   ArrayMaxSize,
   IsBoolean,
-  IsMongoId,
   IsNotEmpty,
   IsOptional,
   IsString,
+  IsUrl,
+  MaxLength,
+  MinLength,
 } from 'class-validator';
 
 export class UpdatePublicDto {
   @IsString()
-  @IsMongoId()
   @IsOptional()
   @ApiProperty({
     description: 'User ID',
@@ -29,7 +30,6 @@ export class UpdatePublicDto {
   public isRepost: boolean;
 
   @IsString()
-  @IsMongoId()
   @IsNotEmpty()
   @IsOptional()
   @ApiProperty({
@@ -39,7 +39,6 @@ export class UpdatePublicDto {
   public originalUserId: string;
 
   @IsString()
-  @IsMongoId()
   @IsNotEmpty()
   @IsOptional()
   @ApiProperty({
@@ -52,6 +51,8 @@ export class UpdatePublicDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
+  @MinLength(20)
+  @MaxLength(50)
   @ApiProperty({
     description: 'Video Title',
     example: 'Title',
@@ -61,6 +62,7 @@ export class UpdatePublicDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
+  @IsUrl()
   @ApiProperty({
     description: 'Video Link',
     example:
@@ -72,6 +74,8 @@ export class UpdatePublicDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
+  @MinLength(20)
+  @MaxLength(50)
   @ApiProperty({
     description: 'Title Text',
     example:
@@ -82,6 +86,8 @@ export class UpdatePublicDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
+  @MinLength(50)
+  @MaxLength(255)
   @ApiProperty({
     description: 'Text Description',
     example: 'Новый закон накладывает вето на детский заливистый смех',
@@ -91,6 +97,8 @@ export class UpdatePublicDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
+  @MinLength(100)
+  @MaxLength(1024)
   @ApiProperty({
     description: 'Main Text',
     example:
@@ -102,6 +110,8 @@ export class UpdatePublicDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
+  @MinLength(20)
+  @MaxLength(300)
   @ApiProperty({
     description: 'Quote Text',
     example:
@@ -112,6 +122,8 @@ export class UpdatePublicDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
+  @MinLength(3)
+  @MaxLength(50)
   @ApiProperty({
     description: 'Author Name',
     example:
@@ -143,6 +155,7 @@ export class UpdatePublicDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
+  @MaxLength(300)
   @ApiProperty({
     description: 'Link Description',
     example: 'HTMLAcademy',
@@ -151,6 +164,8 @@ export class UpdatePublicDto {
 
   // Common
   @ArrayMaxSize(8)
+  @MinLength(3, { each: true })
+  @MaxLength(10, { each: true })
   @IsOptional()
   @ApiProperty({
     description: 'Tags',
