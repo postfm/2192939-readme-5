@@ -3,6 +3,7 @@ import {
   DEFAULT_PAGE_COUNT,
   DEFAULT_POST_COUNT_LIMIT,
   DEFAULT_PUBLIC_STATUS,
+  DEFAULT_SORTING_TYPE,
   DEFAULT_SORT_DIRECTION,
 } from './../repo-public.constants';
 import { Transform } from 'class-transformer';
@@ -34,4 +35,8 @@ export class PublicQuery {
   @Transform(({ value }) => value || DEFAULT_PUBLIC_STATUS)
   @IsOptional()
   public publicStatus: string;
+
+  @Transform(({ value }) => +value || DEFAULT_SORTING_TYPE)
+  @IsOptional()
+  public sortingType: string;
 }

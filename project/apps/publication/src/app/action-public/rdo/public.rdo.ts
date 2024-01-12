@@ -1,3 +1,4 @@
+import { Comment } from '@project/shared/app/types';
 import { Expose } from 'class-transformer';
 
 export class PublicRdo {

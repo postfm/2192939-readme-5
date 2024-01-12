@@ -6,11 +6,10 @@ Content-Type: application/json
 {
   "userId": "658170cbb954e9f5b905ccf4",
   "isRepost": false,
-  "header": "Выбранный нами инновационный путь не стал ограничивающим фактором",
+  "header": "Выбранный нами инновационный путь",
   "notice": "Новый закон накладывает вето на детский заливистый смех",
   "text": "Безусловно, сплочённость команды профессионалов способствует повышению качества экспериментов, поражающих по своей масштабности и грандиозности.",
   "tags": [],
-  "comments": [],
   "publicType": "text",
   "publicStatus": "posted"
 }
@@ -36,7 +35,6 @@ Content-Type: application/json
   "notice": "Новый закон накладывает вето на детский заливистый смех",
   "text": "Безусловно, сплочённость команды профессионалов способствует повышению качества экспериментов, поражающих по своей масштабности и грандиозности.",
   "tags": [],
-  "comments": [],
   "publicType": "text",
   "publicStatus": "posted"
 }
@@ -76,4 +74,5 @@ GET http://localhost:3000/api/publics?publicStatus=draft HTTP/1.1
 ###
 
 #Получение черников публикаций для авторизованного пользователя
-GET http://localhost:3000/api/publics?tag=sing HTTP/1.1
+GET http://localhost:3000/api/publics?tag=Комиксы HTTP/1.1
+

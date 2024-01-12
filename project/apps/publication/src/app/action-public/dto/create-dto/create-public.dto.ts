@@ -132,6 +132,7 @@ export class CreatePublicDto {
   // PhotoPublic
   @IsString()
   @IsNotEmpty()
+  @IsOptional()
   @ApiProperty({
     description: 'Photo Link',
     example:
@@ -143,6 +144,7 @@ export class CreatePublicDto {
   @IsString()
   @IsNotEmpty()
   @IsUrl()
+  @IsOptional()
   @ApiProperty({
     description: 'Link Body',
     example: 'https://htmlacademy.ru/study',

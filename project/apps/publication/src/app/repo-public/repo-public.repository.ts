@@ -123,6 +123,10 @@ export class RepoPublicRepository extends BasePostgresRepository<
       where.publicType = query.publicType;
     }
 
+    if (query.tag) {
+      where.tags = { has: query.tag };
+    }
+
     const [records, postCount] = await Promise.all([
       this.client.public.findMany({
         where,
