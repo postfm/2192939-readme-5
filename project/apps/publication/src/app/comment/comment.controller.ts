@@ -1,8 +1,18 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { fillDto } from '@project/shared/helpers';
 import { CommentRdo } from './rdo/comment.rdo';
+import { CommentQuery } from './query/comment.query';
+import { CommentWithPaginationRdo } from './rdo/comment-with-pagination.rdo';
 
 @Controller('publics/:publicId/comments')
 export class CommentController {
@@ -19,13 +29,15 @@ export class CommentController {
   }
 
   @Get('/')
-  public async show(@Param('publicId') publicId: string) {
-    const comments = await this.commentService.get(publicId);
+  public async show(@Query() query: CommentQuery) {
+    const commentsWithPagination = await this.commentService.get(query);
 
-    return fillDto(
-      CommentRdo,
-      comments.map((comment) => comment.toPOJO())
-    );
+    const result = {
+      ...commentsWithPagination,
+      entities: commentsWithPagination.entities.map((items) => items.toPOJO()),
+    };
+
+    return fillDto(CommentWithPaginationRdo, result);
   }
 
   @Delete('/:commentId')

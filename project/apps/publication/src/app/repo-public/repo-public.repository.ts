@@ -5,6 +5,7 @@ import { PaginationResult, Public } from '@project/shared/app/types';
 import { PrismaClientService } from 'libs/shared/publication/models/src/lib/prisma-client.service';
 import { Prisma } from '@prisma/client';
 import { PublicQuery } from './query/public.query';
+import { DEFAULT_PUBLIC_STATUS } from './repo-public.constants';
 
 @Injectable()
 export class RepoPublicRepository extends BasePostgresRepository<
@@ -106,8 +107,20 @@ export class RepoPublicRepository extends BasePostgresRepository<
     const where: Prisma.PublicWhereInput = {};
     const orderBy: Prisma.PublicOrderByWithAggregationInput = {};
 
+    where.publicStatus = query?.publicStatus
+      ? query.publicStatus
+      : DEFAULT_PUBLIC_STATUS;
+
     if (query?.SortDirection) {
       orderBy.createAt = query.SortDirection;
+    }
+
+    if (query?.userId) {
+      where.userId = query.userId;
+    }
+
+    if (query?.publicType) {
+      where.publicType = query.publicType;
     }
 
     const [records, postCount] = await Promise.all([

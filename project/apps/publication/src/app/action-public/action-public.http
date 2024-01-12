@@ -55,5 +55,25 @@ GET http://localhost:3000/api/publics HTTP/1.1
 
 ###
 
-#Получение публикаций с фильтром
+#Получение публикаций с пагинацией
 GET http://localhost:3000/api/publics?limit=2&sortDirection=desc HTTP/1.1
+
+###
+
+#Получение публикаций определенного пользователя
+GET http://localhost:3000/api/publics?userId=658170cbb954e9f5b905ccf4 HTTP/1.1
+
+###
+
+#Получение публикаций определенного типа
+GET http://localhost:3000/api/publics?publicType=photo HTTP/1.1
+
+###
+
+#Получение черников публикаций для авторизованного пользователя
+GET http://localhost:3000/api/publics?publicStatus=draft HTTP/1.1
+
+###
+
+#Получение черников публикаций для авторизованного пользователя
+GET http://localhost:3000/api/publics?tag=sing HTTP/1.1
