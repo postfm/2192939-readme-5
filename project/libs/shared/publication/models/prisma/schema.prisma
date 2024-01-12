@@ -17,8 +17,8 @@ model Public {
 
   // Repost
   isRepost         Boolean @map("is_repost")
-  originalUserId   String  @map("original_user_id")
-  originalPublicId String  @map("original_public_id")
+  originalUserId   String? @map("original_user_id")
+  originalPublicId String? @map("original_public_id")
 
   // VideoPublic
   title String?

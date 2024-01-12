@@ -3,59 +3,66 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
+  Patch,
   Post,
-  Put,
+  Query,
 } from '@nestjs/common';
 import { ActionPublicService } from './action-public.service';
-import { CreateCommonPublicDto } from './dto/create-dto/create-common-public.dto';
-import { adaptPublicRdo } from './rdo/adapt-public.rdo';
-import { UpdateCommonPublicDto } from './dto/update-dto/update-common-public.dto';
+import { CreatePublicDto } from './dto/create-dto/create-public.dto';
+import { fillDto } from '@project/shared/helpers';
+import { PublicRdo } from './rdo/public.rdo';
+import { PublicQuery } from '../repo-public/query/public.query';
+import { PublicWithPaginationRdo } from './rdo/public-with-pagination.rdo';
+import { UpdatePublicDto } from './dto/update-dto/update-public.dto';
+import { ApiBadRequestResponse } from '@nestjs/swagger';
 
-@Controller('publication')
+@Controller('publics')
 export class ActionPublicController {
   constructor(private readonly actionPublicService: ActionPublicService) {}
 
-  @Post(':typePublic')
-  public async create(
-    @Param('typePublic') typePublic: string,
-    @Body() dto: CreateCommonPublicDto
-  ) {
-    const newPublic = await this.actionPublicService.create(dto, typePublic);
+  @Post('/')
+  @ApiBadRequestResponse()
+  public async create(@Body() dto: CreatePublicDto) {
+    const newPublic = await this.actionPublicService.createPublic(dto);
 
-    return adaptPublicRdo(typePublic, newPublic);
+    return fillDto(PublicRdo, newPublic.toPOJO());
   }
 
-  @Get(':typePublic/:id')
-  public async show(
-    @Param('typePublic') typePublic: string,
-    @Param('id') id: string
-  ) {
+  @Get('/:id')
+  public async show(@Param('id') id: string) {
     const existPublic = await this.actionPublicService.getPublic(id);
 
-    return adaptPublicRdo(typePublic, existPublic);
+    return fillDto(PublicRdo, existPublic.toPOJO());
   }
 
-  @Put(':typePublic/:id')
-  public async changePublic(
-    @Param('typePublic') typePublic: string,
-    @Param('id') id: string,
-    @Body() dto: UpdateCommonPublicDto
-  ) {
-    const newPublic = await this.actionPublicService.changePublic(
-      id,
-      typePublic,
-      dto
+  @Get('/')
+  public async index(@Query() query: PublicQuery) {
+    const publicsWithPagination = await this.actionPublicService.getPublics(
+      query
     );
-
-    return adaptPublicRdo(typePublic, newPublic);
+    const result = {
+      ...publicsWithPagination,
+      entities: publicsWithPagination.entities.map((items) => items.toPOJO()),
+    };
+    return fillDto(PublicWithPaginationRdo, result);
   }
 
-  @Delete(':typePublic/:id')
-  public async remove(
-    @Param('typePublic') typePublic: string,
-    @Param('id') id: string
+  @Patch('/:id')
+  public async changePublic(
+    @Param('id') id: string,
+    @Body() dto: UpdatePublicDto
   ) {
+    const updatePublic = await this.actionPublicService.changePublic(id, dto);
+
+    return fillDto(PublicRdo, updatePublic.toPOJO());
+  }
+
+  @Delete('/:id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  public async remove(@Param('id') id: string) {
     await this.actionPublicService.remove(id);
   }
 }

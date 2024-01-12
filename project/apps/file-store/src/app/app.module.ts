@@ -1,11 +1,19 @@
+import { MongooseModule } from '@nestjs/mongoose';
 import { Module } from '@nestjs/common';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { FileUploaderModule } from './file-uploader/file-uploader.module';
+import {
+  FileStoreConfigModule,
+  getMongooseOptions,
+} from '@project/shared/config/file-store';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    FileUploaderModule,
+    FileStoreConfigModule,
+    MongooseModule.forRootAsync(getMongooseOptions()),
+  ],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

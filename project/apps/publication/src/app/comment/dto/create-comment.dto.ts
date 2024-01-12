@@ -1,26 +1,20 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { CommentInterface } from '@project/shared/app/types';
-import { Expose } from 'class-transformer';
+import { IsString, MaxLength, MinLength } from 'class-validator';
 
-export class CreateCommentDto implements CommentInterface {
-  @Expose()
-  @ApiProperty({
-    description: 'Comment ID',
-    example: '123',
-  })
-  public id?: string;
-
-  @Expose()
-  @ApiProperty({
-    description: 'Publication ID',
-    example: '123',
-  })
-  public publicId: string;
-
-  @Expose()
+export class CreateCommentDto {
+  @IsString()
+  @MinLength(10)
+  @MaxLength(300)
   @ApiProperty({
     description: 'Comment Content',
     example: 'Text text text',
   })
   public text: string;
+
+  @IsString()
+  @ApiProperty({
+    description: 'User ID',
+    example: '123',
+  })
+  public userId: string;
 }
