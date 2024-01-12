@@ -73,6 +73,6 @@ GET http://localhost:3000/api/publics?publicStatus=draft HTTP/1.1
 
 ###
 
-#Получение черников публикаций для авторизованного пользователя
+#Получение черников публикаций по тегу
 GET http://localhost:3000/api/publics?tag=Комиксы HTTP/1.1
 
