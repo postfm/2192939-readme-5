@@ -34,6 +34,7 @@ export class ActionPublicController {
   @Get('/:id')
   public async show(@Param('id') id: string) {
     const existPublic = await this.actionPublicService.getPublic(id);
+    console.log(existPublic);
 
     return fillDto(PublicRdo, existPublic.toPOJO());
   }
@@ -64,5 +65,10 @@ export class ActionPublicController {
   @HttpCode(HttpStatus.NO_CONTENT)
   public async remove(@Param('id') id: string) {
     await this.actionPublicService.remove(id);
+  }
+
+  @Get('/drafts')
+  public findDraft() {
+    console.log('findDraft');
   }
 }

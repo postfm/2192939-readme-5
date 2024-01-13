@@ -55,7 +55,7 @@ GET http://localhost:3000/api/publics HTTP/1.1
 ###
 
 #Получение публикаций с пагинацией
-GET http://localhost:3000/api/publics?limit=2&sortDirection=desc HTTP/1.1
+GET http://localhost:3000/api/publics?limit=5&sortDirection=desc&sortingType=commentsCount HTTP/1.1
 
 ###
 
@@ -70,7 +70,7 @@ GET http://localhost:3000/api/publics?publicType=photo HTTP/1.1
 ###
 
 #Получение черников публикаций для авторизованного пользователя
-GET http://localhost:3000/api/publics HTTP/1.1
+GET http://localhost:3000/api/publics/draft HTTP/1.1
 
 ###
 

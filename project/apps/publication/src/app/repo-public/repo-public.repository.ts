@@ -60,6 +60,8 @@ export class RepoPublicRepository extends BasePostgresRepository<
     });
 
     if (!document) {
+      console.log(document);
+
       throw new NotFoundException(`Post with id ${publicId} not found`);
     }
 
@@ -110,12 +112,14 @@ export class RepoPublicRepository extends BasePostgresRepository<
     const where: Prisma.PublicWhereInput = {};
     const orderBy: Prisma.PublicOrderByWithAggregationInput = {};
 
+    console.log(query.sortingType);
+
     where.publicStatus = query?.publicStatus
       ? query.publicStatus
       : DEFAULT_PUBLIC_STATUS;
 
     if (query?.SortDirection) {
-      orderBy.createAt = query.SortDirection;
+      orderBy[query.sortingType] = query.SortDirection;
     }
 
     if (query?.userId) {

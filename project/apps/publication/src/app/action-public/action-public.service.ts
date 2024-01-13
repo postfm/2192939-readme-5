@@ -24,6 +24,8 @@ export class ActionPublicService {
   }
 
   public async getPublic(id: string): Promise<PublicEntity> {
+    console.log(id);
+
     return this.publicRepository.findById(id);
   }
 

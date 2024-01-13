@@ -37,6 +37,15 @@ export class CommentRepository extends BasePostgresRepository<
     });
 
     entity.commentId = record.commentId;
+
+    await this.client.public.update({
+      where: {
+        publicId: entity.publicId,
+      },
+      data: {
+        commentsCount: { increment: 1 },
+      },
+    });
     return entity;
   }
 
@@ -87,9 +96,19 @@ export class CommentRepository extends BasePostgresRepository<
   }
 
   public async deleteById(commentId: string): Promise<void> {
+    const comment = await this.findById(commentId);
     await this.client.comment.delete({
       where: {
         commentId,
+      },
+    });
+
+    await this.client.public.update({
+      where: {
+        publicId: comment.publicId,
+      },
+      data: {
+        commentsCount: { decrement: 1 },
       },
     });
   }

@@ -36,7 +36,7 @@ export class PublicQuery {
   @IsOptional()
   public publicStatus: string;
 
-  @Transform(({ value }) => +value || DEFAULT_SORTING_TYPE)
+  @Transform(({ value }) => value || DEFAULT_SORTING_TYPE)
   @IsOptional()
   public sortingType: string;
 }
