@@ -55,7 +55,7 @@ GET http://localhost:3000/api/publics HTTP/1.1
 ###
 
 #Получение публикаций с пагинацией
-GET http://localhost:3000/api/publics?limit=5&sortDirection=desc&sortingType=commentsCount HTTP/1.1
+GET http://localhost:3000/api/publics?limit=5&sortDirection=asc HTTP/1.1
 
 ###
 

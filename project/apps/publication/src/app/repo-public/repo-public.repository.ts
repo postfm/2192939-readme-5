@@ -5,7 +5,11 @@ import { PaginationResult, Public } from '@project/shared/app/types';
 import { PrismaClientService } from 'libs/shared/publication/models/src/lib/prisma-client.service';
 import { Prisma } from '@prisma/client';
 import { PublicQuery } from './query/public.query';
-import { DEFAULT_PUBLIC_STATUS } from './repo-public.constants';
+import {
+  DEFAULT_PUBLIC_STATUS,
+  DEFAULT_SORTING_TYPE,
+  DEFAULT_SORT_DIRECTION,
+} from './repo-public.constants';
 
 @Injectable()
 export class RepoPublicRepository extends BasePostgresRepository<
@@ -111,16 +115,20 @@ export class RepoPublicRepository extends BasePostgresRepository<
     const take = query?.limit;
     const where: Prisma.PublicWhereInput = {};
     const orderBy: Prisma.PublicOrderByWithAggregationInput = {};
-
-    console.log(query.sortingType);
+    const sortingType = query?.sortingType
+      ? query.sortingType
+      : DEFAULT_SORTING_TYPE;
+    const sortDirection = query?.sortDirection
+      ? query.sortDirection
+      : DEFAULT_SORT_DIRECTION;
 
     where.publicStatus = query?.publicStatus
       ? query.publicStatus
       : DEFAULT_PUBLIC_STATUS;
 
-    if (query?.SortDirection) {
-      orderBy[query.sortingType] = query.SortDirection;
-    }
+    console.log(query.sortingType);
+
+    orderBy[sortingType] = sortDirection;
 
     if (query?.userId) {
       where.userId = query.userId;
