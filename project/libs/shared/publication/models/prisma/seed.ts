@@ -10,6 +10,8 @@ const SIXTH_PUBLIC_UUID = 'e898ff23-8a50-46f5-a57d-67bae3c7b1f0';
 const FIRST_USER_ID = '658170cbb954e9f5b905ccf4';
 const SECOND_USER_ID = '6581762309c030b503e30512';
 
+const INIT_COUNT_VALUE = 0;
+
 function getPublics() {
   return [
     {
@@ -29,6 +31,10 @@ function getPublics() {
       // Common
       tags: ['sing', 'movie'],
 
+      // Counts
+      commentsCount: INIT_COUNT_VALUE,
+      likesCount: INIT_COUNT_VALUE,
+
       publicType: 'video',
       publicStatus: 'posted',
     },
@@ -47,8 +53,12 @@ function getPublics() {
       notice: 'Новый закон накладывает вето на детский заливистый смех',
       text: 'Безусловно, сплочённость команды профессионалов способствует повышению качества экспериментов, поражающих по своей масштабности и грандиозности.',
 
+      // Counts
+      commentsCount: INIT_COUNT_VALUE,
+      likesCount: INIT_COUNT_VALUE,
+
       publicType: 'text',
-      publicStatus: 'posted',
+      publicStatus: 'draft',
     },
     {
       publicId: FIFTH_PUBLIC_UUID,
@@ -63,19 +73,12 @@ function getPublics() {
       photo:
         'https://yandex.ru/images/search?text=%D0%9C%D0%BE%D1%80%D1%81%D0%BA%D0%B0%D1%8F%20%D0%A1%D0%B2%D0%B8%D0%BD%D0%BA%D0%B0&nl=1&source=morda',
 
+      // Counts
+      commentsCount: INIT_COUNT_VALUE,
+      likesCount: INIT_COUNT_VALUE,
+
       // Common
       tags: ['Животные'],
-      comments: [
-        {
-          text: 'Дурное дело нехитрое: выбранный нами инновационный путь бодрит',
-          userId: FIRST_USER_ID,
-        },
-        {
-          text: 'Нет звука приятнее, чем далёкий барабанный бой',
-          userId: FIRST_USER_ID,
-        },
-      ],
-      likes: [{ userId: FIRST_USER_ID }],
 
       publicType: 'photo',
       publicStatus: 'posted',
@@ -92,6 +95,10 @@ function getPublics() {
       // LinkPublic
       link: 'https://htmlacademy.ru/study',
       description: 'HTMLAcademy',
+
+      // Counts
+      commentsCount: INIT_COUNT_VALUE,
+      likesCount: INIT_COUNT_VALUE,
 
       publicType: 'link',
       publicStatus: 'posted',
@@ -112,16 +119,15 @@ function getPublics() {
 
       // Common
       tags: ['Комиксы'],
-      comments: [
-        {
-          text: 'Свободу слова не задушить, пусть даже зима близко',
-          userId: SECOND_USER_ID,
-        },
-      ],
+      comments: [],
       likes: [{ userId: SECOND_USER_ID }],
 
+      // Counts
+      commentsCount: INIT_COUNT_VALUE,
+      likesCount: INIT_COUNT_VALUE,
+
       publicType: 'quote',
-      publicStatus: 'posted',
+      publicStatus: 'draft',
     },
   ];
 }
@@ -162,6 +168,10 @@ async function seedDb(prismaClient: PrismaClient) {
         description: publication.description
           ? publication.description
           : undefined,
+
+        // Counts
+        commentsCount: publication.commentsCount,
+        likesCount: publication.likesCount,
 
         // Common
         tags: publication.tags ? publication.tags : undefined,

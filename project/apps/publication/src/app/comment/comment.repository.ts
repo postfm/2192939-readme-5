@@ -7,7 +7,6 @@ import { PrismaClientService } from 'libs/shared/publication/models/src/lib/pris
 import { MAX_COMMENTS_COUNT } from './comment.constants';
 import { CommentQuery } from './query/comment.query';
 import { Prisma } from '@prisma/client';
-import { DEFAULT_SORT_DIRECTION } from '../repo-public/repo-public.constants';
 
 @Injectable()
 export class CommentRepository extends BasePostgresRepository<
@@ -85,14 +84,6 @@ export class CommentRepository extends BasePostgresRepository<
       itemsPerPage: take,
       totalItems: commentCount,
     };
-
-    // const records = await this.client.comment.findMany({
-    //   where: {
-    //     publicId,
-    //   },
-    // });
-
-    // return records.map((records) => this.createEntityFromDocument(records));
   }
 
   public async deleteById(commentId: string): Promise<void> {

@@ -53,6 +53,13 @@ export class PublicRdo {
   @Expose()
   public description: string;
 
+  // Counts
+  @Expose()
+  public commentsCount: number;
+
+  @Expose()
+  public likesCount: number;
+
   // Common
   @Expose()
   public tags: string[];

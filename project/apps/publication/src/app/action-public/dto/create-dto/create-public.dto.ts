@@ -8,6 +8,7 @@ import {
   IsUrl,
   MaxLength,
   MinLength,
+  IsNumber,
 } from 'class-validator';
 
 export class CreatePublicDto {
@@ -160,6 +161,23 @@ export class CreatePublicDto {
     example: 'HTMLAcademy',
   })
   public description: string;
+
+  // Counts
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty({
+    description: 'Comments Count',
+    example: '1',
+  })
+  public commentsCount: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty({
+    description: 'Likes Count',
+    example: '1',
+  })
+  public likesCounts: number;
 
   // Common
   @ArrayMaxSize(8)

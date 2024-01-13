@@ -40,6 +40,10 @@ model Public {
   link        String?
   description String?
 
+  // Counts
+  commentsCount Int @map("comments_count")
+  likesCount    Int @map("likes_count")
+
   // Common
   tags     String[]
   comments Comment[]

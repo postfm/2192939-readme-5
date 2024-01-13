@@ -32,6 +32,10 @@ export class PublicEntity implements Public, Entity<string, Public> {
   public link?: string;
   public description?: string;
 
+  // Counts
+  public commentsCount: number;
+  public likesCount: number;
+
   // Common
   public tags?: string[];
   public comments: CommentEntity[];
@@ -59,6 +63,8 @@ export class PublicEntity implements Public, Entity<string, Public> {
     this.link = data.link ?? undefined;
     this.description = data.description ?? undefined;
     this.tags = data.tags ?? undefined;
+    this.commentsCount = data.commentsCount;
+    this.likesCount = data.likesCount;
     this.comments = [];
     this.createAt = data.createAt ?? undefined;
     this.updateAt = data.updateAt ?? undefined;
@@ -86,8 +92,10 @@ export class PublicEntity implements Public, Entity<string, Public> {
       link: this.link,
       description: this.description,
       tags: this.tags,
+      commentsCount: this.commentsCount,
+      likesCount: this.likesCount,
       comments: this.comments,
-      updateAt: this.updateAt,
+      createAt: this.createAt,
       publicType: this.publicType,
       publicStatus: this.publicStatus,
     };

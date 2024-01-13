@@ -87,8 +87,11 @@ export class RepoPublicRepository extends BasePostgresRepository<
         link: pojoEntity.link,
         description: pojoEntity.description,
         tags: pojoEntity.tags,
+        commentsCount: pojoEntity.commentsCount,
+        likesCount: pojoEntity.likesCount,
         publicType: pojoEntity.publicType,
         publicStatus: pojoEntity.publicStatus,
+        createAt: pojoEntity.createAt,
       },
       include: {
         comments: true,

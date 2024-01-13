@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
   ArrayMaxSize,
   IsBoolean,
@@ -190,4 +191,8 @@ export class UpdatePublicDto {
     example: 'posted',
   })
   public publicStatus: string;
+
+  @IsOptional()
+  @Type(() => Date)
+  public createAt: Date;
 }

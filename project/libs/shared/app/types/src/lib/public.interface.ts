@@ -28,6 +28,10 @@ export interface Public {
   link?: string;
   description?: string;
 
+  // Counts
+  commentsCount: number;
+  likesCount: number;
+
   // Common
   tags?: string[];
   comments: Comment[];
