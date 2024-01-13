@@ -18,11 +18,15 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import { fillDto } from '@project/shared/helpers';
 import { MongoIdValidationPipe } from '@project/shared/core';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { NotifyService } from '../notify/notify.service';
 
 @ApiTags('auth-user')
 @Controller('user')
 export class AuthUserController {
-  constructor(private readonly authUserService: AuthUserService) {}
+  constructor(
+    private readonly authUserService: AuthUserService,
+    private readonly notifyService: NotifyService
+  ) {}
 
   @ApiResponse({
     status: HttpStatus.CREATED,
@@ -31,6 +35,8 @@ export class AuthUserController {
   @Post('register')
   public async create(@Body() dto: CreateUserDto) {
     const newUser = await this.authUserService.register(dto);
+    const { email, name } = newUser;
+    await this.notifyService.registerSubscriber({ email, name });
 
     return fillDto(UserRdo, newUser.toPOJO());
   }
