@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { RepoPublicRepository } from '../repo-public/repo-public.repository';
 import { CreatePublicDto } from './dto/create-dto/create-public.dto';
 import { PublicEntity } from '../repo-public/repo-public.entity';
@@ -34,17 +38,17 @@ export class ActionPublicService {
     const existsPublic = await this.publicRepository.findById(id);
     let hasChange = false;
 
+    if (existsPublic.publicType !== dto.publicType) {
+      throw new ConflictException(
+        `Public with id ${existsPublic.publicId} has another type`
+      );
+    }
+    console.log(existsPublic.publicType, dto.publicType);
     for (const [key, value] of Object.entries(dto)) {
       if (value !== undefined && existsPublic[key] !== value) {
         existsPublic[key] = value;
         hasChange = true;
       }
-    }
-
-    if (existsPublic.publicType !== dto.publicType) {
-      throw new Error(
-        `Public with id ${existsPublic.publicId} has another type`
-      );
     }
 
     if (!hasChange) {
