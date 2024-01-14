@@ -65,4 +65,9 @@ export class ActionPublicController {
   public async remove(@Param('id') id: string) {
     await this.actionPublicService.remove(id);
   }
+
+  @Get('/drafts')
+  public async getDrafts() {
+    console.log('getDrafts');
+  }
 }

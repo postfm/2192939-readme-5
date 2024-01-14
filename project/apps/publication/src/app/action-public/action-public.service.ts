@@ -43,7 +43,7 @@ export class ActionPublicService {
         `Public with id ${existsPublic.publicId} has another type`
       );
     }
-    console.log(existsPublic.publicType, dto.publicType);
+
     for (const [key, value] of Object.entries(dto)) {
       if (value !== undefined && existsPublic[key] !== value) {
         existsPublic[key] = value;
