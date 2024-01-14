@@ -41,6 +41,12 @@ export class ActionPublicService {
       }
     }
 
+    if (existsPublic.publicType !== dto.publicType) {
+      throw new Error(
+        `Public with id ${existsPublic.publicId} has another type`
+      );
+    }
+
     if (!hasChange) {
       return existsPublic;
     }
