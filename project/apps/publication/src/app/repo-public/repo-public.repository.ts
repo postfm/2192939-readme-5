@@ -64,8 +64,6 @@ export class RepoPublicRepository extends BasePostgresRepository<
     });
 
     if (!document) {
-      console.log(document);
-
       throw new NotFoundException(`Post with id ${publicId} not found`);
     }
 
@@ -126,15 +124,13 @@ export class RepoPublicRepository extends BasePostgresRepository<
       ? query.publicStatus
       : DEFAULT_PUBLIC_STATUS;
 
-    console.log(query.sortingType);
-
     orderBy[sortingType] = sortDirection;
 
     if (query?.userId) {
       where.userId = query.userId;
     }
 
-    if (query?.publicType) {
+    if (query.publicType) {
       where.publicType = query.publicType;
     }
 

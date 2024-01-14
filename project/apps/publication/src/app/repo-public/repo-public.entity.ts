@@ -121,6 +121,8 @@ export class PublicEntity implements Public, Entity<string, Public> {
     entity.link = dto.link ?? undefined;
     entity.description = dto.description ?? undefined;
     entity.tags = dto.tags ?? undefined;
+    entity.commentsCount = dto.commentsCount;
+    entity.likesCount = dto.likesCount;
     entity.comments = [];
     entity.publicType = dto.publicType;
     entity.publicStatus = dto.publicStatus;

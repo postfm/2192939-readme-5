@@ -177,7 +177,7 @@ export class CreatePublicDto {
     description: 'Likes Count',
     example: '1',
   })
-  public likesCounts: number;
+  public likesCount: number;
 
   // Common
   @ArrayMaxSize(8)

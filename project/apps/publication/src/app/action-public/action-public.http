@@ -10,6 +10,8 @@ Content-Type: application/json
   "notice": "Новый закон накладывает вето на детский заливистый смех",
   "text": "Безусловно, сплочённость команды профессионалов способствует повышению качества экспериментов, поражающих по своей масштабности и грандиозности.",
   "tags": [],
+  "commentsCount":0,
+  "likesCount":0,
   "publicType": "text",
   "publicStatus": "posted"
 }
@@ -44,7 +46,7 @@ Content-Type: application/json
 
 #Удаление публикации по ID
 
-DELETE http://localhost:3000/api/publics/75a10f99-92b1-4617-adc2-59d1316a999f HTTP/1.1
+DELETE http://localhost:3000/api/publics/c614696b-44c6-4e0c-812c-61c480d7865b HTTP/1.1
 Content-Type: application/json
 
 ###
@@ -65,7 +67,7 @@ GET http://localhost:3000/api/publics?userId=658170cbb954e9f5b905ccf4 HTTP/1.1
 ###
 
 #Получение публикаций определенного типа
-GET http://localhost:3000/api/publics?publicType=photo HTTP/1.1
+GET http://localhost:3000/api/publics?publicType=text HTTP/1.1
 
 ###
 
@@ -75,5 +77,5 @@ GET http://localhost:3000/api/publics/draft HTTP/1.1
 ###
 
 #Получение публикаций по тегу
-GET http://localhost:3000/api/publics?tag=Комиксы HTTP/1.1
+GET http://localhost:3000/api/publics?tag=Животные HTTP/1.1
 
