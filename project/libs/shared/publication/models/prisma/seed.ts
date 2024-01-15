@@ -9,7 +9,6 @@ const SIXTH_PUBLIC_UUID = 'e898ff23-8a50-46f5-a57d-67bae3c7b1f0';
 
 const FIRST_USER_ID = '658170cbb954e9f5b905ccf4';
 const SECOND_USER_ID = '6581762309c030b503e30512';
-
 const INIT_COUNT_VALUE = 0;
 
 function getPublics() {
@@ -20,8 +19,6 @@ function getPublics() {
 
       // Repost
       isRepost: false,
-      originalUserId: FIRST_USER_ID,
-      originalPublicId: FIRST_PUBLIC_UUID,
 
       // VideoPublic
       title: 'Movie',
@@ -43,12 +40,10 @@ function getPublics() {
       userId: FIRST_USER_ID,
 
       // Repost
-      isRepost: true,
-      originalUserId: SECOND_USER_ID,
-      originalPublicId: THIRD_PUBLIC_UUID,
+      isRepost: false,
 
       // TextPublic
-      header:
+      title:
         'Выбранный нами инновационный путь не стал ограничивающим фактором',
       notice: 'Новый закон накладывает вето на детский заливистый смех',
       text: 'Безусловно, сплочённость команды профессионалов способствует повышению качества экспериментов, поражающих по своей масштабности и грандиозности.',
@@ -66,8 +61,6 @@ function getPublics() {
 
       // Repost
       isRepost: false,
-      originalUserId: SECOND_USER_ID,
-      originalPublicId: FIFTH_PUBLIC_UUID,
 
       // PhotoPublic
       photo:
@@ -89,8 +82,6 @@ function getPublics() {
 
       // Repost
       isRepost: false,
-      originalUserId: SECOND_USER_ID,
-      originalPublicId: SIXTH_PUBLIC_UUID,
 
       // LinkPublic
       link: 'https://htmlacademy.ru/study',
@@ -109,8 +100,6 @@ function getPublics() {
 
       // Repost
       isRepost: false,
-      originalUserId: FIRST_USER_ID,
-      originalPublicId: FOURTH_PUBLIC_UUID,
 
       // QuotePublic
       quote:
@@ -144,15 +133,12 @@ async function seedDb(prismaClient: PrismaClient) {
 
         // Repost
         isRepost: publication.isRepost,
-        originalUserId: publication.originalPublicId,
-        originalPublicId: publication.originalUserId,
 
         // VideoPublic
         title: publication.title ? publication.title : undefined,
         video: publication.video ? publication.video : undefined,
 
         // TextPublic
-        header: publication.header ? publication.header : undefined,
         notice: publication.notice ? publication.notice : undefined,
         text: publication.text ? publication.text : undefined,
 

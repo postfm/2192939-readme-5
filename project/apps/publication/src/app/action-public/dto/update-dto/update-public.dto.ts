@@ -75,18 +75,6 @@ export class UpdatePublicDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  @MinLength(20)
-  @MaxLength(50)
-  @ApiProperty({
-    description: 'Title Text',
-    example:
-      'Выбранный нами инновационный путь не стал ограничивающим фактором',
-  })
-  public header: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @IsOptional()
   @MinLength(50)
   @MaxLength(255)
   @ApiProperty({

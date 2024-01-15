@@ -25,7 +25,6 @@ model Public {
   video String?
 
   // TextPublic
-  header String?
   notice String?
   text   String?
 

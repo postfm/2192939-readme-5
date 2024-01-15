@@ -18,6 +18,8 @@ import { PublicQuery } from '../repo-public/query/public.query';
 import { PublicWithPaginationRdo } from './rdo/public-with-pagination.rdo';
 import { UpdatePublicDto } from './dto/update-dto/update-public.dto';
 import { ApiBadRequestResponse } from '@nestjs/swagger';
+import { SearchQuery } from '../repo-public/query/search.query';
+import { PublicEntity } from '../repo-public/repo-public.entity';
 
 @Controller('publics')
 export class ActionPublicController {
@@ -29,6 +31,30 @@ export class ActionPublicController {
     const newPublic = await this.actionPublicService.createPublic(dto);
 
     return fillDto(PublicRdo, newPublic.toPOJO());
+  }
+
+  @Get('/drafts/:userId')
+  public async drafts(@Param('userId') userId: string) {
+    const result = this.actionPublicService.getDrafts(userId);
+    return fillDto(PublicRdo, result);
+  }
+
+  @Get('/search')
+  public async indexByTitle(@Query() query: SearchQuery) {
+    const results = await this.actionPublicService.searchByTitle(query);
+    return fillDto(PublicRdo, results);
+  }
+
+  @Post('/repost/:publicId/:userId')
+  public async repost(
+    @Param('publicId') publicId: string,
+    @Param('userId') userId: string
+  ) {
+    const repostPublic = await this.actionPublicService.createRepost(
+      publicId,
+      userId
+    );
+    return fillDto(PublicRdo, repostPublic.toPOJO());
   }
 
   @Get('/:id')
@@ -64,10 +90,5 @@ export class ActionPublicController {
   @HttpCode(HttpStatus.NO_CONTENT)
   public async remove(@Param('id') id: string) {
     await this.actionPublicService.remove(id);
-  }
-
-  @Get('/drafts')
-  public async getDrafts() {
-    console.log('getDrafts');
   }
 }

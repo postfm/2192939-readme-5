@@ -27,9 +27,6 @@ export class PublicRdo {
 
   // TextPublic
   @Expose()
-  public header: string;
-
-  @Expose()
   public notice: string;
 
   @Expose()

@@ -1,3 +1,4 @@
+import { fillDto } from '@project/shared/helpers';
 import {
   ConflictException,
   Injectable,
@@ -9,6 +10,8 @@ import { PublicEntity } from '../repo-public/repo-public.entity';
 import { PublicQuery } from '../repo-public/query/public.query';
 import { PaginationResult } from '@project/shared/app/types';
 import { UpdatePublicDto } from './dto/update-dto/update-public.dto';
+import { INIT_COUNT_VALUE } from '../repo-public/repo-public.constants';
+import { SearchQuery } from '../repo-public/query/search.query';
 
 @Injectable()
 export class ActionPublicService {
@@ -64,5 +67,37 @@ export class ActionPublicService {
     } catch {
       throw new NotFoundException(`Post with id ${id} not found`);
     }
+  }
+
+  public async getDrafts(userId: string): Promise<PublicEntity[]> {
+    return this.publicRepository.findDrafts(userId);
+  }
+
+  public async createRepost(
+    publicId: string,
+    userId: string
+  ): Promise<PublicEntity> {
+    const originalPublic = await this.getPublic(publicId);
+    const isRepost = await this.publicRepository.findRepost(publicId, userId);
+    if (isRepost) {
+      throw new ConflictException(`Repost is already exist`);
+    }
+
+    const repostPublic = PublicEntity.fromObject(originalPublic);
+    repostPublic.publicId = undefined;
+    repostPublic.originalPublicId = originalPublic.publicId;
+    repostPublic.originalUserId = originalPublic.userId;
+    repostPublic.isRepost = true;
+    repostPublic.userId = userId;
+    repostPublic.commentsCount = INIT_COUNT_VALUE;
+    repostPublic.likesCount = INIT_COUNT_VALUE;
+
+    await this.publicRepository.save(repostPublic);
+
+    return repostPublic;
+  }
+
+  public async searchByTitle(query: SearchQuery): Promise<PublicEntity[]> {
+    return this.publicRepository.findByTitle(query);
   }
 }

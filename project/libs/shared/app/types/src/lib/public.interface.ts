@@ -13,7 +13,6 @@ export interface Public {
   video?: string;
 
   // TextPublic
-  header?: string;
   notice?: string;
   text?: string;
 
@@ -34,7 +33,7 @@ export interface Public {
 
   // Common
   tags?: string[];
-  comments: Comment[];
+  comments?: Comment[];
 
   // Service
   createAt?: Date;

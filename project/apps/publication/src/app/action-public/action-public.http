@@ -1,3 +1,5 @@
+###
+
 #Создание новой публикации
 
 POST http://localhost:3000/api/publics HTTP/1.1
@@ -37,7 +39,7 @@ Content-Type: application/json
   "notice": "Новый закон накладывает вето на детский заливистый смех",
   "text": "Безусловно, сплочённость команды профессионалов способствует повышению качества экспериментов, поражающих по своей масштабности и грандиозности.",
   "tags": [],
-  "publicType": "photo",
+  "publicType": "text",
   "publicStatus": "posted",
   "createAt": "2024-01-12"
 }
@@ -71,11 +73,21 @@ GET http://localhost:3000/api/publics?publicType=text HTTP/1.1
 
 ###
 
-#Получение черников публикаций для авторизованного пользователя
-GET http://localhost:3000/api/publics/draft HTTP/1.1
-
-###
-
 #Получение публикаций по тегу
 GET http://localhost:3000/api/publics?tag=Животные HTTP/1.1
 
+###
+
+#Получение черников публикаций для авторизованного пользователя
+GET http://localhost:3000/api/publics/drafts/658170cbb954e9f5b905ccf4 HTTP/1.1
+
+
+###
+
+#Репост публикации
+POST  http://localhost:3000/api/publics/repost/749e2ffa-3bab-464e-b049-c82c1a434eb5/6581762309c030b503e30512 HTTP/1.1
+
+###
+
+#Поиск публикации по заголовку
+GET  http://localhost:3000/api/publics/search?title=Выбранный HTTP/1.1

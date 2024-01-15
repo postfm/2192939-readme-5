@@ -1,19 +1,12 @@
--- CreateEnum
-CREATE TYPE "PublicType" AS ENUM ('video', 'text', 'quote', 'photo', 'link');
-
--- CreateEnum
-CREATE TYPE "PublicStatus" AS ENUM ('draft', 'posted');
-
 -- CreateTable
 CREATE TABLE "publics" (
     "public_id" TEXT NOT NULL,
     "user_id" TEXT NOT NULL,
     "is_repost" BOOLEAN NOT NULL,
-    "original_user_id" TEXT NOT NULL,
-    "original_public_id" TEXT NOT NULL,
+    "original_user_id" TEXT,
+    "original_public_id" TEXT,
     "title" TEXT,
     "video" TEXT,
-    "header" TEXT,
     "notice" TEXT,
     "text" TEXT,
     "quote" TEXT,
@@ -21,11 +14,13 @@ CREATE TABLE "publics" (
     "photo" TEXT,
     "link" TEXT,
     "description" TEXT,
+    "comments_count" INTEGER NOT NULL,
+    "likes_count" INTEGER NOT NULL,
     "tags" TEXT[],
     "create_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "update_at" TIMESTAMP(3) NOT NULL,
-    "public_type" "PublicType" NOT NULL,
-    "public_status" "PublicStatus" NOT NULL,
+    "public_type" TEXT NOT NULL,
+    "public_status" TEXT NOT NULL,
 
     CONSTRAINT "publics_pkey" PRIMARY KEY ("public_id")
 );

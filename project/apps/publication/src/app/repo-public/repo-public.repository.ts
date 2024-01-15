@@ -1,3 +1,4 @@
+import { hash } from 'bcrypt';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { BasePostgresRepository } from '@project/shared/core';
 import { PublicEntity } from './repo-public.entity';
@@ -9,7 +10,9 @@ import {
   DEFAULT_PUBLIC_STATUS,
   DEFAULT_SORTING_TYPE,
   DEFAULT_SORT_DIRECTION,
+  PUBLIC_STATUS_DRAFT,
 } from './repo-public.constants';
+import { SearchQuery } from './query/search.query';
 
 @Injectable()
 export class RepoPublicRepository extends BasePostgresRepository<
@@ -32,6 +35,7 @@ export class RepoPublicRepository extends BasePostgresRepository<
 
   public async save(entity: PublicEntity): Promise<PublicEntity> {
     const pojoEntity = entity.toPOJO();
+
     const record = await this.client.public.create({
       data: {
         ...pojoEntity,
@@ -54,10 +58,10 @@ export class RepoPublicRepository extends BasePostgresRepository<
   }
 
   public async findById(publicId: unknown): Promise<PublicEntity> {
+    const where: Prisma.PublicWhereInput = {};
+    where.publicId = publicId;
     const document = await this.client.public.findFirst({
-      where: {
-        publicId,
-      },
+      where,
       include: {
         comments: true,
       },
@@ -82,7 +86,6 @@ export class RepoPublicRepository extends BasePostgresRepository<
         isRepost: pojoEntity.isRepost,
         title: pojoEntity.title,
         video: pojoEntity.video,
-        header: pojoEntity.header,
         notice: pojoEntity.notice,
         text: pojoEntity.text,
         quote: pojoEntity.quote,
@@ -156,5 +159,50 @@ export class RepoPublicRepository extends BasePostgresRepository<
       itemsPerPage: take,
       totalItems: postCount,
     };
+  }
+
+  public async findDrafts(userId: string): Promise<PublicEntity[]> {
+    const where: Prisma.PublicWhereInput = {};
+    where.userId = userId;
+    where.publicStatus = PUBLIC_STATUS_DRAFT;
+    const records = await this.client.public.findMany({
+      where,
+    });
+
+    return records.map((record) => this.createEntityFromDocument(record));
+  }
+
+  public async findRepost(
+    publicId: string,
+    userId: string
+  ): Promise<PublicEntity> {
+    const where: Prisma.PublicWhereInput = {};
+    where.publicId = publicId;
+    where.userId = userId;
+    const document = await this.client.public.findFirst({
+      where,
+    });
+
+    return this.createEntityFromDocument(document);
+  }
+
+  public async findByTitle(query?: SearchQuery): Promise<PublicEntity[]> {
+    const where: Prisma.PublicWhereInput = {};
+    const take = query?.limit;
+    where.publicStatus = DEFAULT_PUBLIC_STATUS;
+    if (query.title) {
+      where.title = { search: query.title.split(' ').join(' & ') };
+    }
+
+    const publics = await this.client.public.findMany({
+      where,
+      take,
+      include: {
+        comments: true,
+        likes: true,
+      },
+    });
+
+    return publics.map((item) => this.createEntityFromDocument(item));
   }
 }
