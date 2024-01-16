@@ -42,7 +42,7 @@ const validationSchema = Joi.object({
   environment: Joi.string()
     .valid(...ENVIRONMENTS)
     .required(),
-  port: Joi.number().default(DEFAULT_PORT),
+  port: Joi.number().port().default(DEFAULT_PORT),
   uploadDirectory: Joi.string().required(),
   db: Joi.object({
     host: Joi.string().valid().hostname(),

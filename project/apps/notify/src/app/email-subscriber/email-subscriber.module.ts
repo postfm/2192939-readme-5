@@ -5,7 +5,7 @@ import {
   EmailSubscriberSchema,
 } from './email-subscriber.model';
 import { EmailSubscriberRepository } from './email-subscriber.repository';
-import { EmailSubscriberService } from './email-subscribe.service';
+import { EmailSubscriberService } from './email-subscriber.service';
 import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 import { getRabbitMQOptions } from '@project/shared/helpers';
 import { EmailSubscriberController } from './email-subscriber.controller';
