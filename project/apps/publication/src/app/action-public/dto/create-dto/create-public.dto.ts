@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   ArrayMaxSize,
   IsBoolean,
+  IsMongoId,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -13,6 +14,7 @@ import {
 
 export class CreatePublicDto {
   @IsString()
+  @IsMongoId()
   @ApiProperty({
     description: 'User ID',
     example: '1234',

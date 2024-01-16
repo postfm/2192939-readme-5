@@ -190,7 +190,7 @@ export class RepoPublicRepository extends BasePostgresRepository<
     const where: Prisma.PublicWhereInput = {};
     const take = query?.limit;
     where.publicStatus = DEFAULT_PUBLIC_STATUS;
-    where.title = { search: query.title };
+    where.title = { contains: query.title };
 
     const publics = await this.client.public.findMany({
       where,

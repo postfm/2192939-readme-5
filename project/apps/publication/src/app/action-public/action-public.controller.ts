@@ -17,34 +17,70 @@ import { PublicRdo } from './rdo/public.rdo';
 import { PublicQuery } from '../repo-public/query/public.query';
 import { PublicWithPaginationRdo } from './rdo/public-with-pagination.rdo';
 import { UpdatePublicDto } from './dto/update-dto/update-public.dto';
-import { ApiBadRequestResponse } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SearchQuery } from '../repo-public/query/search.query';
 import { PublicEntity } from '../repo-public/repo-public.entity';
 
+@ApiTags('Publication')
 @Controller('publics')
 export class ActionPublicController {
   constructor(private readonly actionPublicService: ActionPublicService) {}
 
+  @ApiResponse({
+    type: PublicRdo,
+    status: HttpStatus.OK,
+    description: 'Publication created',
+  })
+  @ApiBadRequestResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Bad request',
+  })
   @Post('/')
-  @ApiBadRequestResponse()
   public async create(@Body() dto: CreatePublicDto) {
     const newPublic = await this.actionPublicService.createPublic(dto);
 
     return fillDto(PublicRdo, newPublic.toPOJO());
   }
 
+  @ApiResponse({
+    type: PublicRdo,
+    status: HttpStatus.OK,
+    description: 'Publications found',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Not found',
+  })
   @Get('/drafts/:userId')
   public async drafts(@Param('userId') userId: string) {
     const result = this.actionPublicService.getDrafts(userId);
     return fillDto(PublicRdo, result);
   }
 
+  @ApiResponse({
+    type: PublicWithPaginationRdo,
+    status: HttpStatus.OK,
+    description: 'Publications found',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Not found',
+  })
   @Get('/search')
   public async indexByTitle(@Query() query: SearchQuery) {
     const results = await this.actionPublicService.searchByTitle(query);
     return fillDto(PublicRdo, results);
   }
 
+  @ApiResponse({
+    type: PublicRdo,
+    status: HttpStatus.OK,
+    description: 'Publication reposted',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Not found',
+  })
   @Post('/repost/:publicId/:userId')
   public async repost(
     @Param('publicId') publicId: string,
@@ -57,6 +93,15 @@ export class ActionPublicController {
     return fillDto(PublicRdo, repostPublic.toPOJO());
   }
 
+  @ApiResponse({
+    type: PublicRdo,
+    status: HttpStatus.OK,
+    description: 'Publication found',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Publication not found',
+  })
   @Get('/:id')
   public async show(@Param('id') id: string) {
     const existPublic = await this.actionPublicService.getPublic(id);
@@ -64,6 +109,15 @@ export class ActionPublicController {
     return fillDto(PublicRdo, existPublic.toPOJO());
   }
 
+  @ApiResponse({
+    type: PublicWithPaginationRdo,
+    status: HttpStatus.OK,
+    description: 'Publications found',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Noy found',
+  })
   @Get('/')
   public async index(@Query() query: PublicQuery) {
     const publicsWithPagination = await this.actionPublicService.getPublics(
@@ -76,6 +130,15 @@ export class ActionPublicController {
     return fillDto(PublicWithPaginationRdo, result);
   }
 
+  @ApiResponse({
+    type: PublicRdo,
+    status: HttpStatus.OK,
+    description: 'Publication changed',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Not found',
+  })
   @Patch('/:id')
   public async changePublic(
     @Param('id') id: string,
@@ -86,6 +149,14 @@ export class ActionPublicController {
     return fillDto(PublicRdo, updatePublic.toPOJO());
   }
 
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+    description: 'Publication deleted',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Not found',
+  })
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
   public async remove(@Param('id') id: string) {

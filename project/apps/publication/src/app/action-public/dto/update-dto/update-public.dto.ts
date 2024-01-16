@@ -3,6 +3,7 @@ import { Type } from 'class-transformer';
 import {
   ArrayMaxSize,
   IsBoolean,
+  IsMongoId,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -14,6 +15,7 @@ import {
 export class UpdatePublicDto {
   @IsString()
   @IsOptional()
+  @IsMongoId()
   @ApiProperty({
     description: 'User ID',
     example: '1234',
