@@ -22,6 +22,8 @@ const validationSchema = Joi.object({
 });
 
 function validateConfig(config: RabbitConfig): void {
+  console.log(config);
+
   const { error } = validationSchema.validate(config, { abortEarly: true });
   if (error) {
     throw new Error(`[FileVault Config Validation Error]: ${error.message}`);
@@ -40,6 +42,7 @@ function getConfig(): RabbitConfig {
     queue: process.env.RABBIT_QUEUE,
     exchange: process.env.RABBIT_EXCHANGE,
   };
+  console.log(process.env);
 
   validateConfig(config);
   return config;
