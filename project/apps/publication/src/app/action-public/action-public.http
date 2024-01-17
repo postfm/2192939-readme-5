@@ -90,4 +90,4 @@ POST  http://localhost:3000/api/publics/repost/749e2ffa-3bab-464e-b049-c82c1a434
 ###
 
 #Поиск публикации по заголовку
-GET  http://localhost:3000/api/publics/search?title=one Movie HTTP/1.1
+GET  http://localhost:3000/api/publics/search?title=movie HTTP/1.1
