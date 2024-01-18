@@ -10,8 +10,8 @@ import dayjs from 'dayjs';
 import { randomUUID } from 'node:crypto';
 import { extension } from 'mime-types';
 import { FileRepository } from './file.repository';
-import { StoredFile } from '@project/shared/app/types';
 import { FileEntity } from './file.entity';
+import { StoredFile } from '../../../../../libs/shared/app/types/src/lib/stored-file.interface';
 
 @Injectable()
 export class FileUploaderService {
