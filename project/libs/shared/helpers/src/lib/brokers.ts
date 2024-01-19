@@ -3,7 +3,7 @@ import { getRabbitMQConnectionString } from './common';
 export function getRabbitMQOptions(optionSpace) {
   return {
     useFactory: async (config: ConfigService) => ({
-      exchange: [
+      exchanges: [
         {
           name: config.get<string>(`${optionSpace}.queue`),
           type: 'direct',
