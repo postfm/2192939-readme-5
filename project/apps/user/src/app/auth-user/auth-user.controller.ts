@@ -2,23 +2,31 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
   HttpStatus,
   Param,
   Post,
   Put,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { AuthUserService } from './auth-user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserRdo } from './rdo/user.rdo';
 import { LoggedUserRdo } from './rdo/logged-user.rdo';
-import { LoginUserDto } from './dto/login-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { fillDto } from '@project/shared/helpers';
 import { MongoIdValidationPipe } from '@project/shared/core';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { NotifyService } from '../notify/notify.service';
+import { PublicUserEntity } from '../public-user/public-user.entity';
+import { LocalAuthGuard } from './guards/local-auth.guard';
+import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
+
+interface RequestWithUser {
+  user?: PublicUserEntity;
+}
 
 @ApiTags('auth-user')
 @Controller('user')
@@ -50,11 +58,11 @@ export class AuthUserController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'Password or Login is wrong',
   })
+  @UseGuards(LocalAuthGuard)
   @Post('login')
-  public async login(@Body() dto: LoginUserDto) {
-    const verifiedUser = await this.authUserService.verifyUser(dto);
-    const userToken = await this.authUserService.createUserToken(verifiedUser);
-    return fillDto(LoggedUserRdo, { ...verifiedUser, ...userToken });
+  public async login(@Req() { user }: RequestWithUser) {
+    const userToken = await this.authUserService.createUserToken(user);
+    return fillDto(LoggedUserRdo, { ...user.toPOJO, ...userToken });
   }
 
   @ApiResponse({
@@ -85,5 +93,16 @@ export class AuthUserController {
   ) {
     const existUser = await this.authUserService.changePassword(id, dto);
     return fillDto(UserRdo, existUser.toPOJO());
+  }
+
+  @UseGuards(JwtRefreshGuard)
+  @Post('refresh')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Get a new access/refresh tokens',
+  })
+  public async refreshToken(@Req() { user }: RequestWithUser) {
+    return this.authUserService.createUserToken(user);
   }
 }
