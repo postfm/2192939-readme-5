@@ -1,4 +1,3 @@
-import { hash } from 'bcrypt';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { BasePostgresRepository } from '@project/shared/core';
 import { PublicEntity } from './repo-public.entity';
@@ -13,6 +12,7 @@ import {
   PUBLIC_STATUS_DRAFT,
 } from './repo-public.constants';
 import { SearchQuery } from './query/search.query';
+import { formatTags } from '../utils/utils';
 
 @Injectable()
 export class RepoPublicRepository extends BasePostgresRepository<
@@ -39,6 +39,7 @@ export class RepoPublicRepository extends BasePostgresRepository<
     const record = await this.client.public.create({
       data: {
         ...pojoEntity,
+        tags: formatTags(entity.tags),
         comments: {
           connect: [],
         },
@@ -93,7 +94,7 @@ export class RepoPublicRepository extends BasePostgresRepository<
         photo: pojoEntity.photo,
         link: pojoEntity.link,
         description: pojoEntity.description,
-        tags: pojoEntity.tags,
+        tags: formatTags(pojoEntity.tags),
         commentsCount: pojoEntity.commentsCount,
         likesCount: pojoEntity.likesCount,
         publicType: pojoEntity.publicType,
