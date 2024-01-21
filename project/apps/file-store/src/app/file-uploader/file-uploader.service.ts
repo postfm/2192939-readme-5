@@ -51,13 +51,9 @@ export class FileUploaderService {
       const fileExtension = extension(file.mimetype);
 
       const filename = `${randomUUID()}.${fileExtension}`;
-
       const path = this.getDestinationFilePath(`${type}/${filename}`);
 
       await ensureDir(join(uploadDirectoryPath, subDirectory, type));
-
-      console.log(path);
-
       await writeFile(path, file.buffer);
 
       return {
