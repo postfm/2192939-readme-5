@@ -115,6 +115,15 @@ export class AuthUserService {
     return this.publicUserRepository.update(id, userEntity);
   }
 
+  public async updateAvatar(id: string, avatarId: string) {
+    const blogUser = await this.getUser(id);
+    const blogUserEntity = new PublicUserEntity({
+      ...blogUser,
+      avatar: avatarId,
+    });
+    return this.publicUserRepository.update(id, blogUserEntity);
+  }
+
   public async createUserToken(user: User): Promise<Token> {
     const payload: TokenPayload = {
       sub: user.userId,

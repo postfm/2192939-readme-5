@@ -105,4 +105,17 @@ export class AuthUserController {
   public async refreshToken(@Req() { user }: RequestWithUser) {
     return this.authUserService.createUserToken(user);
   }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Avatar is update',
+  })
+  @UseGuards(JwtAuthGuard)
+  @Post('avatar/:userId')
+  public async updateAvatar(
+    @Param('userId') userId: string,
+    @Body('avatarId') avatarId: string
+  ) {
+    return this.authUserService.updateAvatar(userId, avatarId);
+  }
 }

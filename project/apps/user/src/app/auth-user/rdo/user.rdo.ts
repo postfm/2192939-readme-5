@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose } from 'class-transformer';
+import { Expose, Transform } from 'class-transformer';
 
 export class UserRdo {
   @Expose()
@@ -29,4 +29,25 @@ export class UserRdo {
     example: '/images/user.png',
   })
   public avatar!: string;
+
+  @ApiProperty({
+    description: 'User registration date',
+  })
+  @Expose({ name: 'createdAt' })
+  @Transform(({ obj }) => obj.createdAt.toString())
+  public createAt!: string;
+
+  @ApiProperty({
+    description: 'User posts amount',
+    example: '0',
+  })
+  @Expose()
+  public publicsCount!: number;
+
+  @ApiProperty({
+    description: 'User subscribers amount',
+    example: '0',
+  })
+  @Expose()
+  public subscribersCount!: number;
 }
