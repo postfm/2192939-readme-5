@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose, Transform } from 'class-transformer';
+import { Expose } from 'class-transformer';
 
 export class UserRdo {
   @Expose()
@@ -34,7 +34,6 @@ export class UserRdo {
     description: 'User registration date',
   })
   @Expose({ name: 'createdAt' })
-  @Transform(({ obj }) => obj.createdAt.toString())
   public createAt!: string;
 
   @ApiProperty({
