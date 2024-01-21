@@ -14,15 +14,27 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { FileUploaderService } from './file-uploader.service';
 import { fillDto } from '@project/shared/helpers';
 import { UploadedFileRdo } from './rdo/uploaded-file.rdo';
+import { FileUploaderPipe } from './pipes/file-uploader.pipes';
 
 @Controller('files')
 export class FileUploaderController {
   constructor(private readonly fileUploaderService: FileUploaderService) {}
 
-  @Post('/upload')
-  @UseInterceptors(FileInterceptor('file'))
-  public async uploadFile(@UploadedFile() file: Express.Multer.File) {
-    const fileEntity = await this.fileUploaderService.saveFile(file);
+  @Post('/upload/avatar')
+  @UseInterceptors(FileInterceptor('avatar'))
+  public async uploadAvatar(
+    @UploadedFile(FileUploaderPipe) file: Express.Multer.File
+  ) {
+    const fileEntity = await this.fileUploaderService.saveFile(file, 'avatar');
+    return fillDto(UploadedFileRdo, fileEntity.toPOJO());
+  }
+
+  @Post('/upload/photo')
+  @UseInterceptors(FileInterceptor('photo'))
+  public async uploadPhoto(
+    @UploadedFile(FileUploaderPipe) file: Express.Multer.File
+  ) {
+    const fileEntity = await this.fileUploaderService.saveFile(file, 'photo');
     return fillDto(UploadedFileRdo, fileEntity.toPOJO());
   }
 
