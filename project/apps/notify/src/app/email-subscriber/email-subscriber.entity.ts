@@ -7,12 +7,14 @@ export class EmailSubscriberEntity
   public id?: string;
   public email: string;
   public name: string;
+  public dateNotify?: string;
 
   public toPOJO() {
     return {
       id: this.id,
       email: this.email,
       name: this.name,
+      dateNotify: this.dateNotify,
     };
   }
 
@@ -20,6 +22,7 @@ export class EmailSubscriberEntity
     this.id = data.id ?? undefined;
     this.email = data.email;
     this.name = data.name;
+    this.dateNotify = data.dateNotify;
 
     return this;
   }

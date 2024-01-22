@@ -1,5 +1,5 @@
 import { IsEmail, IsNotEmpty } from 'class-validator';
-import { EMAIL_NOT_VALID, NAME_IS_EMPTY } from '../email-subscriber.constant';
+import { EmailError } from '../email-subscriber.constant';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateSubscriberDto {
@@ -7,13 +7,13 @@ export class CreateSubscriberDto {
     description: 'User email',
     example: 'keks.mail.local',
   })
-  @IsEmail({}, { message: EMAIL_NOT_VALID })
+  @IsEmail({}, { message: EmailError.InvalidEmail })
   public email: string;
 
   @ApiProperty({
     description: 'User name',
     example: 'keks',
   })
-  @IsNotEmpty({ message: NAME_IS_EMPTY })
+  @IsNotEmpty({ message: EmailError.EmptyName })
   public name: string;
 }

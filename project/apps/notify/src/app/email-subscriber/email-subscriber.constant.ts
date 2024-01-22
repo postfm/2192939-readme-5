@@ -1,2 +1,4 @@
-export const EMAIL_NOT_VALID = 'The email is not valid';
-export const NAME_IS_EMPTY = 'The first name is empty';
+export const EmailError = {
+  InvalidEmail: 'User with this email already exists',
+  EmptyName: 'Name is empty',
+} as const;

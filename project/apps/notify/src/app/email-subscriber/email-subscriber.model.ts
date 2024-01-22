@@ -20,6 +20,9 @@ export class EmailSubscriberModel extends Document implements Subscriber {
   })
   public name: string;
 
+  @Prop()
+  public dateNotify: string;
+
   public id?: string;
 }
 
