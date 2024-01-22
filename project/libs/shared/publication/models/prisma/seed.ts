@@ -71,7 +71,7 @@ function getPublics() {
       likesCount: INIT_COUNT_VALUE,
 
       // Common
-      tags: ['Животные'],
+      tags: ['animals'],
 
       publicType: 'photo',
       publicStatus: 'posted',
@@ -107,7 +107,7 @@ function getPublics() {
       author: 'Ильф и Петров',
 
       // Common
-      tags: ['Комиксы'],
+      tags: ['comics'],
       comments: [],
       likes: [{ userId: SECOND_USER_ID }],
 
