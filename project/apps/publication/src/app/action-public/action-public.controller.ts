@@ -19,12 +19,15 @@ import { PublicWithPaginationRdo } from './rdo/public-with-pagination.rdo';
 import { UpdatePublicDto } from './dto/update-dto/update-public.dto';
 import { ApiBadRequestResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SearchQuery } from '../repo-public/query/search.query';
-import { PublicEntity } from '../repo-public/repo-public.entity';
+import { NotifyService } from '../notify/notify.service';
 
 @ApiTags('Publication')
 @Controller('publics')
 export class ActionPublicController {
-  constructor(private readonly actionPublicService: ActionPublicService) {}
+  constructor(
+    private readonly actionPublicService: ActionPublicService,
+    private readonly notifyService: NotifyService
+  ) {}
 
   @ApiResponse({
     type: PublicRdo,
@@ -40,6 +43,23 @@ export class ActionPublicController {
     const newPublic = await this.actionPublicService.createPublic(dto);
 
     return fillDto(PublicRdo, newPublic.toPOJO());
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Publications sent',
+  })
+  @Get('send-news/:userId/:email')
+  public async sendNews(
+    @Param('userId') userId: string,
+    @Param('email') email: string
+  ) {
+    const publics = await this.actionPublicService.getPublicsForSend();
+    return this.notifyService.sendNewsletter({
+      email,
+      publics,
+      id: userId,
+    });
   }
 
   @ApiResponse({

@@ -26,14 +26,23 @@ export class MailService {
     });
   }
 
-  public async sendNewsletter(email: string, postsInfo: Public[]) {
+  public async sendNewsletter(email: string, publicsInfo: Public[]) {
+    console.log({
+      from: this.notifyConfig.mail.from,
+      to: email,
+      subject: EmailSubject.Newsletter,
+      template: './newsletter',
+      context: {
+        posts: publicsInfo,
+      },
+    });
     await this.mailerService.sendMail({
       from: this.notifyConfig.mail.from,
       to: email,
       subject: EmailSubject.Newsletter,
       template: './newsletter',
       context: {
-        posts: postsInfo,
+        publics: [publicsInfo[0]],
       },
     });
   }

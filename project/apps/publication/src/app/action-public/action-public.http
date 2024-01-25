@@ -91,3 +91,8 @@ POST  http://localhost:3000/api/publics/repost/749e2ffa-3bab-464e-b049-c82c1a434
 
 #Поиск публикации по заголовку
 GET  http://localhost:3000/api/publics/search?title=movie HTTP/1.1
+
+###
+
+#Поиск публикации для рассылки
+GET  http://localhost:4000/api/publics/send-news/6581762309c030b503e30512/user@gmail.com HTTP/1.1

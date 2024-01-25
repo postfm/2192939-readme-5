@@ -204,4 +204,16 @@ export class RepoPublicRepository extends BasePostgresRepository<
 
     return publics.map((item) => this.createEntityFromDocument(item));
   }
+
+  public async get(): Promise<Public[]> {
+    return this.client.public.findMany({
+      where: {
+        publicStatus: 'posted',
+      },
+      include: {
+        comments: true,
+        likes: true,
+      },
+    });
+  }
 }

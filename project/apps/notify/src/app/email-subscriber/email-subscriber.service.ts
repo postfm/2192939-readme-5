@@ -37,7 +37,7 @@ export class EmailSubscriberService {
     const updatedSubscriber = new EmailSubscriberEntity().populate(
       subscriberData
     );
-    return await this.emailSubscriberRepository.update(
+    return this.emailSubscriberRepository.update(
       subscriber.id,
       updatedSubscriber
     );

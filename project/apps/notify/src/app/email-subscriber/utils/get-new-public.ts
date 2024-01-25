@@ -5,9 +5,12 @@ import dayjs from 'dayjs';
 export const getNewPublic = (
   { publics, id }: NewsletterDto,
   { dateNotify }: Subscriber
-) =>
-  publics.filter(
+) => {
+  const result = publics.filter(
     (publication) =>
       publication.userId !== id &&
       dayjs(publication.createAt).isAfter(dateNotify)
   );
+
+  return result;
+};

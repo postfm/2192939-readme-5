@@ -8,7 +8,7 @@ import { RepoPublicRepository } from '../repo-public/repo-public.repository';
 import { CreatePublicDto } from './dto/create-dto/create-public.dto';
 import { PublicEntity } from '../repo-public/repo-public.entity';
 import { PublicQuery } from '../repo-public/query/public.query';
-import { PaginationResult } from '@project/shared/app/types';
+import { PaginationResult, Public } from '@project/shared/app/types';
 import { UpdatePublicDto } from './dto/update-dto/update-public.dto';
 import { INIT_COUNT_VALUE } from '../repo-public/repo-public.constants';
 import { SearchQuery } from '../repo-public/query/search.query';
@@ -28,6 +28,12 @@ export class ActionPublicService {
     query?: PublicQuery
   ): Promise<PaginationResult<PublicEntity>> {
     return this.publicRepository.find(query);
+  }
+
+  public async getPublicsForSend(): Promise<Public[]> {
+    const result = await this.publicRepository.get();
+
+    return result;
   }
 
   public async getPublic(id: string): Promise<PublicEntity> {

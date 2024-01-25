@@ -22,7 +22,7 @@ export class EmailSubscriberEntity
     this.id = data.id ?? undefined;
     this.email = data.email;
     this.name = data.name;
-    this.dateNotify = data.dateNotify;
+    this.dateNotify = data.dateNotify ?? new Date(1970, 0, 1).toISOString();
 
     return this;
   }

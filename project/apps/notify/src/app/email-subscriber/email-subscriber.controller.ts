@@ -6,7 +6,7 @@ import { CreateSubscriberDto } from './dto/create-subscriber.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { MailService } from '../mail/mail.service';
 import { NewsletterDto } from './dto/newsletter.dto';
-import { getNewPublic } from './utils/get-new-post';
+import { getNewPublic } from './utils/get-new-public';
 
 @Controller()
 export class EmailSubscriberController {
@@ -30,7 +30,7 @@ export class EmailSubscriberController {
   }
 
   @RabbitSubscribe({
-    exchange: 'readme.notify.income',
+    exchange: 'readme.notify',
     routingKey: RabbitRouting.SendNewsletter,
     queue: 'readme.notify.newsletter',
   })
@@ -38,10 +38,11 @@ export class EmailSubscriberController {
     const { email, publics } = dto;
     const recipient = await this.subscriberService.getSubscriber(email);
     if (recipient && publics.length > 0) {
-      const newPosts = getNewPublic(dto, recipient);
-      if (newPosts.length > 0) {
-        await this.mailService.sendNewsletter(recipient.email, newPosts);
-        this.subscriberService.updateDateSent(recipient);
+      const newPublics = getNewPublic(dto, recipient);
+
+      if (newPublics.length > 0) {
+        await this.mailService.sendNewsletter(recipient.email, newPublics);
+        await this.subscriberService.updateDateSent(recipient);
       }
     }
   }
