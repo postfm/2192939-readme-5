@@ -13,11 +13,10 @@ export class PublicEntity implements Public, Entity<string, Public> {
   public originalPublicId?: string;
 
   // VideoPublic
-  public title?: string;
+  public title: string;
   public video?: string;
 
   // TextPublic
-  public header?: string;
   public notice?: string;
   public text?: string;
 
@@ -31,6 +30,10 @@ export class PublicEntity implements Public, Entity<string, Public> {
   // LinkPublic
   public link?: string;
   public description?: string;
+
+  // Counts
+  public commentsCount: number;
+  public likesCount: number;
 
   // Common
   public tags?: string[];
@@ -50,7 +53,6 @@ export class PublicEntity implements Public, Entity<string, Public> {
     this.originalPublicId = data.originalPublicId ?? undefined;
     this.title = data.title ?? undefined;
     this.video = data.video ?? undefined;
-    this.header = data.header ?? undefined;
     this.notice = data.notice ?? undefined;
     this.text = data.text ?? undefined;
     this.quote = data.quote ?? undefined;
@@ -59,6 +61,8 @@ export class PublicEntity implements Public, Entity<string, Public> {
     this.link = data.link ?? undefined;
     this.description = data.description ?? undefined;
     this.tags = data.tags ?? undefined;
+    this.commentsCount = data.commentsCount;
+    this.likesCount = data.likesCount;
     this.comments = [];
     this.createAt = data.createAt ?? undefined;
     this.updateAt = data.updateAt ?? undefined;
@@ -77,7 +81,6 @@ export class PublicEntity implements Public, Entity<string, Public> {
       originalPublicId: this.originalPublicId,
       title: this.title,
       video: this.video,
-      header: this.header,
       notice: this.notice,
       text: this.text,
       quote: this.quote,
@@ -86,8 +89,10 @@ export class PublicEntity implements Public, Entity<string, Public> {
       link: this.link,
       description: this.description,
       tags: this.tags,
+      commentsCount: this.commentsCount,
+      likesCount: this.likesCount,
       comments: this.comments,
-      updateAt: this.updateAt,
+      createAt: this.createAt,
       publicType: this.publicType,
       publicStatus: this.publicStatus,
     };
@@ -104,7 +109,6 @@ export class PublicEntity implements Public, Entity<string, Public> {
     entity.originalUserId = dto.originalUserId;
     entity.title = dto.title ?? undefined;
     entity.video = dto.video ?? undefined;
-    entity.header = dto.header ?? undefined;
     entity.notice = dto.notice ?? undefined;
     entity.text = dto.text ?? undefined;
     entity.quote = dto.quote ?? undefined;
@@ -113,6 +117,8 @@ export class PublicEntity implements Public, Entity<string, Public> {
     entity.link = dto.link ?? undefined;
     entity.description = dto.description ?? undefined;
     entity.tags = dto.tags ?? undefined;
+    entity.commentsCount = dto.commentsCount;
+    entity.likesCount = dto.likesCount;
     entity.comments = [];
     entity.publicType = dto.publicType;
     entity.publicStatus = dto.publicStatus;

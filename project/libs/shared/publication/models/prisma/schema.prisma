@@ -2,8 +2,9 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "../../../../../node_modules/.prisma/client"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+  output          = "../../../../../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -25,7 +26,6 @@ model Public {
   video String?
 
   // TextPublic
-  header String?
   notice String?
   text   String?
 
@@ -39,6 +39,10 @@ model Public {
   // LinkPublic
   link        String?
   description String?
+
+  // Counts
+  commentsCount Int @map("comments_count")
+  likesCount    Int @map("likes_count")
 
   // Common
   tags     String[]

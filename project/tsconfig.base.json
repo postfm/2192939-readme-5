@@ -19,6 +19,12 @@
       "@project/shared/config/file-store": [
         "libs/shared/config/file-store/src/index.ts"
       ],
+      "@project/shared/config/notify": [
+        "libs/shared/config/notify/src/index.ts"
+      ],
+      "@project/shared/config/publication": [
+        "libs/shared/config/publication/src/index.ts"
+      ],
       "@project/shared/config/user": ["libs/shared/config/user/src/index.ts"],
       "@project/shared/core": ["libs/shared/core/src/index.ts"],
       "@project/shared/helpers": ["libs/shared/helpers/src/index.ts"],

@@ -5,7 +5,14 @@ import { PaginationResult, Public } from '@project/shared/app/types';
 import { PrismaClientService } from 'libs/shared/publication/models/src/lib/prisma-client.service';
 import { Prisma } from '@prisma/client';
 import { PublicQuery } from './query/public.query';
-import { DEFAULT_PUBLIC_STATUS } from './repo-public.constants';
+import {
+  DEFAULT_PUBLIC_STATUS,
+  DEFAULT_SORTING_TYPE,
+  DEFAULT_SORT_DIRECTION,
+  PUBLIC_STATUS_DRAFT,
+} from './repo-public.constants';
+import { SearchQuery } from './query/search.query';
+import { formatTags } from '../utils/utils';
 
 @Injectable()
 export class RepoPublicRepository extends BasePostgresRepository<
@@ -28,9 +35,11 @@ export class RepoPublicRepository extends BasePostgresRepository<
 
   public async save(entity: PublicEntity): Promise<PublicEntity> {
     const pojoEntity = entity.toPOJO();
+
     const record = await this.client.public.create({
       data: {
         ...pojoEntity,
+        tags: formatTags(entity.tags),
         comments: {
           connect: [],
         },
@@ -50,10 +59,10 @@ export class RepoPublicRepository extends BasePostgresRepository<
   }
 
   public async findById(publicId: unknown): Promise<PublicEntity> {
+    const where: Prisma.PublicWhereInput = {};
+    where.publicId = publicId;
     const document = await this.client.public.findFirst({
-      where: {
-        publicId,
-      },
+      where,
       include: {
         comments: true,
       },
@@ -78,7 +87,6 @@ export class RepoPublicRepository extends BasePostgresRepository<
         isRepost: pojoEntity.isRepost,
         title: pojoEntity.title,
         video: pojoEntity.video,
-        header: pojoEntity.header,
         notice: pojoEntity.notice,
         text: pojoEntity.text,
         quote: pojoEntity.quote,
@@ -86,9 +94,12 @@ export class RepoPublicRepository extends BasePostgresRepository<
         photo: pojoEntity.photo,
         link: pojoEntity.link,
         description: pojoEntity.description,
-        tags: pojoEntity.tags,
+        tags: formatTags(pojoEntity.tags),
+        commentsCount: pojoEntity.commentsCount,
+        likesCount: pojoEntity.likesCount,
         publicType: pojoEntity.publicType,
         publicStatus: pojoEntity.publicStatus,
+        createAt: pojoEntity.createAt,
       },
       include: {
         comments: true,
@@ -106,20 +117,24 @@ export class RepoPublicRepository extends BasePostgresRepository<
     const take = query?.limit;
     const where: Prisma.PublicWhereInput = {};
     const orderBy: Prisma.PublicOrderByWithAggregationInput = {};
+    const sortingType = query?.sortingType
+      ? query.sortingType
+      : DEFAULT_SORTING_TYPE;
+    const sortDirection = query?.sortDirection
+      ? query.sortDirection
+      : DEFAULT_SORT_DIRECTION;
 
     where.publicStatus = query?.publicStatus
       ? query.publicStatus
       : DEFAULT_PUBLIC_STATUS;
 
-    if (query?.SortDirection) {
-      orderBy.createAt = query.SortDirection;
-    }
+    orderBy[sortingType] = sortDirection;
 
     if (query?.userId) {
       where.userId = query.userId;
     }
 
-    if (query?.publicType) {
+    if (query.publicType) {
       where.publicType = query.publicType;
     }
 
@@ -145,5 +160,60 @@ export class RepoPublicRepository extends BasePostgresRepository<
       itemsPerPage: take,
       totalItems: postCount,
     };
+  }
+
+  public async findDrafts(userId: string): Promise<PublicEntity[]> {
+    const where: Prisma.PublicWhereInput = {};
+    where.userId = userId;
+    where.publicStatus = PUBLIC_STATUS_DRAFT;
+    const records = await this.client.public.findMany({
+      where,
+    });
+
+    return records.map((record) => this.createEntityFromDocument(record));
+  }
+
+  public async findRepost(
+    publicId: string,
+    userId: string
+  ): Promise<PublicEntity> {
+    const where: Prisma.PublicWhereInput = {};
+    where.publicId = publicId;
+    where.userId = userId;
+    const document = await this.client.public.findFirst({
+      where,
+    });
+
+    return this.createEntityFromDocument(document);
+  }
+
+  public async findByTitle(query?: SearchQuery): Promise<PublicEntity[]> {
+    const where: Prisma.PublicWhereInput = {};
+    const take = query?.limit;
+    where.publicStatus = DEFAULT_PUBLIC_STATUS;
+    where.title = { search: query.title.split(' ').join(' & ') };
+
+    const publics = await this.client.public.findMany({
+      where,
+      take,
+      include: {
+        comments: true,
+        likes: true,
+      },
+    });
+
+    return publics.map((item) => this.createEntityFromDocument(item));
+  }
+
+  public async get(): Promise<Public[]> {
+    return this.client.public.findMany({
+      where: {
+        publicStatus: 'posted',
+      },
+      include: {
+        comments: true,
+        likes: true,
+      },
+    });
   }
 }

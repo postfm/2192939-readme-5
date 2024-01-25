@@ -2,16 +2,19 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   ArrayMaxSize,
   IsBoolean,
+  IsMongoId,
   IsNotEmpty,
   IsOptional,
   IsString,
   IsUrl,
   MaxLength,
   MinLength,
+  IsNumber,
 } from 'class-validator';
 
 export class CreatePublicDto {
   @IsString()
+  @IsMongoId()
   @ApiProperty({
     description: 'User ID',
     example: '1234',
@@ -69,18 +72,6 @@ export class CreatePublicDto {
   public video: string;
 
   // TextPublic
-  @IsString()
-  @IsNotEmpty()
-  @IsOptional()
-  @MinLength(20)
-  @MaxLength(50)
-  @ApiProperty({
-    description: 'Title Text',
-    example:
-      'Выбранный нами инновационный путь не стал ограничивающим фактором',
-  })
-  public header: string;
-
   @IsString()
   @IsNotEmpty()
   @IsOptional()
@@ -160,6 +151,23 @@ export class CreatePublicDto {
     example: 'HTMLAcademy',
   })
   public description: string;
+
+  // Counts
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty({
+    description: 'Comments Count',
+    example: '1',
+  })
+  public commentsCount: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty({
+    description: 'Likes Count',
+    example: '1',
+  })
+  public likesCount: number;
 
   // Common
   @ArrayMaxSize(8)

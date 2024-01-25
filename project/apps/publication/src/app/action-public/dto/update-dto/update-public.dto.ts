@@ -1,7 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
   ArrayMaxSize,
   IsBoolean,
+  IsMongoId,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -13,6 +15,7 @@ import {
 export class UpdatePublicDto {
   @IsString()
   @IsOptional()
+  @IsMongoId()
   @ApiProperty({
     description: 'User ID',
     example: '1234',
@@ -71,18 +74,6 @@ export class UpdatePublicDto {
   public video: string;
 
   // TextPublic
-  @IsString()
-  @IsNotEmpty()
-  @IsOptional()
-  @MinLength(20)
-  @MaxLength(50)
-  @ApiProperty({
-    description: 'Title Text',
-    example:
-      'Выбранный нами инновационный путь не стал ограничивающим фактором',
-  })
-  public header: string;
-
   @IsString()
   @IsNotEmpty()
   @IsOptional()
@@ -190,4 +181,8 @@ export class UpdatePublicDto {
     example: 'posted',
   })
   public publicStatus: string;
+
+  @IsOptional()
+  @Type(() => Date)
+  public createAt: Date;
 }

@@ -17,7 +17,8 @@ export class PublicQuery {
 
   @IsIn(Object.values(SortDirection))
   @IsOptional()
-  public SortDirection: SortDirection = DEFAULT_SORT_DIRECTION;
+  @Transform(({ value }) => value || DEFAULT_SORT_DIRECTION)
+  public sortDirection: SortDirection = DEFAULT_SORT_DIRECTION;
 
   @Transform(({ value }) => +value || DEFAULT_PAGE_COUNT)
   @IsOptional()
@@ -36,7 +37,7 @@ export class PublicQuery {
   @IsOptional()
   public publicStatus: string;
 
-  @Transform(({ value }) => +value || DEFAULT_SORTING_TYPE)
+  @Transform(({ value }) => value || DEFAULT_SORTING_TYPE)
   @IsOptional()
   public sortingType: string;
 }

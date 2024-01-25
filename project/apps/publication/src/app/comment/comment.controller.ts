@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpStatus,
   Param,
   Post,
   Query,
@@ -13,11 +14,22 @@ import { fillDto } from '@project/shared/helpers';
 import { CommentRdo } from './rdo/comment.rdo';
 import { CommentQuery } from './query/comment.query';
 import { CommentWithPaginationRdo } from './rdo/comment-with-pagination.rdo';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Comments')
 @Controller('publics/:publicId/comments')
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
+  @ApiResponse({
+    type: CommentRdo,
+    status: HttpStatus.CREATED,
+    description: 'Comment added successfully',
+  })
+  @ApiResponse({
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
+    description: 'Internal server error',
+  })
   @Post('/')
   public async create(
     @Param('publicId') publicId: string,
@@ -28,6 +40,15 @@ export class CommentController {
     return fillDto(CommentRdo, newComment.toPOJO());
   }
 
+  @ApiResponse({
+    type: CommentWithPaginationRdo,
+    status: HttpStatus.OK,
+    description: 'All comments were show',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Publication not found',
+  })
   @Get('/')
   public async show(@Query() query: CommentQuery) {
     const commentsWithPagination = await this.commentService.get(query);
@@ -40,6 +61,14 @@ export class CommentController {
     return fillDto(CommentWithPaginationRdo, result);
   }
 
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+    description: 'Comments has deleted now',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Publication or comment not found',
+  })
   @Delete('/:commentId')
   public async remove(@Param('commentId') commentId: string) {
     await this.commentService.remove(commentId);

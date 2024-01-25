@@ -1,4 +1,7 @@
 export * from './lib/config-user.module';
+export { default as ApplicationConfig } from './lib/app.config';
+export { default as dbConfig } from './lib/mongo.config';
 export * from './lib/mongodb/get-mongoose-options';
-export * from './lib/jwt.config';
+export { default as jwtConfig } from './lib/jwt.config';
 export * from './lib/get-jwt-option';
+export { default as rabbitConfig } from './lib/rabbit.config';

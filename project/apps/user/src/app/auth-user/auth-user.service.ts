@@ -21,6 +21,8 @@ import { AddonRepositoryInterface } from '@project/shared/core';
 import { PublicUserRepositoryToken } from '../public-user/public-user.token';
 import { JwtService } from '@nestjs/jwt';
 import { Token, TokenPayload, User } from '@project/shared/app/types';
+import { jwtConfig } from '@project/shared/config/user';
+import { ConfigType } from '@nestjs/config';
 
 @Injectable()
 export class AuthUserService {
@@ -29,7 +31,9 @@ export class AuthUserService {
   constructor(
     @Inject(PublicUserRepositoryToken)
     private readonly publicUserRepository: AddonRepositoryInterface<PublicUserEntity>,
-    private readonly jwtService: JwtService
+    private readonly jwtService: JwtService,
+    @Inject(jwtConfig.KEY)
+    private readonly jwtOptions: ConfigType<typeof jwtConfig>
   ) {}
 
   /**
@@ -83,6 +87,16 @@ export class AuthUserService {
     return existUser;
   }
 
+  public async getUserByEmail(email: string) {
+    const existUser = await this.publicUserRepository.findByEmail(email);
+
+    if (!existUser) {
+      throw new NotFoundException(`User with email ${email} not found`);
+    }
+
+    return existUser;
+  }
+
   /**
    * Возвращает сущность "User" при успешной смене пароля пользователя
    */
@@ -101,6 +115,15 @@ export class AuthUserService {
     return this.publicUserRepository.update(id, userEntity);
   }
 
+  public async updateAvatar(id: string, avatarId: string) {
+    const blogUser = await this.getUser(id);
+    const blogUserEntity = new PublicUserEntity({
+      ...blogUser,
+      avatar: avatarId,
+    });
+    return this.publicUserRepository.update(id, blogUserEntity);
+  }
+
   public async createUserToken(user: User): Promise<Token> {
     const payload: TokenPayload = {
       sub: user.userId,
@@ -110,7 +133,12 @@ export class AuthUserService {
 
     try {
       const accessToken = await this.jwtService.signAsync(payload);
-      return { accessToken };
+      const refreshToken = await this.jwtService.signAsync(payload, {
+        secret: this.jwtOptions.refreshTokenSecret,
+        expiresIn: this.jwtOptions.refreshTokenExpiresIn,
+      });
+
+      return { accessToken, refreshToken };
     } catch (error) {
       this.logger.error('[Token generation error]: ' + error.message);
       throw new HttpException(

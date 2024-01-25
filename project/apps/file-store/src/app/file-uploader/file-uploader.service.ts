@@ -10,8 +10,8 @@ import dayjs from 'dayjs';
 import { randomUUID } from 'node:crypto';
 import { extension } from 'mime-types';
 import { FileRepository } from './file.repository';
-import { StoredFile } from '@project/shared/app/types';
 import { FileEntity } from './file.entity';
+import { StoredFile } from '../../../../../libs/shared/app/types/src/lib/stored-file.interface';
 
 @Injectable()
 export class FileUploaderService {
@@ -41,17 +41,19 @@ export class FileUploaderService {
     return join(year, month);
   }
 
-  public async writeFile(file: Express.Multer.File): Promise<StoredFile> {
+  public async writeFile(
+    file: Express.Multer.File,
+    type: string
+  ): Promise<StoredFile> {
     try {
       const uploadDirectoryPath = this.getUploadDirectoryPath();
       const subDirectory = this.getSubUploadDirectoryPath();
       const fileExtension = extension(file.mimetype);
 
       const filename = `${randomUUID()}.${fileExtension}`;
+      const path = this.getDestinationFilePath(`${type}/${filename}`);
 
-      const path = this.getDestinationFilePath(filename);
-
-      await ensureDir(join(uploadDirectoryPath, subDirectory));
+      await ensureDir(join(uploadDirectoryPath, subDirectory, type));
       await writeFile(path, file.buffer);
 
       return {
@@ -66,8 +68,11 @@ export class FileUploaderService {
     }
   }
 
-  public async saveFile(file: Express.Multer.File): Promise<FileEntity> {
-    const storedFile = await this.writeFile(file);
+  public async saveFile(
+    file: Express.Multer.File,
+    type: string
+  ): Promise<FileEntity> {
+    const storedFile = await this.writeFile(file, type);
     const fileEntity = FileEntity.fromObject({
       hashName: storedFile.filename,
       mimetype: file.mimetype,
