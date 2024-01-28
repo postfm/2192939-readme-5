@@ -142,7 +142,6 @@ export class UserController {
     status: HttpStatus.OK,
     description: 'Avatar added successfully',
   })
-  // @UseGuards(CheckAuthGuard)
   @Post(`files/upload/avatar`)
   @UseInterceptors(FileInterceptor('avatar'))
   public async uploadAvatar(
