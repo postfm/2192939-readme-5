@@ -1,8 +1,9 @@
 export interface User {
-  _id?: string;
+  id?: string;
   email: string;
   name: string;
   avatar?: string;
+  createAt?: Date;
   publicsCount?: number;
   subscribersCount?: number;
 }
