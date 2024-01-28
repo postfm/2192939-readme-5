@@ -13,7 +13,7 @@ Content-Type: application/json
 
 #Получение информации о пользователе по ID
 GET http://localhost:3333/api/user/65b5b0145b0ae2b4e3045b3d HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIzQGdtYWlsLmNvbSIsIm5hbWUiOiJKb2huIiwiaWF0IjoxNzA2NDA3MjM3LCJleHAiOjE3MDY0OTM2Mzd9.K4EVsv4H2Eyy-_YUrWPJDIw8OrRZv6QWUjhzfdhqRYg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIzQGdtYWlsLmNvbSIsIm5hbWUiOiJKb2huIiwiaWF0IjoxNzA2NDA4NDUxLCJleHAiOjE3MDY0OTQ4NTF9.uSZrzRhJd-xsQNAs_js9IBNFNc1Az_F8fhGmo4jtYfY
 
 ###
 
@@ -23,7 +23,7 @@ Content-Type: application/json
 
 {
   "email":"user3@gmail.com",
-  "password":"12345678"
+  "password":"1234568"
 }
 
 ###
@@ -33,13 +33,13 @@ PUT http://localhost:3333/api/user/65b5b0145b0ae2b4e3045b3d HTTP/1.1
 Content-Type: application/json
 
 {
-  "oldPassword": "1234568",
-  "newPassword":"12345678"
+  "oldPassword": "12345678",
+  "newPassword":"1234568"
 }
 
 ###
 
 # Получение новой пары JWT
 POST http://localhost:3333/api/user/refresh HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIzQGdtYWlsLmNvbSIsIm5hbWUiOiJKb2huIiwiaWF0IjoxNzA2NDA3MjU2LCJleHAiOjE3MDY0MDczMTZ9.uxfSpGMmY-fuJc6nuxS6m3aPSSCB5vRYDn8ZurHKmwA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIzQGdtYWlsLmNvbSIsIm5hbWUiOiJKb2huIiwiaWF0IjoxNzA2NDA4NDkxLCJleHAiOjE3MDY0MDg1NTF9.THIj11l5BmMiwnLFyBB524UQk9J1tNrQRO71Y6Uc8Ec
 

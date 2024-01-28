@@ -126,7 +126,7 @@ export class AuthUserService {
 
   public async createUserToken(user: User): Promise<JwtToken> {
     const payload: TokenPayload = {
-      sub: user.id,
+      sub: user._id,
       email: user.email,
       name: user.name,
     };
