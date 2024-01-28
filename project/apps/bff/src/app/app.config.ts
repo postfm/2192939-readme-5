@@ -1,5 +1,7 @@
 export enum ApplicationServiceURL {
-  Users = 'http://localhost:3333/api/user',
+  User = 'http://localhost:3333/api/user',
+  Public = 'http://localhost:4000/api/publics',
+  Uploader = 'http://localhost:3002/api/files',
 }
 
 export const HTTP_CLIENT_MAX_REDIRECTS = 5;

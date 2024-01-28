@@ -69,13 +69,14 @@ export class AuthUserController {
     status: HttpStatus.OK,
     description: 'User found',
   })
-  @UseGuards(JwtAuthGuard)
   @Get(':id')
   public async show(@Param('id', MongoIdValidationPipe) id: string) {
     const existUser = await this.authUserService.getUser(id);
-    return fillDto(UserRdo, existUser.toPOJO());
+
+    return existUser.toPOJO();
   }
 
+  @UseGuards(JwtAuthGuard)
   @ApiResponse({
     status: HttpStatus.CONFLICT,
     description: 'Current password is wrong',
@@ -85,12 +86,9 @@ export class AuthUserController {
     status: HttpStatus.OK,
     description: 'Password has changed',
   })
-  @Put(':id')
-  public async newPassword(
-    @Param('id') id: string,
-    @Body() dto: ChangePasswordDto
-  ) {
-    const existUser = await this.authUserService.changePassword(id, dto);
+  @Put('change-password')
+  public async newPassword(@Body() dto: ChangePasswordDto) {
+    const existUser = await this.authUserService.changePassword(dto);
     return fillDto(UserRdo, existUser.toPOJO());
   }
 

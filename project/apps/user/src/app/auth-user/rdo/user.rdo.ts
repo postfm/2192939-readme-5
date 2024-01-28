@@ -41,12 +41,12 @@ export class UserRdo {
     example: '0',
   })
   @Expose()
-  public publicsCount!: number;
+  public publicsCount: number = 0;
 
   @ApiProperty({
     description: 'User subscribers amount',
     example: '0',
   })
   @Expose()
-  public subscribersCount!: number;
+  public subscribersCount: number = 0;
 }

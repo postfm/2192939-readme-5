@@ -20,7 +20,7 @@ export class EmailSubscriberController {
     status: HttpStatus.OK,
   })
   @RabbitSubscribe({
-    exchange: 'readme.notify.income',
+    exchange: 'readme.notify',
     routingKey: RabbitRouting.AddSubscriber,
     queue: 'readme.notify.subscriber',
   })

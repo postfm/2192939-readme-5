@@ -1,21 +1,26 @@
 import { PrismaClient } from '@prisma/client';
 
-const FIRST_PUBLIC_UUID = '749e2ffa-3bab-464e-b049-c82c1a434eb5';
-const SECOND_PUBLIC_UUID = '598b72f1-5500-44c4-8159-c0e827923312';
-const THIRD_PUBLIC_UUID = '4a582fd4-7167-41ce-94ac-174d990a2fb3';
-const FOURTH_PUBLIC_UUID = '8a1af1cc-308f-436f-8585-9502431a6a29';
-const FIFTH_PUBLIC_UUID = '75a10f99-92b1-4617-adc2-59d1316a999f';
-const SIXTH_PUBLIC_UUID = 'e898ff23-8a50-46f5-a57d-67bae3c7b1f0';
+const PublicUuid = {
+  First: '749e2ffa-3bab-464e-b049-c82c1a434eb5',
+  Second: '598b72f1-5500-44c4-8159-c0e827923312',
+  Third: '4a582fd4-7167-41ce-94ac-174d990a2fb3',
+  Fourth: '8a1af1cc-308f-436f-8585-9502431a6a29',
+  Fifth: '75a10f99-92b1-4617-adc2-59d1316a999f',
+  Sixth: 'e898ff23-8a50-46f5-a57d-67bae3c7b1f0',
+} as const;
 
-const FIRST_USER_ID = '658170cbb954e9f5b905ccf4';
-const SECOND_USER_ID = '6581762309c030b503e30512';
+const UserId = {
+  First: '658170cbb954e9f5b905ccf4',
+  Second: '6581762309c030b503e30512',
+};
+
 const INIT_COUNT_VALUE = 0;
 
 function getPublics() {
   return [
     {
-      publicId: FIRST_PUBLIC_UUID,
-      userId: FIRST_USER_ID,
+      publicId: PublicUuid.First,
+      userId: UserId.First,
 
       // Repost
       isRepost: false,
@@ -36,8 +41,8 @@ function getPublics() {
       publicStatus: 'posted',
     },
     {
-      publicId: SECOND_PUBLIC_UUID,
-      userId: FIRST_USER_ID,
+      publicId: PublicUuid.Second,
+      userId: UserId.First,
 
       // Repost
       isRepost: false,
@@ -56,8 +61,8 @@ function getPublics() {
       publicStatus: 'draft',
     },
     {
-      publicId: FIFTH_PUBLIC_UUID,
-      userId: SECOND_USER_ID,
+      publicId: PublicUuid.Fifth,
+      userId: UserId.Second,
 
       // Repost
       isRepost: false,
@@ -77,8 +82,8 @@ function getPublics() {
       publicStatus: 'posted',
     },
     {
-      publicId: SIXTH_PUBLIC_UUID,
-      userId: SECOND_USER_ID,
+      publicId: PublicUuid.Sixth,
+      userId: UserId.Second,
 
       // Repost
       isRepost: false,
@@ -95,8 +100,8 @@ function getPublics() {
       publicStatus: 'posted',
     },
     {
-      publicId: FOURTH_PUBLIC_UUID,
-      userId: FIRST_USER_ID,
+      publicId: PublicUuid.Fourth,
+      userId: UserId.Second,
 
       // Repost
       isRepost: false,
@@ -109,7 +114,7 @@ function getPublics() {
       // Common
       tags: ['comics'],
       comments: [],
-      likes: [{ userId: SECOND_USER_ID }],
+      likes: [{ userId: UserId.Second }],
 
       // Counts
       commentsCount: INIT_COUNT_VALUE,

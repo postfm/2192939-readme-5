@@ -26,6 +26,8 @@ import { ConfigType } from '@nestjs/config';
 import { createJWTPayload } from '@project/shared/helpers';
 import { RefreshTokenService } from '../refresh-token/refresh-token.service';
 
+const INITIAL_VALUE = 0;
+
 @Injectable()
 export class AuthUserService {
   private readonly logger = new Logger(AuthUserService.name);
@@ -46,7 +48,15 @@ export class AuthUserService {
   public async register(dto: CreateUserDto) {
     const { email, name, password } = dto;
 
-    const publicUser = { email, name, avatar: '', passwordHash: '' };
+    const publicUser = {
+      email,
+      name,
+      avatar: '',
+      passwordHash: '',
+      createAt: new Date(),
+      publicsCount: INITIAL_VALUE,
+      subscribersCount: INITIAL_VALUE,
+    };
 
     const existUser = await this.publicUserRepository.findByEmail(email);
 
@@ -103,8 +113,8 @@ export class AuthUserService {
   /**
    * Возвращает сущность "User" при успешной смене пароля пользователя
    */
-  public async changePassword(id: string, dto: ChangePasswordDto) {
-    const { oldPassword, newPassword } = dto;
+  public async changePassword(dto: ChangePasswordDto) {
+    const { oldPassword, newPassword, id } = dto;
     const existUser = await this.publicUserRepository.findById(id);
 
     if (!(await existUser.comparePassword(oldPassword))) {

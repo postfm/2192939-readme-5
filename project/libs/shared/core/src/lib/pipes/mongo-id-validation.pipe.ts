@@ -6,8 +6,6 @@ import {
 } from '@nestjs/common';
 import { Types } from 'mongoose';
 
-const BAD_MONGO_ID_ERROR = 'Bad entity ID';
-
 @Injectable()
 export class MongoIdValidationPipe implements PipeTransform {
   public transform(value: string, { type }: ArgumentMetadata) {
@@ -16,7 +14,7 @@ export class MongoIdValidationPipe implements PipeTransform {
     }
 
     if (!Types.ObjectId.isValid(value)) {
-      throw new BadRequestException(BAD_MONGO_ID_ERROR);
+      throw new BadRequestException('Bad entity ID');
     }
 
     return value;
