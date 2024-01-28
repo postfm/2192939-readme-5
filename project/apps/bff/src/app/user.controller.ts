@@ -1,3 +1,5 @@
+import { RequestWithTokenPayload } from './../../../../libs/shared/app/types/src/lib/request-with-token-payload';
+import { JwtAuthGuard } from './../../../user/src/app/auth-user/guards/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { MongoIdValidationPipe } from '@project/shared/core';
@@ -28,7 +30,7 @@ import 'multer';
 import FormData from 'form-data';
 
 @ApiTags('User')
-@Controller('User')
+@Controller('/')
 @UseFilters(AxiosExceptionFilter)
 export class UserController {
   constructor(private readonly httpService: HttpService) {}
@@ -41,7 +43,7 @@ export class UserController {
     status: HttpStatus.CONFLICT,
     description: 'User with this email already exists',
   })
-  @Post('register')
+  @Post('user/register')
   public async register(@Body() createUserDto: CreateUserDto) {
     const { data } = await this.httpService.axiosRef.post(
       `${ApplicationServiceURL.User}/register`,
@@ -58,7 +60,7 @@ export class UserController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'Email or password is invalid',
   })
-  @Post('login')
+  @Post('user/login')
   public async login(@Body() loginUserDto: LoginUserDto) {
     const { data } = await this.httpService.axiosRef.post(
       `${ApplicationServiceURL.User}/login`,
@@ -71,7 +73,7 @@ export class UserController {
     status: HttpStatus.OK,
     description: 'Password successfully changed',
   })
-  // @UseGuards(CheckAuthGuard)
+  @UseGuards(CheckAuthGuard)
   @Post('id')
   public async newPassword(
     @Req() req: Request & { user: any },
@@ -100,7 +102,7 @@ export class UserController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'User is not authorized',
   })
-  @Post('refresh')
+  @Post('user/refresh')
   public async refreshToken(@Req() req: Request) {
     const { data } = await this.httpService.axiosRef.post(
       `${ApplicationServiceURL.User}/refresh`,
@@ -123,7 +125,7 @@ export class UserController {
     status: HttpStatus.NOT_FOUND,
     description: 'User is not found',
   })
-  @Get(':id')
+  @Get('user/:id')
   public async show(@Param('id') id: MongoIdValidationPipe) {
     const { data: userData } = await this.httpService.axiosRef.get(
       `${ApplicationServiceURL.User}/${id}`
@@ -140,27 +142,25 @@ export class UserController {
     status: HttpStatus.OK,
     description: 'Avatar added successfully',
   })
-  @UseGuards(CheckAuthGuard)
-  @Post(`${'upload'}-${'avatar'}`)
+  // @UseGuards(CheckAuthGuard)
+  @Post(`files/upload/avatar`)
   @UseInterceptors(FileInterceptor('avatar'))
   public async uploadAvatar(
     @Req() req: Request,
     @UploadedFile() file: Express.Multer.File
   ) {
-    const formData = new FormData();
-    formData.append('avatar', Buffer.from(file.buffer), file.originalname);
     const { data: avatarData } = await this.httpService.axiosRef.post(
-      `${ApplicationServiceURL.Uploader}/${'upload'}/${'avatar'}`,
-      formData,
+      `${ApplicationServiceURL.Uploader}/upload/avatar`,
+      file,
       {
         headers: {
           'Content-Type': req.headers['content-type'],
-          ...formData.getHeaders(),
         },
       }
     );
+
     const { data } = await this.httpService.axiosRef.post(
-      `${ApplicationServiceURL.User}/${'upload'}-${'avatar'}`,
+      `${ApplicationServiceURL.User}`,
       { avatarId: avatarData.id },
       {
         headers: {
