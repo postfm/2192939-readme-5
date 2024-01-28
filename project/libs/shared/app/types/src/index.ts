@@ -12,3 +12,5 @@ export * from './lib/file.interface';
 export * from './lib/subscriber.interface';
 export * from './lib/rabbit-routing.enum';
 export * from './lib/like.interface';
+export * from './lib/request-with-token-payload';
+export * from './lib/request-with-user';

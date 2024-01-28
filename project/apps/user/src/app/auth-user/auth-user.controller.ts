@@ -20,13 +20,12 @@ import { fillDto } from '@project/shared/helpers';
 import { MongoIdValidationPipe } from '@project/shared/core';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { NotifyService } from '../notify/notify.service';
-import { PublicUserEntity } from '../public-user/public-user.entity';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
-
-interface RequestWithUser {
-  user?: PublicUserEntity;
-}
+import {
+  RequestWithTokenPayload,
+  RequestWithUser,
+} from '@project/shared/app/types';
 
 @ApiTags('auth-user')
 @Controller('user')
@@ -117,5 +116,11 @@ export class AuthUserController {
     @Body('avatarId') avatarId: string
   ) {
     return this.authUserService.updateAvatar(userId, avatarId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('check')
+  public async checkToken(@Req() { user: payload }: RequestWithTokenPayload) {
+    return payload;
   }
 }
