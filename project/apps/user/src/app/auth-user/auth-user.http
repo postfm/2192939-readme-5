@@ -13,7 +13,7 @@ Content-Type: application/json
 
 #Получение информации о пользователе по ID
 GET http://localhost:3333/api/user/65b5b0145b0ae2b4e3045b3d HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIzQGdtYWlsLmNvbSIsIm5hbWUiOiJKb2huIiwiaWF0IjoxNzA2NDA2NTA1LCJleHAiOjE3MDY0OTI5MDV9.A0b89NZAUleMD3XgfBgRIkAaH5Q-Si69C133vCiMp6I
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIzQGdtYWlsLmNvbSIsIm5hbWUiOiJKb2huIiwiaWF0IjoxNzA2NDA3MjM3LCJleHAiOjE3MDY0OTM2Mzd9.K4EVsv4H2Eyy-_YUrWPJDIw8OrRZv6QWUjhzfdhqRYg
 
 ###
 
@@ -41,5 +41,5 @@ Content-Type: application/json
 
 # Получение новой пары JWT
 POST http://localhost:3333/api/user/refresh HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIzQGdtYWlsLmNvbSIsIm5hbWUiOiJKb2huIiwiaWF0IjoxNzA2NDA2NTQ4LCJleHAiOjE3MDY0MDY2MDh9.fLqr2XGFVaQoCfp6QsoBH8Uoey75WhdmgWM7rdCr_oU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIzQGdtYWlsLmNvbSIsIm5hbWUiOiJKb2huIiwiaWF0IjoxNzA2NDA3MjU2LCJleHAiOjE3MDY0MDczMTZ9.uxfSpGMmY-fuJc6nuxS6m3aPSSCB5vRYDn8ZurHKmwA
 

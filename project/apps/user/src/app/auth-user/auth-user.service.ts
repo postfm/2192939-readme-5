@@ -20,7 +20,7 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import { AddonRepositoryInterface } from '@project/shared/core';
 import { PublicUserRepositoryToken } from '../public-user/public-user.token';
 import { JwtService } from '@nestjs/jwt';
-import { Token, TokenPayload, User } from '@project/shared/app/types';
+import { JwtToken, TokenPayload, User } from '@project/shared/app/types';
 import { jwtConfig } from '@project/shared/config/user';
 import { ConfigType } from '@nestjs/config';
 
@@ -124,9 +124,9 @@ export class AuthUserService {
     return this.publicUserRepository.update(id, blogUserEntity);
   }
 
-  public async createUserToken(user: User): Promise<Token> {
+  public async createUserToken(user: User): Promise<JwtToken> {
     const payload: TokenPayload = {
-      sub: user.userId,
+      sub: user.id,
       email: user.email,
       name: user.name,
     };
