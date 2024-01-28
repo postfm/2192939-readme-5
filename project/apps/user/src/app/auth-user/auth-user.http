@@ -12,8 +12,8 @@ Content-Type: application/json
 ###
 
 #Получение информации о пользователе по ID
-GET http://localhost:3333/api/user/659dafba814b1ad50e4f75b6 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZ21haWwuY29tIiwibmFtZSI6IkpvaG4iLCJpYXQiOjE3MDQ4MzI5OTMsImV4cCI6MTcwNDkzMjk5M30.nvW4aXUqRL_187CZ-75H0N8BHAVZJAO6kPbXvJKsMfI
+GET http://localhost:3333/api/user/65b5b0145b0ae2b4e3045b3d HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIzQGdtYWlsLmNvbSIsIm5hbWUiOiJKb2huIiwiaWF0IjoxNzA2NDA2NTA1LCJleHAiOjE3MDY0OTI5MDV9.A0b89NZAUleMD3XgfBgRIkAaH5Q-Si69C133vCiMp6I
 
 ###
 
@@ -22,24 +22,24 @@ POST http://localhost:3333/api/user/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email":"user@gmail.com",
+  "email":"user3@gmail.com",
   "password":"12345678"
 }
 
 ###
 
 #Смена пароля пользователя
-PUT http://localhost:3333/api/user/659c4ab42bd0ca1c7838e85d HTTP/1.1
+PUT http://localhost:3333/api/user/65b5b0145b0ae2b4e3045b3d HTTP/1.1
 Content-Type: application/json
 
 {
-  "oldPassword": "12345678",
-  "newPassword":"1234568"
+  "oldPassword": "1234568",
+  "newPassword":"12345678"
 }
 
 ###
 
 # Получение новой пары JWT
-POST http://localhost:3333/api/auth/refresh HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsImxhc3RuYW1lIjoiU21pdGgiLCJmaXJzdG5hbWUiOiJLZWtzIiwiaWF0IjoxNzA1NjgwMDA4LCJleHAiOjE3MDgyNzIwMDh9.10Jr7bWOiFTTi42JcMgPh0GVbxa2ikvn8vUVcF8d-AY
+POST http://localhost:3333/api/user/refresh HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIzQGdtYWlsLmNvbSIsIm5hbWUiOiJKb2huIiwiaWF0IjoxNzA2NDA2NTQ4LCJleHAiOjE3MDY0MDY2MDh9.fLqr2XGFVaQoCfp6QsoBH8Uoey75WhdmgWM7rdCr_oU
 
