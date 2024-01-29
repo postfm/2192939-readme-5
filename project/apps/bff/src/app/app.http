@@ -1,0 +1,272 @@
+####################################################################################################
+############################## Сервис пользователей #################################################
+####################################################################################################
+@userId={{register.response.body.id}}
+@email={{register.response.body.email}}
+@AToken={{login.response.body.accessToken}}
+@RToken={{login.response.body.refreshToken}}
+
+# Создание нового пользователя
+# @name register
+POST http://localhost:3000/api/user/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "email":"user2@gmail.com",
+  "name":"John",
+  "password":"12345678"
+}
+
+###
+
+# Авторизация пользователя по email и password
+# @name login
+POST  http://localhost:3000/api/user/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email":"user@gmail.com",
+  "password":"1234568"
+}
+
+###
+
+#Смена пароля пользователя
+PUT http://localhost:3333/api/user/change-password HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{AToken}}
+
+{
+  "oldPassword": "12345678",
+  "newPassword":"1234568",
+  "id":"{{userId}}"
+}
+
+###
+
+#Получение информации о пользователе по ID
+GET http://localhost:3000/api/user/{{userId}} HTTP/1.1
+Authorization: Bearer {{AToken}}
+
+
+###
+
+# Получить новую пару JWT
+POST http://localhost:3000/api/user/refresh HTTP/1.1
+Authorization: Bearer {{RToken}}
+
+###
+
+
+# Проверка токена пользователя
+POST http://localhost:3000/api/user/check HTTP/1.1
+Authorization: Bearer {{AToken}}
+
+###
+
+# Upload avatar
+# @name uploadAvatar
+POST http://localhost:3500/api/files/upload/avatar HTTP/1.1
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="avatar"; filename="avatar.jpg"
+Content-Type: image/jpeg
+
+< ../../../assets/avatar.jpg
+
+--boundary--
+
+
+
+####################################################################################################
+############################## Сервис публикаций ####################################################
+####################################################################################################
+@publicId={{createPost.response.body.publicId}}
+@photoPostId={{uploadPhoto.response.body.id}}
+
+
+###
+
+# Создание новой публикации
+# @name createPost
+POST http://localhost:3000/api/publics HTTP/1.1
+Authorization: Bearer {{AToken}}
+Content-Type: application/json
+
+{
+  "userId": "{{userId}}",
+  "isRepost": false,
+  "title": "Выбранный нами инновационный путь",
+  "notice": "Новый закон накладывает вето на детский заливистый смех",
+  "text": "Безусловно, сплочённость команды профессионалов способствует повышению качества экспериментов, поражающих по своей масштабности и грандиозности.",
+  "tags": ["Animals","Video","Animals"],
+  "commentsCount":0,
+  "likesCount":0,
+  "publicType": "text",
+  "publicStatus": "posted"
+}
+
+###
+
+# Create photo publication
+# @name uploadPhoto
+POST http://localhost:3500/api/files/upload/photo/ HTTP/1.1
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="photo"; filename="picture.jpg"
+Content-Type: image/jpeg
+
+<  ../../../assets/picture.jpg
+
+--boundary
+Content-Disposition: form-data; name="tags"
+
+tag,test,PhoTo
+--boundary--
+
+###
+
+# Get publication  by ID
+GET http://localhost:3000/api/publics/749e2ffa-3bab-464e-b049-c82c1a434eb5 HTTP/1.1
+
+###
+# Get all posts
+GET http://localhost:3000/api/publics?limit=25&page=2&tag=movie HTTP/1.1
+
+###
+
+# Get all posts by name
+GET http://localhost:3000/api/publics/search?title=movie  HTTP/1.1
+
+###
+
+# Get drafts
+GET http://localhost:3000/api/publics/drafts  HTTP/1.1
+Authorization: Bearer {{AToken}}
+Content-Type: application/json
+
+###
+
+# Send news
+GET http://localhost:3000/api/publics/send-news HTTP/1.1
+Authorization: Bearer {{AToken}}
+Content-Type: application/json
+
+###
+
+# Repost
+POST  http://localhost:3000/api/publics/repost/{{publicId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{AToken}}
+
+{
+  "userId":"65b618bb20ce43f24e384df8"
+}
+
+###
+
+# Update post
+PATCH http://localhost:4000/api/publics/{{publicId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{AToken}}
+
+{
+  "userId": "658170cbb954e9f5b905ccf4",
+  "isRepost": true,
+  "title": "Выбранный нами инновационный путь!!",
+  "notice": "Новый закон накладывает вето на детский заливистый смех",
+  "text": "Безусловно, сплочённость команды профессионалов способствует повышению качества экспериментов, поражающих по своей масштабности и грандиозности.",
+  "tags": [],
+  "publicType": "text",
+  "publicStatus": "posted",
+  "createAt": "2024-01-12"
+}
+
+###
+
+# Delete publication  by ID
+DELETE http://localhost:3000/api/publics/{{publicId}} HTTP/1.1
+Authorization: Bearer {{AToken}}
+
+###
+
+# Get publication  by ID
+GET http://localhost:4000/api/publics/{{publicId}} HTTP/1.1
+
+###
+# Get all posts
+GET http://localhost:4000/api/publics?limit=25&page=1 HTTP/1.1
+
+###
+
+# Get all posts by name
+GET http://localhost:4000/api/publics/search?title=movie  HTTP/1.1
+
+###
+
+# Get drafts
+GET http://localhost:4000/api/publics/drafts/{{userId}}  HTTP/1.1
+Authorization: Bearer {{AToken}}
+Content-Type: application/json
+
+###
+
+# Send news
+GET http://localhost:4000/api/public/send-news/{{userId}}/{{email}} HTTP/1.1
+Authorization: Bearer {{AToken}}
+Content-Type: application/json
+
+
+####################################################################################################
+############################## Сервис комментариев ##################################################
+####################################################################################################
+
+# Создание нового комментария
+# @name createComment
+
+POST http://localhost:4000/api/publics/{{publicId}}/comments HTTP/1.1
+Content-Type: application/json
+
+{
+  "userId":"{{userId}}",
+  "text":"Comment text"
+}
+
+###
+
+#Получение комментариев публикации
+
+GET http://localhost:4000/api/publics/{{publicId}}/comments HTTP/1.1
+Content-Type: application/json
+
+###
+
+#Удаление комментария по ID
+
+DELETE http://localhost:4000/api/publics/{{publicId}}/comments/5444b647-27a5-4dea-b0c6-5f3669665967 HTTP/1.1
+Content-Type: application/json
+
+
+####################################################################################################
+############################## Сервис лайков №№№№№№##################################################
+####################################################################################################
+
+#Добавление лайка
+
+POST http://localhost:4000/api/publics/5444b647-27a5-4dea-b0c6-5f3669665967/likes HTTP/1.1
+Content-Type: application/json
+
+{
+  "userId":"65b5fe2920ce43f24e384de7"
+}
+
+###
+
+#Удаление лайка
+
+DELETE http://localhost:4000/api/publics/598b72f1-5500-44c4-8159-c0e827923312/likes/65b5fe2920ce43f24e384de7 HTTP/1.1
+Content-Type: application/json
+
+###

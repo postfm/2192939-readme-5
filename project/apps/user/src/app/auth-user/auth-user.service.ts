@@ -20,9 +20,13 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import { AddonRepositoryInterface } from '@project/shared/core';
 import { PublicUserRepositoryToken } from '../public-user/public-user.token';
 import { JwtService } from '@nestjs/jwt';
-import { Token, TokenPayload, User } from '@project/shared/app/types';
+import { JwtToken, TokenPayload, User } from '@project/shared/app/types';
 import { jwtConfig } from '@project/shared/config/user';
 import { ConfigType } from '@nestjs/config';
+import { createJWTPayload } from '@project/shared/helpers';
+import { RefreshTokenService } from '../refresh-token/refresh-token.service';
+
+const INITIAL_VALUE = 0;
 
 @Injectable()
 export class AuthUserService {
@@ -33,7 +37,8 @@ export class AuthUserService {
     private readonly publicUserRepository: AddonRepositoryInterface<PublicUserEntity>,
     private readonly jwtService: JwtService,
     @Inject(jwtConfig.KEY)
-    private readonly jwtOptions: ConfigType<typeof jwtConfig>
+    private readonly jwtOptions: ConfigType<typeof jwtConfig>,
+    private readonly refreshTokenService: RefreshTokenService
   ) {}
 
   /**
@@ -43,7 +48,15 @@ export class AuthUserService {
   public async register(dto: CreateUserDto) {
     const { email, name, password } = dto;
 
-    const publicUser = { email, name, avatar: '', passwordHash: '' };
+    const publicUser = {
+      email,
+      name,
+      avatar: '',
+      passwordHash: '',
+      createAt: new Date(),
+      publicsCount: INITIAL_VALUE,
+      subscribersCount: INITIAL_VALUE,
+    };
 
     const existUser = await this.publicUserRepository.findByEmail(email);
 
@@ -100,8 +113,8 @@ export class AuthUserService {
   /**
    * Возвращает сущность "User" при успешной смене пароля пользователя
    */
-  public async changePassword(id: string, dto: ChangePasswordDto) {
-    const { oldPassword, newPassword } = dto;
+  public async changePassword(dto: ChangePasswordDto) {
+    const { oldPassword, newPassword, id } = dto;
     const existUser = await this.publicUserRepository.findById(id);
 
     if (!(await existUser.comparePassword(oldPassword))) {
@@ -124,19 +137,23 @@ export class AuthUserService {
     return this.publicUserRepository.update(id, blogUserEntity);
   }
 
-  public async createUserToken(user: User): Promise<Token> {
-    const payload: TokenPayload = {
-      sub: user.userId,
-      email: user.email,
-      name: user.name,
+  public async createUserToken(user: User): Promise<JwtToken> {
+    const accessTokenPayload = createJWTPayload(user);
+    const refreshTokenPayload = {
+      ...accessTokenPayload,
+      tokenId: crypto.randomUUID(),
     };
+    await this.refreshTokenService.createRefreshSession(refreshTokenPayload);
 
     try {
-      const accessToken = await this.jwtService.signAsync(payload);
-      const refreshToken = await this.jwtService.signAsync(payload, {
-        secret: this.jwtOptions.refreshTokenSecret,
-        expiresIn: this.jwtOptions.refreshTokenExpiresIn,
-      });
+      const accessToken = await this.jwtService.signAsync(accessTokenPayload);
+      const refreshToken = await this.jwtService.signAsync(
+        refreshTokenPayload,
+        {
+          secret: this.jwtOptions.refreshTokenSecret,
+          expiresIn: this.jwtOptions.refreshTokenExpiresIn,
+        }
+      );
 
       return { accessToken, refreshToken };
     } catch (error) {

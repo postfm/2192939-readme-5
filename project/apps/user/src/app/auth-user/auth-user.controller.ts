@@ -20,13 +20,12 @@ import { fillDto } from '@project/shared/helpers';
 import { MongoIdValidationPipe } from '@project/shared/core';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { NotifyService } from '../notify/notify.service';
-import { PublicUserEntity } from '../public-user/public-user.entity';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
-
-interface RequestWithUser {
-  user?: PublicUserEntity;
-}
+import {
+  RequestWithTokenPayload,
+  RequestWithUser,
+} from '@project/shared/app/types';
 
 @ApiTags('auth-user')
 @Controller('user')
@@ -70,13 +69,14 @@ export class AuthUserController {
     status: HttpStatus.OK,
     description: 'User found',
   })
-  @UseGuards(JwtAuthGuard)
   @Get(':id')
   public async show(@Param('id', MongoIdValidationPipe) id: string) {
     const existUser = await this.authUserService.getUser(id);
-    return fillDto(UserRdo, existUser.toPOJO());
+
+    return existUser.toPOJO();
   }
 
+  @UseGuards(JwtAuthGuard)
   @ApiResponse({
     status: HttpStatus.CONFLICT,
     description: 'Current password is wrong',
@@ -86,12 +86,9 @@ export class AuthUserController {
     status: HttpStatus.OK,
     description: 'Password has changed',
   })
-  @Put(':id')
-  public async newPassword(
-    @Param('id') id: string,
-    @Body() dto: ChangePasswordDto
-  ) {
-    const existUser = await this.authUserService.changePassword(id, dto);
+  @Put('change-password')
+  public async newPassword(@Body() dto: ChangePasswordDto) {
+    const existUser = await this.authUserService.changePassword(dto);
     return fillDto(UserRdo, existUser.toPOJO());
   }
 
@@ -117,5 +114,11 @@ export class AuthUserController {
     @Body('avatarId') avatarId: string
   ) {
     return this.authUserService.updateAvatar(userId, avatarId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('check')
+  public async checkToken(@Req() { user: payload }: RequestWithTokenPayload) {
+    return payload;
   }
 }

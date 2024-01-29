@@ -31,8 +31,6 @@ export class LikeController {
     @Param('publicId') publicId: string,
     @Body() dto: LikeDto
   ) {
-    console.log(publicId);
-
     const newLike = await this.likeService.create(publicId, dto);
 
     return fillDto(LikeRdo, newLike.toPOJO());

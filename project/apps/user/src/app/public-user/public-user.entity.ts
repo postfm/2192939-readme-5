@@ -2,13 +2,15 @@ import { AuthUser } from '@project/shared/app/types';
 import { SALT_ROUNDS } from './public-user.constant';
 import { hash, genSalt, compare } from 'bcrypt';
 import { Entity } from '@project/shared/core';
+import { PublicUserModel } from './public-user.model';
 
 export class PublicUserEntity implements AuthUser, Entity<string> {
   public id?: string;
-  public email!: string;
-  public name!: string;
+  public email: string;
+  public name: string;
   public avatar?: string;
-  public passwordHash!: string;
+  public passwordHash: string;
+  public createAt: Date;
   public publicsCount?: number;
   public subscribersCount?: number;
 
@@ -23,16 +25,19 @@ export class PublicUserEntity implements AuthUser, Entity<string> {
       name: this.name,
       avatar: this.avatar,
       passwordHash: this.passwordHash,
+      createAt: this.createAt,
       publicsCount: this.publicsCount,
       subscriberCount: this.subscribersCount,
     };
   }
 
   public populate(data: AuthUser): void {
+    this.id = data.id;
     this.email = data.email;
     this.name = data.name;
     this.avatar = data.avatar;
     this.passwordHash = data.passwordHash;
+    this.createAt = data.createAt ?? new Date();
     this.publicsCount = data.publicsCount;
     this.subscribersCount = data.subscribersCount;
   }
@@ -47,7 +52,7 @@ export class PublicUserEntity implements AuthUser, Entity<string> {
     return compare(password, this.passwordHash);
   }
 
-  static fromObject(data: AuthUser): PublicUserEntity {
-    return new PublicUserEntity(data);
+  static fromObject(data: PublicUserModel): PublicUserEntity {
+    return new PublicUserEntity({ ...data, id: data._id });
   }
 }

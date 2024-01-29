@@ -1,3 +1,5 @@
+import { RepostPublicDto } from './../../../../bff/src/app/dto/repost-public.dto';
+import { JwtAuthGuard } from './../../../../user/src/app/auth-user/guards/jwt-auth.guard';
 import {
   Body,
   Controller,
@@ -9,6 +11,8 @@ import {
   Patch,
   Post,
   Query,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import { ActionPublicService } from './action-public.service';
 import { CreatePublicDto } from './dto/create-dto/create-public.dto';
@@ -20,6 +24,7 @@ import { UpdatePublicDto } from './dto/update-dto/update-public.dto';
 import { ApiBadRequestResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SearchQuery } from '../repo-public/query/search.query';
 import { NotifyService } from '../notify/notify.service';
+import { RequestWithTokenPayload } from '@project/shared/app/types';
 
 @ApiTags('Publication')
 @Controller('publics')
@@ -54,7 +59,11 @@ export class ActionPublicController {
     @Param('userId') userId: string,
     @Param('email') email: string
   ) {
+    console.log(userId, email);
+
     const publics = await this.actionPublicService.getPublicsForSend();
+    console.log(publics);
+
     return this.notifyService.sendNewsletter({
       email,
       publics,
@@ -101,11 +110,13 @@ export class ActionPublicController {
     status: HttpStatus.NOT_FOUND,
     description: 'Not found',
   })
-  @Post('/repost/:publicId/:userId')
+  // @UseGuards(JwtAuthGuard)
+  @Post('/repost/:publicId')
   public async repost(
     @Param('publicId') publicId: string,
-    @Param('userId') userId: string
+    @Body() dto: RepostPublicDto
   ) {
+    const userId = dto.userId;
     const repostPublic = await this.actionPublicService.createRepost(
       publicId,
       userId
@@ -143,10 +154,12 @@ export class ActionPublicController {
     const publicsWithPagination = await this.actionPublicService.getPublics(
       query
     );
+
     const result = {
       ...publicsWithPagination,
       entities: publicsWithPagination.entities.map((items) => items.toPOJO()),
     };
+
     return fillDto(PublicWithPaginationRdo, result);
   }
 

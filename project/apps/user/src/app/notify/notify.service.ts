@@ -21,8 +21,6 @@ export class NotifyService {
       { ...dto }
     );
 
-    console.log(result);
-
     return result;
   }
 }
