@@ -6,4 +6,6 @@ export interface User {
   createAt?: Date;
   publicsCount?: number;
   subscribersCount?: number;
+  subscribers: string[];
+  subscriptions: string[];
 }

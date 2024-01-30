@@ -121,4 +121,22 @@ export class AuthUserController {
   public async checkToken(@Req() { user: payload }: RequestWithTokenPayload) {
     return payload;
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Put('subscribe/:userId')
+  public async subscribeUser(
+    @Param('userId') userId: string,
+    @Req() { user: payload }: RequestWithTokenPayload
+  ) {
+    return this.authUserService.subscribeUser(userId, payload.sub);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put('unsubscribe/:userId')
+  public async unsubscribeUser(
+    @Param('userId') userId: string,
+    @Req() { user: payload }: RequestWithTokenPayload
+  ) {
+    return this.authUserService.unsubscribeUser(userId, payload.sub);
+  }
 }

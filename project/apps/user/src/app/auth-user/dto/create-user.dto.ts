@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsString, MaxLength, MinLength } from 'class-validator';
+import {
+  IsArray,
+  IsEmail,
+  IsString,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 import { AUTH_USER_EMAIL_NOT_VALID } from '../auth-user.constant';
 import { MaxLengthCheck, MinLengthCheck } from '@project/shared/helpers';
 
@@ -28,4 +34,10 @@ export class CreateUserDto {
   @MinLength(MinLengthCheck.Password)
   @MaxLength(MaxLengthCheck.Password)
   public password!: string;
+
+  @IsArray()
+  public subscribers: string[];
+
+  @IsArray()
+  public subscription: string[];
 }
