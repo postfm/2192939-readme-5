@@ -20,7 +20,7 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import { AddonRepositoryInterface } from '@project/shared/core';
 import { PublicUserRepositoryToken } from '../public-user/public-user.token';
 import { JwtService } from '@nestjs/jwt';
-import { JwtToken, TokenPayload, User } from '@project/shared/app/types';
+import { JwtToken, User } from '@project/shared/app/types';
 import { jwtConfig } from '@project/shared/config/user';
 import { ConfigType } from '@nestjs/config';
 import { createJWTPayload } from '@project/shared/helpers';

@@ -8,7 +8,6 @@ import {
 } from 'class-validator';
 import { EnvValidationMessage } from './mongodb.messages';
 import { DEFAULT_MONGO_PORT, MAX_PORT, MIN_PORT } from './mongodb.const';
-import { error } from 'console';
 
 export class MongodbConfiguration {
   @IsString({ message: EnvValidationMessage.DBNameRequired })

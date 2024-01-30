@@ -17,7 +17,6 @@ import { HttpService } from '@nestjs/axios';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AxiosExceptionFilter } from './filters/axios-exception.filter';
 import { CheckAuthGuard } from './guards/check.auth.guard';
-import { ApplicationConfig } from '@nestjs/core';
 import { ApplicationServiceURL } from './app.config';
 
 @ApiTags('comments')

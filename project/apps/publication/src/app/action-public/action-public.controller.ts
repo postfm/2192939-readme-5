@@ -1,5 +1,4 @@
 import { RepostPublicDto } from './../../../../bff/src/app/dto/repost-public.dto';
-import { JwtAuthGuard } from './../../../../user/src/app/auth-user/guards/jwt-auth.guard';
 import {
   Body,
   Controller,
@@ -11,8 +10,6 @@ import {
   Patch,
   Post,
   Query,
-  Req,
-  UseGuards,
 } from '@nestjs/common';
 import { ActionPublicService } from './action-public.service';
 import { CreatePublicDto } from './dto/create-dto/create-public.dto';
@@ -24,7 +21,6 @@ import { UpdatePublicDto } from './dto/update-dto/update-public.dto';
 import { ApiBadRequestResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SearchQuery } from '../repo-public/query/search.query';
 import { NotifyService } from '../notify/notify.service';
-import { RequestWithTokenPayload } from '@project/shared/app/types';
 
 @ApiTags('Publication')
 @Controller('publics')

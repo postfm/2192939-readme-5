@@ -25,7 +25,6 @@ import { ApplicationServiceURL } from './app.config';
 import { UserIdInterceptor } from './interceptors/user-id-interceptor';
 import { ApiExtraModels, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { TokenPayload } from 'libs/shared/app/types/src/lib/token-payload.interface';
 import { RepostPublicDto } from './dto/repost-public.dto';
 
 @ApiTags('Publics')
