@@ -93,6 +93,35 @@ export class PublicController {
 
   @ApiResponse({
     status: HttpStatus.OK,
+    description: 'List of publications is showing',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'There are no posts that can be loaded',
+  })
+  @Get('publics/ribbon')
+  public async ribbon(@Query() query: PublicQuery) {
+    const { data: user } = await this.httpService.axiosRef.get(
+      `${ApplicationServiceURL.User}/${query.userId}`
+    );
+    const ribbon = [];
+    const { data: main } = await this.httpService.axiosRef.get(
+      `${ApplicationServiceURL.Public}`,
+      { params: query }
+    );
+    ribbon.push(main);
+    query.userId = user.subscriptions[0];
+    const { data: second } = await this.httpService.axiosRef.get(
+      `${ApplicationServiceURL.Public}`,
+      { params: query }
+    );
+    ribbon.push(second);
+
+    return ribbon;
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
     description: 'Publication updated',
   })
   @UseGuards(CheckAuthGuard)

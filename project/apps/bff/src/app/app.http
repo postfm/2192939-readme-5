@@ -57,7 +57,7 @@ Authorization: Bearer {{RToken}}
 
 ###
 
-# Upload avatar
+# Загрузка аватара
 # @name uploadAvatar
 POST http://localhost:3500/api/files/upload/avatar HTTP/1.1
 Content-Type: multipart/form-data; boundary=boundary
@@ -194,7 +194,7 @@ Authorization: Bearer {{AToken}}
 ###
 
 # Моя лента
-GET http://localhost:3000/api/publics?limit=25&sortDirection=asc&userId={{userId}} HTTP/1.1
+GET http://localhost:3000/api/publics/ribbon?limit=25&sortDirection=asc&userId={{userId}} HTTP/1.1
 
 ####################################################################################################
 ############################## Сервис комментариев ##################################################
