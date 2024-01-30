@@ -13,8 +13,8 @@ export class PublicUserEntity implements AuthUser, Entity<string> {
   public createAt: Date;
   public publicsCount?: number;
   public subscribersCount?: number;
-  public subscribers: string[];
-  public subscriptions: string[];
+  public subscribers?: string[];
+  public subscriptions?: string[];
 
   constructor(user: AuthUser) {
     this.populate(user);

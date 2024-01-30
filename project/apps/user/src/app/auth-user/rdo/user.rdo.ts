@@ -55,12 +55,12 @@ export class UserRdo {
     example: ['123', '1234'],
   })
   @Expose()
-  public subscribers: string[] = [''];
+  public subscribers: string[] = null;
 
   @ApiProperty({
-    description: 'User subscription',
+    description: 'User subscriptions',
     example: ['123', '1234'],
   })
   @Expose()
-  public subscriptions: string[] = [''];
+  public subscriptions: string[] = null;
 }
