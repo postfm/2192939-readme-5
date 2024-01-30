@@ -27,7 +27,7 @@ import { createJWTPayload } from '@project/shared/helpers';
 import { RefreshTokenService } from '../refresh-token/refresh-token.service';
 
 const INITIAL_VALUE = 0;
-const INITIAL_ARRAY = [''];
+const INITIAL_ARRAY = [];
 
 @Injectable()
 export class AuthUserService {
@@ -91,7 +91,7 @@ export class AuthUserService {
   }
 
   /**
-   * Возвращает информацию о пользователю по ID
+   * Возвращает информацию о пользователе по ID
    */
   public async getUser(id: string) {
     const existUser = await this.publicUserRepository.findById(id);

@@ -104,18 +104,22 @@ export class PublicController {
     const { data: user } = await this.httpService.axiosRef.get(
       `${ApplicationServiceURL.User}/${query.userId}`
     );
-    const ribbon = [];
-    const { data: main } = await this.httpService.axiosRef.get(
+    let ribbon = [];
+    const { data: subscriber } = await this.httpService.axiosRef.get(
       `${ApplicationServiceURL.Public}`,
       { params: query }
     );
-    ribbon.push(main);
-    query.userId = user.subscriptions[0];
-    const { data: second } = await this.httpService.axiosRef.get(
-      `${ApplicationServiceURL.Public}`,
-      { params: query }
-    );
-    ribbon.push(second);
+
+    ribbon = [...subscriber.entities];
+
+    for (const subscription of user.subscriptions) {
+      query.userId = subscription;
+      const { data } = await this.httpService.axiosRef.get(
+        `${ApplicationServiceURL.Public}`,
+        { params: query }
+      );
+      ribbon = [...ribbon, ...data.entities];
+    }
 
     return ribbon;
   }

@@ -4,7 +4,7 @@ POST http://localhost:3333/api/user/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email":"user@yandex.com",
+  "email":"user10@yandex.com",
   "name":"July",
   "password":"12345678"
 }
