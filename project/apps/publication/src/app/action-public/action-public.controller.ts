@@ -143,7 +143,7 @@ export class ActionPublicController {
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'Noy found',
+    description: 'Not found',
   })
   @Get('/')
   public async index(@Query() query: PublicQuery) {

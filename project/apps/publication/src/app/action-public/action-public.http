@@ -79,7 +79,7 @@ GET http://localhost:4000/api/publics?tag=Животные HTTP/1.1
 ###
 
 #Получение черников публикаций для авторизованного пользователя
-GET http://localhost:4000/api/publics/drafts/658170cbb954e9f5b905ccf4 HTTP/1.1
+GET http://localhost:4000/api/publics/drafts/6581762309c030b503e30512 HTTP/1.1
 
 
 ###
