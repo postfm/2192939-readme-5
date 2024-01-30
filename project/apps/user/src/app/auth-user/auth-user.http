@@ -4,16 +4,16 @@ POST http://localhost:3333/api/user/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email":"user@gmail.com",
-  "name":"John",
+  "email":"user@yandex.com",
+  "name":"July",
   "password":"12345678"
 }
 
 ###
 
 #Получение информации о пользователе по ID
-GET http://localhost:3333/api/user/65b5b0145b0ae2b4e3045b3d HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWI1YjAxNDViMGFlMmI0ZTMwNDViM2QiLCJlbWFpbCI6InVzZXIzQGdtYWlsLmNvbSIsIm5hbWUiOiJKb2huIiwiaWF0IjoxNzA2NDE1ODQ0LCJleHAiOjE3MDY1MDIyNDR9.NSbDXjFjkWVxy-xzM43zMos_OVsrsFPyId6SAKaCfNg
+GET http://localhost:3333/api/user/65b88c5ccab35ac984c835b4 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWI4OGM1Y2NhYjM1YWM5ODRjODM1YjQiLCJlbWFpbCI6InVzZXJAeWFuZGV4LmNvbSIsIm5hbWUiOiJKdWx5IiwiaWF0IjoxNzA2NTkzNDE1LCJleHAiOjE3MDY2Nzk4MTV9.uouP17pKbM3kfnmUEyF4O3ijxv22BO1yzYC3frryWaY
 
 ###
 
@@ -22,8 +22,8 @@ POST http://localhost:3333/api/user/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email":"user@gmail.com",
-  "password":"12345678"
+  "email":"user@yandex.com",
+  "password":"1234568"
 }
 
 ###
@@ -31,17 +31,17 @@ Content-Type: application/json
 #Смена пароля пользователя
 PUT http://localhost:3333/api/user/change-password HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWI1ZmUyOTIwY2U0M2YyNGUzODRkZTciLCJlbWFpbCI6InVzZXJAZ21haWwuY29tIiwibmFtZSI6IkpvaG4iLCJpYXQiOjE3MDY0NTM3NjQsImV4cCI6MTcwNjU0MDE2NH0.AJAER9RoqCz3ZsfUfTDAJcxh8fQc517XPvqkKC2mEno
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWI4OGM1Y2NhYjM1YWM5ODRjODM1YjQiLCJlbWFpbCI6InVzZXJAeWFuZGV4LmNvbSIsIm5hbWUiOiJKdWx5IiwiaWF0IjoxNzA2NTkzNDE1LCJleHAiOjE3MDY2Nzk4MTV9.uouP17pKbM3kfnmUEyF4O3ijxv22BO1yzYC3frryWaY
 
 {
   "oldPassword": "12345678",
   "newPassword":"1234568",
-  "id":"65b5fe2920ce43f24e384de7"
+  "id":"65b88c5ccab35ac984c835b4"
 }
 
 ###
 
 # Получение новой пары JWT
 POST http://localhost:3333/api/user/refresh HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWI1YjAxNDViMGFlMmI0ZTMwNDViM2QiLCJlbWFpbCI6InVzZXIzQGdtYWlsLmNvbSIsIm5hbWUiOiJKb2huIiwidG9rZW5JZCI6IjMxZTY3ZTNmLWJiYTQtNDU1OS1iZTgyLWIwMzc1YzA3NTRjMSIsImlhdCI6MTcwNjQxNTgyOCwiZXhwIjoxNzA2NDE1ODg4fQ.TEVoY4-V6so1EbG_Q7KrKOZi4rNd1MsD7Rvr14IZyH4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWI4OGM1Y2NhYjM1YWM5ODRjODM1YjQiLCJlbWFpbCI6InVzZXJAeWFuZGV4LmNvbSIsIm5hbWUiOiJKdWx5IiwidG9rZW5JZCI6IjMzZmM3ZTcxLWFlNGMtNDA0Ni1iNzE3LTc0NTE2MjYzMzNjYyIsImlhdCI6MTcwNjU5MzQ3MywiZXhwIjoxNzA2NTkzNTMzfQ.i7ZScCCQr7dY11rScxs2KUhLEBDyd5FZDBsepHg4VMI
 

@@ -61,7 +61,7 @@ export class AuthUserController {
   @Post('login')
   public async login(@Req() { user }: RequestWithUser) {
     const userToken = await this.authUserService.createUserToken(user);
-    return fillDto(LoggedUserRdo, { ...user.toPOJO, ...userToken });
+    return fillDto(LoggedUserRdo, { ...user, ...userToken });
   }
 
   @ApiResponse({

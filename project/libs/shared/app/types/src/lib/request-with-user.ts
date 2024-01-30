@@ -1,5 +1,5 @@
-import { PublicUserEntity } from '../../../../../../apps/user/src/app/public-user/public-user.entity';
+import { User } from './user.interface';
 
 export interface RequestWithUser {
-  user?: PublicUserEntity;
+  user?: User;
 }
