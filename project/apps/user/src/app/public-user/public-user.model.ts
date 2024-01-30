@@ -31,6 +31,12 @@ export class PublicUserModel extends Document implements User {
 
   @Prop()
   subscribersCount?: number;
+
+  @Prop()
+  subscribers?: string[];
+
+  @Prop()
+  subscriptions?: string[];
 }
 
 export const PublicUserSchema = SchemaFactory.createForClass(PublicUserModel);

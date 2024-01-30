@@ -61,7 +61,7 @@ export class AuthUserController {
   @Post('login')
   public async login(@Req() { user }: RequestWithUser) {
     const userToken = await this.authUserService.createUserToken(user);
-    return fillDto(LoggedUserRdo, { ...user.toPOJO, ...userToken });
+    return fillDto(LoggedUserRdo, { ...user, ...userToken });
   }
 
   @ApiResponse({
@@ -120,5 +120,23 @@ export class AuthUserController {
   @Post('check')
   public async checkToken(@Req() { user: payload }: RequestWithTokenPayload) {
     return payload;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put('subscribe/:userId')
+  public async subscribeUser(
+    @Param('userId') userId: string,
+    @Req() { user: payload }: RequestWithTokenPayload
+  ) {
+    return this.authUserService.subscribeUser(userId, payload.sub);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put('unsubscribe/:userId')
+  public async unsubscribeUser(
+    @Param('userId') userId: string,
+    @Req() { user: payload }: RequestWithTokenPayload
+  ) {
+    return this.authUserService.unsubscribeUser(userId, payload.sub);
   }
 }

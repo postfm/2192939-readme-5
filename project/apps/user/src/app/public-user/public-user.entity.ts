@@ -13,6 +13,8 @@ export class PublicUserEntity implements AuthUser, Entity<string> {
   public createAt: Date;
   public publicsCount?: number;
   public subscribersCount?: number;
+  public subscribers?: string[];
+  public subscriptions?: string[];
 
   constructor(user: AuthUser) {
     this.populate(user);
@@ -28,6 +30,8 @@ export class PublicUserEntity implements AuthUser, Entity<string> {
       createAt: this.createAt,
       publicsCount: this.publicsCount,
       subscriberCount: this.subscribersCount,
+      subscribers: this.subscribers,
+      subscriptions: this.subscriptions,
     };
   }
 
@@ -40,6 +44,8 @@ export class PublicUserEntity implements AuthUser, Entity<string> {
     this.createAt = data.createAt ?? new Date();
     this.publicsCount = data.publicsCount;
     this.subscribersCount = data.subscribersCount;
+    this.subscribers = data.subscribers;
+    this.subscriptions = data.subscriptions;
   }
 
   public async setPassword(password: string): Promise<PublicUserEntity> {

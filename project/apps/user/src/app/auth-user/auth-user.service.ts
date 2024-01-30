@@ -20,13 +20,14 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import { AddonRepositoryInterface } from '@project/shared/core';
 import { PublicUserRepositoryToken } from '../public-user/public-user.token';
 import { JwtService } from '@nestjs/jwt';
-import { JwtToken, TokenPayload, User } from '@project/shared/app/types';
+import { JwtToken, User } from '@project/shared/app/types';
 import { jwtConfig } from '@project/shared/config/user';
 import { ConfigType } from '@nestjs/config';
 import { createJWTPayload } from '@project/shared/helpers';
 import { RefreshTokenService } from '../refresh-token/refresh-token.service';
 
 const INITIAL_VALUE = 0;
+const INITIAL_ARRAY = [];
 
 @Injectable()
 export class AuthUserService {
@@ -56,6 +57,8 @@ export class AuthUserService {
       createAt: new Date(),
       publicsCount: INITIAL_VALUE,
       subscribersCount: INITIAL_VALUE,
+      subscribers: INITIAL_ARRAY,
+      subscriptions: INITIAL_ARRAY,
     };
 
     const existUser = await this.publicUserRepository.findByEmail(email);
@@ -88,7 +91,7 @@ export class AuthUserService {
   }
 
   /**
-   * Возвращает информацию о пользователю по ID
+   * Возвращает информацию о пользователе по ID
    */
   public async getUser(id: string) {
     const existUser = await this.publicUserRepository.findById(id);
@@ -163,5 +166,57 @@ export class AuthUserService {
         HttpStatus.INTERNAL_SERVER_ERROR
       );
     }
+  }
+
+  public async subscribeUser(userId: string, subscriberId: string) {
+    const existUser = await this.publicUserRepository.findById(userId);
+    const subscriberUser = await this.publicUserRepository.findById(
+      subscriberId
+    );
+
+    if (!existUser) {
+      throw new NotFoundException(`User with id ${userId} not found`);
+    }
+
+    if (existUser.subscribers.includes(subscriberId)) {
+      throw new ConflictException(`You are already subscribed to this author`);
+    }
+
+    existUser.subscribers.push(subscriberId);
+    const userEntity = new PublicUserEntity(existUser);
+
+    subscriberUser.subscriptions.push(userId);
+    const subscriberEntity = new PublicUserEntity(subscriberUser);
+    this.publicUserRepository.update(subscriberId, subscriberEntity);
+
+    return this.publicUserRepository.update(userId, userEntity);
+  }
+
+  public async unsubscribeUser(userId: string, subscriberId: string) {
+    const existUser = await this.publicUserRepository.findById(userId);
+    const subscriberUser = await this.publicUserRepository.findById(
+      subscriberId
+    );
+
+    if (!existUser) {
+      throw new NotFoundException(`User with id ${userId} not found`);
+    }
+
+    if (!existUser.subscribers.includes(subscriberId)) {
+      throw new ConflictException(`You are not following this author`);
+    }
+
+    existUser.subscribers = [
+      ...existUser.subscribers.filter((item) => item !== subscriberId),
+    ];
+    const userEntity = new PublicUserEntity(existUser);
+
+    subscriberUser.subscribers = [
+      ...subscriberUser.subscribers.filter((item) => item !== subscriberId),
+    ];
+    const subscriberEntity = new PublicUserEntity(subscriberUser);
+    this.publicUserRepository.update(subscriberId, subscriberEntity);
+
+    return this.publicUserRepository.update(userId, userEntity);
   }
 }

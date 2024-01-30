@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { MaxLengthCheck, MinLengthCheck } from '@project/shared/helpers';
 import { Type } from 'class-transformer';
 import {
   ArrayMaxSize,
@@ -54,8 +55,8 @@ export class UpdatePublicDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  @MinLength(20)
-  @MaxLength(50)
+  @MinLength(MinLengthCheck.Title)
+  @MaxLength(MaxLengthCheck.Title)
   @ApiProperty({
     description: 'Video Title',
     example: 'Title',
@@ -77,8 +78,8 @@ export class UpdatePublicDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  @MinLength(50)
-  @MaxLength(255)
+  @MinLength(MinLengthCheck.Notice)
+  @MaxLength(MaxLengthCheck.Notice)
   @ApiProperty({
     description: 'Text Description',
     example: 'Новый закон накладывает вето на детский заливистый смех',
@@ -88,8 +89,8 @@ export class UpdatePublicDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  @MinLength(100)
-  @MaxLength(1024)
+  @MinLength(MinLengthCheck.Text)
+  @MaxLength(MaxLengthCheck.Text)
   @ApiProperty({
     description: 'Main Text',
     example:
@@ -101,8 +102,8 @@ export class UpdatePublicDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  @MinLength(20)
-  @MaxLength(300)
+  @MinLength(MinLengthCheck.Quote)
+  @MaxLength(MaxLengthCheck.Quote)
   @ApiProperty({
     description: 'Quote Text',
     example:
@@ -113,8 +114,8 @@ export class UpdatePublicDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  @MinLength(3)
-  @MaxLength(50)
+  @MinLength(MinLengthCheck.Author)
+  @MaxLength(MaxLengthCheck.Author)
   @ApiProperty({
     description: 'Author Name',
     example:
@@ -146,7 +147,7 @@ export class UpdatePublicDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  @MaxLength(300)
+  @MaxLength(MaxLengthCheck.Description)
   @ApiProperty({
     description: 'Link Description',
     example: 'HTMLAcademy',
@@ -155,8 +156,8 @@ export class UpdatePublicDto {
 
   // Common
   @ArrayMaxSize(8)
-  @MinLength(3, { each: true })
-  @MaxLength(10, { each: true })
+  @MinLength(MinLengthCheck.Tag, { each: true })
+  @MaxLength(MaxLengthCheck.Tag, { each: true })
   @IsOptional()
   @ApiProperty({
     description: 'Tags',

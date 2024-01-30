@@ -49,4 +49,18 @@ export class UserRdo {
   })
   @Expose()
   public subscribersCount: number = 0;
+
+  @ApiProperty({
+    description: 'User subscribers',
+    example: ['123', '1234'],
+  })
+  @Expose()
+  public subscribers: string[] = null;
+
+  @ApiProperty({
+    description: 'User subscriptions',
+    example: ['123', '1234'],
+  })
+  @Expose()
+  public subscriptions: string[] = null;
 }

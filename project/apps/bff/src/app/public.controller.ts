@@ -25,7 +25,6 @@ import { ApplicationServiceURL } from './app.config';
 import { UserIdInterceptor } from './interceptors/user-id-interceptor';
 import { ApiExtraModels, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { TokenPayload } from 'libs/shared/app/types/src/lib/token-payload.interface';
 import { RepostPublicDto } from './dto/repost-public.dto';
 
 @ApiTags('Publics')
@@ -72,7 +71,6 @@ export class PublicController {
         },
       }
     );
-    console.log(photo);
 
     const dto = { type: 'photo', photo: photo.id, tags: [] };
     console.log(dto);
@@ -89,9 +87,41 @@ export class PublicController {
         },
       }
     );
-    console.log(data);
 
     return data;
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'List of publications is showing',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'There are no posts that can be loaded',
+  })
+  @Get('publics/ribbon')
+  public async ribbon(@Query() query: PublicQuery) {
+    const { data: user } = await this.httpService.axiosRef.get(
+      `${ApplicationServiceURL.User}/${query.userId}`
+    );
+    let ribbon = [];
+    const { data: subscriber } = await this.httpService.axiosRef.get(
+      `${ApplicationServiceURL.Public}`,
+      { params: query }
+    );
+
+    ribbon = [...subscriber.entities];
+
+    for (const subscription of user.subscriptions) {
+      query.userId = subscription;
+      const { data } = await this.httpService.axiosRef.get(
+        `${ApplicationServiceURL.Public}`,
+        { params: query }
+      );
+      ribbon = [...ribbon, ...data.entities];
+    }
+
+    return ribbon;
   }
 
   @ApiResponse({
@@ -135,7 +165,7 @@ export class PublicController {
   }
 
   @ApiResponse({
-    status: HttpStatus.OK,
+    status: HttpStatus.NO_CONTENT,
     description: 'Publication removed',
   })
   @ApiResponse({
@@ -163,13 +193,11 @@ export class PublicController {
     status: HttpStatus.NOT_FOUND,
     description: 'There are no posts that can be loaded',
   })
-  @Get()
-  public async showPublications(@Query() query: PublicQuery) {
+  @Get('publics')
+  public async index(@Query() query: PublicQuery) {
     const { data } = await this.httpService.axiosRef.get(
       `${ApplicationServiceURL.Public}`,
-      {
-        params: query,
-      }
+      { params: query }
     );
     return data;
   }
@@ -182,7 +210,7 @@ export class PublicController {
     status: HttpStatus.NOT_FOUND,
     description: 'There are no posts that can be loaded',
   })
-  @Get('search')
+  @Get('publics/search')
   public async searchPublicationsByTitle(@Query() query: SearchQuery) {
     const { data } = await this.httpService.axiosRef.get(
       `${ApplicationServiceURL.Public}/search`,
@@ -202,11 +230,10 @@ export class PublicController {
     description: 'There are no posts that can be loaded',
   })
   @UseGuards(CheckAuthGuard)
-  @Get('drafts/:id')
-  async showDrafts(@Param('id') id: string) {
+  @Get('publics/drafts/:userId')
+  async showDrafts(@Param('userId') userId: string) {
     const { data } = await this.httpService.axiosRef.get(
-      `${ApplicationServiceURL.Public}/drafts`,
-      { params: id }
+      `${ApplicationServiceURL.Public}/drafts/${userId}`
     );
     return data;
   }
@@ -216,7 +243,7 @@ export class PublicController {
     description: 'Publications sent',
   })
   @UseGuards(CheckAuthGuard)
-  @Get('send-news/:id/:email')
+  @Get('publics/send-news/:id/:email')
   public async sendNews(
     @Req() req: Request,
     @Param('id') id: string,
@@ -236,8 +263,10 @@ export class PublicController {
     status: HttpStatus.NOT_FOUND,
     description: 'Publication is not found',
   })
-  @Get(':id')
+  @Get('publics/:id')
   public async showPublicationById(@Param('id') id: string) {
+    console.log(`${ApplicationServiceURL.Public}/${id}`);
+
     const { data: publicationData } = await this.httpService.axiosRef.get(
       `${ApplicationServiceURL.Public}/${id}`
     );

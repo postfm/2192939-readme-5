@@ -1,5 +1,3 @@
-import { RequestWithTokenPayload } from './../../../../libs/shared/app/types/src/lib/request-with-token-payload';
-import { JwtAuthGuard } from './../../../user/src/app/auth-user/guards/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { MongoIdValidationPipe } from '@project/shared/core';
@@ -24,10 +22,8 @@ import { AxiosExceptionFilter } from './filters/axios-exception.filter';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CheckAuthGuard } from './guards/check.auth.guard';
-import { UserIdInterceptor } from './interceptors/user-id-interceptor';
 import { Express } from 'express';
 import 'multer';
-import FormData from 'form-data';
 
 @ApiTags('User')
 @Controller('/')

@@ -1,6 +1,8 @@
 import { AUTH_USER_EMAIL_NOT_VALID } from './../../../../user/src/app/auth-user/auth-user.constant';
+import { MaxLengthCheck } from '@project/shared/helpers';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsString, MaxLength, MinLength } from 'class-validator';
+import { MinLengthCheck } from 'libs/shared/helpers/src/lib/dto.constants';
 
 export class CreateUserDto {
   @ApiProperty({
@@ -15,8 +17,8 @@ export class CreateUserDto {
     example: 'Keks',
   })
   @IsString()
-  @MinLength(3)
-  @MaxLength(50)
+  @MinLength(MinLengthCheck.Name)
+  @MaxLength(MaxLengthCheck.Name)
   public name!: string;
 
   @ApiProperty({
@@ -24,7 +26,7 @@ export class CreateUserDto {
     example: '12345678',
   })
   @IsString()
-  @MinLength(6)
-  @MaxLength(12)
+  @MinLength(MinLengthCheck.Password)
+  @MaxLength(MaxLengthCheck.Password)
   public password!: string;
 }
