@@ -15,12 +15,9 @@ export class LikeRepository extends BasePostgresRepository<LikeEntity, Like> {
     super(client, LikeEntity.fromObject);
   }
 
-  private async getCommentCount(where: Prisma.LikeWhereInput): Promise<number> {
-    return this.client.like.count({ where });
-  }
-
   public async save(entity: LikeEntity): Promise<LikeEntity> {
     const existsLink = await this.findByUserId(entity.publicId, entity.userId);
+
     if (existsLink) {
       throw new ConflictException(`Link already exists`);
     }
@@ -45,11 +42,11 @@ export class LikeRepository extends BasePostgresRepository<LikeEntity, Like> {
     return entity;
   }
 
-  public async findByUserId(userId: string, publicId: string): Promise<Like> {
+  public async findByUserId(publicId: string, userId: string): Promise<Like> {
     const like = await this.client.like.findFirst({
       where: {
-        userId,
-        publicId,
+        userId: userId,
+        publicId: publicId,
       },
     });
 
@@ -57,7 +54,7 @@ export class LikeRepository extends BasePostgresRepository<LikeEntity, Like> {
   }
 
   public async deleteLike(publicId: string, userId: string): Promise<void> {
-    const like = await this.findByUserId(userId, publicId);
+    const like = await this.findByUserId(publicId, userId);
 
     if (!like) {
       throw new NotFoundException(`Like don't exists`);

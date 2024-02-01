@@ -13,7 +13,7 @@ import { LikeDto } from './dto/like.dto';
 import { LikeRdo } from './rdo/like.rdo';
 
 @ApiTags('Likes')
-@Controller('publics/:publicId/likes')
+@Controller('publics/likes')
 export class LikeController {
   constructor(private readonly likeService: LikeService) {}
 
@@ -26,7 +26,7 @@ export class LikeController {
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     description: 'Internal server error',
   })
-  @Post('/')
+  @Post('/:publicId')
   public async create(
     @Param('publicId') publicId: string,
     @Body() dto: LikeDto
@@ -44,7 +44,7 @@ export class LikeController {
     status: HttpStatus.NOT_FOUND,
     description: 'Publication or like not found',
   })
-  @Delete('/:userId')
+  @Delete('/:publicId/:userId')
   public async remove(
     @Param('publicId') publicId: string,
     @Param('userId') userId: string
