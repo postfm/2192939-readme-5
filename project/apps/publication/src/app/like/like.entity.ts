@@ -9,12 +9,14 @@ export class LikeEntity implements Like, Entity<string, Like> {
 
   public toPOJO(): Like {
     return {
+      likeId: this.likeId,
       publicId: this.publicId,
       userId: this.userId,
     };
   }
 
   public populate(data: Like) {
+    this.likeId = data.likeId;
     this.publicId = data.publicId;
     this.userId = data.userId;
 

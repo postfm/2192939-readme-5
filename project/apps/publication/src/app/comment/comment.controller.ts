@@ -17,7 +17,7 @@ import { CommentWithPaginationRdo } from './rdo/comment-with-pagination.rdo';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Comments')
-@Controller('publics/:publicId/comments')
+@Controller('publics/comments')
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
@@ -30,7 +30,7 @@ export class CommentController {
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     description: 'Internal server error',
   })
-  @Post('/')
+  @Post('/:publicId')
   public async create(
     @Param('publicId') publicId: string,
     @Body() dto: CreateCommentDto
@@ -49,8 +49,12 @@ export class CommentController {
     status: HttpStatus.NOT_FOUND,
     description: 'Publication not found',
   })
-  @Get('/')
-  public async show(@Query() query: CommentQuery) {
+  @Get('/:publicId')
+  public async show(
+    @Param('publicId') publicId: string,
+    @Query() query: CommentQuery
+  ) {
+    query.publicId = publicId;
     const commentsWithPagination = await this.commentService.get(query);
 
     const result = {

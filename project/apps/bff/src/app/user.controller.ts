@@ -76,7 +76,6 @@ export class UserController {
     @Body() dto: ChangePasswordDto
   ) {
     const id = req.user.sub;
-    console.log(id);
 
     const { data } = await this.httpService.axiosRef.put(
       `${ApplicationServiceURL.User}/change-password`,

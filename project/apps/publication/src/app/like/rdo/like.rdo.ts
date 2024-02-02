@@ -3,6 +3,13 @@ import { Expose } from 'class-transformer';
 
 export class LikeRdo {
   @ApiProperty({
+    description: 'Like ID',
+    example: '123',
+  })
+  @Expose()
+  public likeId: string;
+
+  @ApiProperty({
     description: 'Publication ID',
     example: '123',
   })

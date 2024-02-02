@@ -26,6 +26,8 @@ import { UserIdInterceptor } from './interceptors/user-id-interceptor';
 import { ApiExtraModels, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { RepostPublicDto } from './dto/repost-public.dto';
+import { CreateCommentDto } from 'apps/publication/src/app/comment/dto/create-comment.dto';
+import { LikeDto } from 'apps/publication/src/app/like/dto/like.dto';
 
 @ApiTags('Publics')
 @ApiExtraModels(CreatePublicDto, UpdatePublicDto)
@@ -60,8 +62,6 @@ export class PublicController {
     @UploadedFile() file: Express.Multer.File,
     @Body('tags') tags?: string
   ) {
-    console.log(tags, file);
-
     const { data: photo } = await this.httpService.axiosRef.post(
       `${ApplicationServiceURL.Uploader}/upload/photo`,
       file,
@@ -73,7 +73,6 @@ export class PublicController {
     );
 
     const dto = { type: 'photo', photo: photo.id, tags: [] };
-    console.log(dto);
 
     if (tags) {
       dto.tags = tags.split(',');
@@ -155,8 +154,6 @@ export class PublicController {
   @UseInterceptors(UserIdInterceptor)
   @Post(`publics/repost/:id`)
   public async repost(@Param('id') id: string, @Body() dto: RepostPublicDto) {
-    console.log(id, dto);
-
     const { data } = await this.httpService.axiosRef.post(
       `${ApplicationServiceURL.Public}/repost/${id}`,
       dto
@@ -265,11 +262,113 @@ export class PublicController {
   })
   @Get('publics/:id')
   public async showPublicationById(@Param('id') id: string) {
-    console.log(`${ApplicationServiceURL.Public}/${id}`);
-
     const { data: publicationData } = await this.httpService.axiosRef.get(
       `${ApplicationServiceURL.Public}/${id}`
     );
     return publicationData;
+  }
+
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'Comment added successfully',
+  })
+  @UseGuards(CheckAuthGuard)
+  @Post('publics/comments/:publicId')
+  public async createComment(
+    @Param('publicId') publicId: string,
+    @Body() dto: CreateCommentDto
+  ) {
+    const { data } = await this.httpService.axiosRef.post(
+      `${ApplicationServiceURL.Comment}/${publicId}`,
+      dto
+    );
+    return data;
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'All comments are shown',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Publication is not found',
+  })
+  @Get('publics/comments/:publicId')
+  public async showCommentsByPostId(@Param('publicId') publicId: string) {
+    const { data: publicComments } = await this.httpService.axiosRef.get(
+      `${ApplicationServiceURL.Comment}/${publicId}`
+    );
+
+    return publicComments;
+  }
+
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+    description: 'Comment removed',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Comment with this id is not found',
+  })
+  @UseGuards(CheckAuthGuard)
+  @Delete(`publics/comments/:publicId`)
+  public async remove(@Param('publicId') publicId: string) {
+    const { data } = await this.httpService.axiosRef.delete(
+      `${ApplicationServiceURL.Comment}/${publicId}`
+    );
+    return data;
+  }
+
+  @ApiResponse({
+    type: LikeDto,
+    status: HttpStatus.CREATED,
+    description: 'Like added successfully',
+  })
+  @ApiResponse({
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
+    description: 'Internal server error',
+  })
+  @Post('/publics/likes/:publicId')
+  public async addLike(
+    @Param('publicId') publicId: string,
+    @Body() dto: LikeDto,
+    @Req() req: Request
+  ) {
+    const { data } = await this.httpService.axiosRef.post(
+      `${ApplicationServiceURL.Like}/${publicId}`,
+      dto,
+      {
+        headers: {
+          Authorization: req.headers['authorization'],
+        },
+      }
+    );
+
+    return data;
+  }
+
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+    description: 'Like has deleted now',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Publication or like not found',
+  })
+  @Delete('/publics/likes/:publicId/:userId')
+  public async removeLike(
+    @Param('publicId') publicId: string,
+    @Param('userId') userId: string,
+    @Req() req: Request
+  ) {
+    const { data } = await this.httpService.axiosRef.delete(
+      `${ApplicationServiceURL.Like}/${publicId}/${userId}`,
+      {
+        headers: {
+          Authorization: req.headers['authorization'],
+        },
+      }
+    );
+    return data;
   }
 }

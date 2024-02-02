@@ -55,10 +55,7 @@ export class ActionPublicController {
     @Param('userId') userId: string,
     @Param('email') email: string
   ) {
-    console.log(userId, email);
-
     const publics = await this.actionPublicService.getPublicsForSend();
-    console.log(publics);
 
     return this.notifyService.sendNewsletter({
       email,
