@@ -12,7 +12,7 @@ POST http://localhost:3000/api/user/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email":"user7@gmail.com",
+  "email":"user5@gmail.com",
   "name":"John",
   "password":"12345678"
 }
@@ -59,7 +59,7 @@ Authorization: Bearer {{RToken}}
 
 # Загрузка аватара
 # @name uploadAvatar
-POST http://localhost:3500/api/files/upload/avatar HTTP/1.1
+POST http://localhost:3000/api/files/upload/avatar HTTP/1.1
 Content-Type: multipart/form-data; boundary=boundary
 
 --boundary
@@ -151,7 +151,7 @@ Content-Type: application/json
 ###
 
 # Рассылка новостных сообщений
-GET http://localhost:3000/api/publics/send-news HTTP/1.1
+GET http://localhost:3000/api/publics/send-news/{{userId}}/{{email}} HTTP/1.1
 Authorization: Bearer {{AToken}}
 Content-Type: application/json
 

@@ -242,14 +242,14 @@ export class PublicController {
   @UseGuards(CheckAuthGuard)
   @Get('publics/send-news/:id/:email')
   public async sendNews(
-    @Req() req: Request,
     @Param('id') id: string,
     @Param('email') email: string
   ) {
-    await this.httpService.axiosRef.get(
-      `${ApplicationServiceURL.Public}/send-news/:id/:email`,
-      { params: { id, email } }
+    const { data } = await this.httpService.axiosRef.get(
+      `${ApplicationServiceURL.Public}/send-news/${id}/${email}`
     );
+
+    return data;
   }
 
   @ApiResponse({

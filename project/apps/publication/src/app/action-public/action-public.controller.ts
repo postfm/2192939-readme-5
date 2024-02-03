@@ -57,11 +57,15 @@ export class ActionPublicController {
   ) {
     const publics = await this.actionPublicService.getPublicsForSend();
 
-    return this.notifyService.sendNewsletter({
+    const letter = await this.notifyService.sendNewsletter({
       email,
       publics,
       id: userId,
     });
+
+    console.log('SendNews: ', letter);
+
+    return letter;
   }
 
   @ApiResponse({

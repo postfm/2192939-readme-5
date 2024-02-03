@@ -27,13 +27,15 @@ export class MailService {
   }
 
   public async sendNewsletter(email: string, publicsInfo: Public[]) {
+    console.log('SendNewsLetter: ', email, publicsInfo);
+
     await this.mailerService.sendMail({
       from: this.notifyConfig.mail.from,
       to: email,
       subject: EmailSubject.Newsletter,
       template: './newsletter',
       context: {
-        publics: '',
+        publics: 'publicsInfo',
       },
     });
   }
